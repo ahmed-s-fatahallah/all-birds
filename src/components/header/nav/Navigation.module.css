@@ -1,0 +1,70 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: var(--nav-hight);
+  width: 100%;
+
+  background-color: var(--primary-color);
+
+  position: sticky;
+  top: 0;
+
+  box-shadow: var(--nav-box-shadow);
+  z-index: 1;
+}
+
+.nav .logo {
+  margin-left: var(--margin-xl);
+}
+
+.nav__list {
+  list-style: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: var(--margin-med);
+  gap: var(--nav-flex-gap);
+}
+
+.nav__list button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: var(--nav-btn-min-width);
+  min-height: var(--nav-btn-min-height);
+  margin-left: var(--margin-sm);
+  outline: 0px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  appearance: none;
+}
+.nav__list__cart {
+  margin: var(--cart-btn-margin);
+}
+
+.nav__list button:focus {
+  outline: var(--secondary-color) solid 2px;
+}
+
+.nav__list button p {
+  font-size: var(--nav-font-size);
+  line-height: var(--nav-line-height);
+  letter-spacing: var(--nav-letter-spacing);
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  font-family: var(--font-family);
+  font-weight: var(--nav-font-weight);
+}
+
+.nav__list a {
+  display: inline-block;
+  outline-offset: var(--nav-outline-offset);
+}
+
+.nav__list .sale {
+  color: var(--tertiary-color);
+}
