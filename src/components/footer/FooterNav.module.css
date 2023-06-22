@@ -1,0 +1,24 @@
+.footer-nav {
+  display: flex;
+  margin-bottom: var(--margin-md);
+}
+
+.footer-nav div {
+  width: 25%;
+}
+
+.footer-nav ul li {
+  margin-bottom: var(--margin-xsm);
+  font-size: var(--font-size-1);
+}
+
+.footer-nav ul li a:link,
+.footer-nav ul li a:visited {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.footer-nav ul li a:hover,
+.footer-nav ul li a:active {
+  cursor: pointer;
+}

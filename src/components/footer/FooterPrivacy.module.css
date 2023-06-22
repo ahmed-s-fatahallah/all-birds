@@ -1,0 +1,25 @@
+.footer-privacy__container p {
+  text-align: center;
+}
+
+.footer-privacy__container p a:link,
+.footer-privacy__container p a:visited {
+  display: inline-block;
+  color: var(--primary-color);
+}
+
+.footer-privacy__container p a:hover,
+.footer-privacy__container p a:active {
+  cursor: pointer;
+}
+
+.footer-privacy__container p button {
+  background-color: transparent;
+  border: none;
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  font-size: var(--font-size-1);
+  font-family: var(--font-family);
+}

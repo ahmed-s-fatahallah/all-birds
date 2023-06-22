@@ -17,22 +17,39 @@
   --tertiary-color: rgb(173, 31, 0);
   --font-weight: 400;
 
+  --margin-xsm: 1.2rem;
   --margin-sm: 1.8rem;
-  --margin-med: 1.2rem;
+  --margin-md: 7.2rem;
+  --margin-lg: 9rem;
   --margin-xl: 13rem;
 
+  --letter-spacing-1: 1.7px;
+  --letter-spacing-2: 2px;
+
+  --font-size-1: 1.2rem;
+  --font-size-2: 1.4rem;
+
+  --line-height-1: 1.5;
+  --line-height-2: 1.75;
+
+  --flex-gap-sm: 1.5rem;
+  --flex-gap-md: 1.8rem;
+  --flex-gap-lg: 2.4rem;
+
   --nav-hight: 6rem;
-  --nav-flex-gap: 1.5rem;
   --nav-link-padding-sm: 0.6rem;
   --cart-btn-margin: 12px 30px 15px 0;
   --nav-outline-offset: 1rem;
   --nav-btn-min-width: 42px;
   --nav-btn-min-height: 42px;
   --nav-font-weight: 700;
-  --nav-font-size: 1.2rem;
-  --nav-line-height: 1.75;
-  --nav-letter-spacing: 1.7px;
   --nav-box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 24px 0px;
+
+  --logo-footer-width: 7.8rem;
+
+  --container-max-width: 138rem;
+  --container-padding: 0 2.4rem;
+  --footer-padding: 7.2rem 0;
 }
 
 * {
