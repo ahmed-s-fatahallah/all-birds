@@ -1,5 +1,6 @@
 .sidebar {
   width: 23%;
+  padding: var(--sidebar-padding);
 
   display: flex;
   flex-direction: column;
@@ -22,6 +23,7 @@
 
 .sidebar .links__list {
   margin-bottom: var(--margin-md);
+  list-style: none;
 }
 
 .sidebar a:link,
@@ -44,9 +46,9 @@
 }
 
 .sidebar .filterby__container {
-  border-bottom: 1px solid var(--border-color);
   margin-bottom: var(--margin-sm);
   padding-bottom: var(--nav-link-padding-sm);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar .filterby__container p {
@@ -77,8 +79,11 @@
 
 .sidebar .filter__container {
   padding: var(--filter-container-padding);
-  border-bottom: 1px solid var(--border-color);
   margin-bottom: var(--margin-sm);
+}
+
+.sidebar .filter__container:not(:last-of-type) {
+  border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar .sizes__btn__container {

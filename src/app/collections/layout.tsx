@@ -1,5 +1,7 @@
 import Sidebar from "@/components/Sidebar";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
+
+import classes from "./layout.module.css";
 
 interface props {
   children: ReactNode;
@@ -8,8 +10,10 @@ interface props {
 const CollectionsLayout = ({ children }: props) => {
   return (
     <main>
-      <Sidebar />
-      {children}
+      <div className={classes.container}>
+        <Sidebar />
+        {children}
+      </div>
     </main>
   );
 };

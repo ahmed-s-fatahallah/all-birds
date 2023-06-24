@@ -1,0 +1,7 @@
+.container {
+  display: flex;
+
+  margin: 0 auto;
+  margin-top: var(--margin-lg);
+  padding: var(--container-padding);
+}

@@ -23,6 +23,7 @@
   --margin-xsm: 1.2rem;
   --margin-sm: 1.8rem;
   --margin-md: 3.6rem;
+  --margin-lg: 4.8rem;
   --margin-xl: 7.2rem;
   --margin-xxl: 9rem;
   --margin-xxxl: 13rem;
@@ -62,6 +63,7 @@
   --filter-container-padding: 1.2rem 0px 1.5rem;
   --filter-button-padding: 0.6rem 1.2rem;
   --border-radius-sm: 2px;
+  --sidebar-padding: 6px 24px 24px 0px;
 }
 
 * {
