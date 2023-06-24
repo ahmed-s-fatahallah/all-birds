@@ -30,8 +30,8 @@ const SecondaryNavList = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M16.5 9C16.5 13.1421 13.1421 16.5 9 16.5C4.85786 16.5 1.5 13.1421 1.5 9C1.5 4.85786 4.85786 1.5 9 1.5C13.1421 1.5 16.5 4.85786 16.5 9ZM13.9542 16.5149C12.5333 17.4536 10.8305 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9C18 11.597 16.9 13.9372 15.1405 15.5799L19.5303 19.9697C19.8232 20.2626 19.8232 20.7374 19.5303 21.0303C19.2374 21.3232 18.7626 21.3232 18.4697 21.0303L13.9542 16.5149Z"
               fill="#212A2F"
             ></path>
@@ -41,7 +41,6 @@ const SecondaryNavList = () => {
       <li>
         <a href="#">
           <Image
-            data-src="//cdn.allbirds.com/image/upload/v1571355713/icons/user.svg"
             alt="login icon"
             src="//cdn.allbirds.com/image/upload/v1571355713/icons/user.svg"
             width={25}
@@ -52,7 +51,6 @@ const SecondaryNavList = () => {
       <li>
         <a href="#">
           <Image
-            data-src="//cdn.allbirds.com/image/upload/v1571947807/icons/help.svg"
             alt="help icon"
             src="//cdn.allbirds.com/image/upload/v1571947807/icons/help.svg"
             width={25}
@@ -79,7 +77,7 @@ const SecondaryNavList = () => {
                 points="0 0.00039 22.3713346 0.00039 22.3713346 5.69739 0 5.69739"
               ></polygon>
             </defs>
-            <g id="Page-1" fill="none" fill-rule="evenodd">
+            <g id="Page-1" fill="none" fillRule="evenodd">
               <text
                 x="20"
                 y="18"

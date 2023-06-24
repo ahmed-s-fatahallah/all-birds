@@ -1,8 +1,10 @@
 import Navigation from "./nav/Navigation";
 
+import classes from "./Header.module.css";
+
 const Header = () => {
   return (
-    <header>
+    <header className={classes.header}>
       <Navigation />
     </header>
   );

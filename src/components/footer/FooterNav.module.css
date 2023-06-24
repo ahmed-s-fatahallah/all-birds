@@ -1,6 +1,6 @@
 .footer-nav {
   display: flex;
-  margin-bottom: var(--margin-md);
+  margin-bottom: var(--margin-xl);
 }
 
 .footer-nav div {

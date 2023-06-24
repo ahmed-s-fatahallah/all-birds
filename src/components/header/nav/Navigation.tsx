@@ -11,7 +11,6 @@ const Navigation = () => {
       <MainNavList />
       <Link href="/" className={classes.logo}>
         <Image
-          data-src="//cdn.allbirds.com/image/upload/v1571355713/icons/allbirds-logo.svg"
           alt="All birds Logo"
           src="//cdn.allbirds.com/image/upload/v1571355713/icons/allbirds-logo.svg"
           width={120}
