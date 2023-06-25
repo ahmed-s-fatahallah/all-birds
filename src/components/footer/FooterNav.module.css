@@ -9,12 +9,12 @@
 
 .footer-nav ul li {
   margin-bottom: var(--margin-xsm);
-  font-size: var(--font-size-1);
+  font-size: var(--font-size-sm);
 }
 
 .footer-nav ul li a:link,
 .footer-nav ul li a:visited {
-  color: var(--primary-color);
+  color: var(--color-white-100);
   text-decoration: none;
 }
 
