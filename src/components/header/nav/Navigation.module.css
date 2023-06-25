@@ -9,6 +9,9 @@
   background-color: var(--color-white-100);
 
   box-shadow: var(--shadow);
+
+  position: relative;
+  z-index: 1;
 }
 
 .nav .logo {
@@ -44,6 +47,10 @@
 
 .nav__list button:focus {
   outline: var(--color-blue-800) solid 2px;
+}
+.nav__list button:hover,
+.nav__list button:active {
+  text-decoration: underline;
 }
 
 .nav__list button p {

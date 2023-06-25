@@ -39,6 +39,7 @@
   --margin-xxsm: 0.6px;
   --margin-xsm: 1.2rem;
   --margin-sm: 1.8rem;
+  --margin-sm-2: 2.4rem;
   --margin-md: 3.6rem;
   --margin-lg: 4.8rem;
   --margin-xl: 7.2rem;
@@ -73,9 +74,11 @@
   --flex-gap-sm: 1.5rem;
   --flex-gap-md: 1.8rem;
   --flex-gap-lg: 2.4rem;
+  --flex-gap-xl: 3.6rem;
+  --flex-gap-xxl: 4.8rem;
 
   /* BOX SHADOW */
-  --shadow: 0px 2px 2.4px 0px rgba(0, 0, 0, 0.09);
+  --shadow: 0px 2px 24px 0px rgba(0, 0, 0, 0.09);
 
   /* BORDER RADIUS */
   --border-radius-sm: 2px;
