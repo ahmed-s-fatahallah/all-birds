@@ -45,7 +45,7 @@ const NavListMenu = () => {
           </li>
         </ul>
       </div>
-      <div>&nbsp;</div>
+      <div className={classes.backdrop}>&nbsp;</div>
     </div>
   );
 };

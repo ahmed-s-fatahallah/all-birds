@@ -21,6 +21,7 @@
   font-size: var(--font-size-lg);
   text-transform: uppercase;
   margin-bottom: var(--margin-sm-2);
+  letter-spacing: var(--letter-spacing-widest);
 }
 
 .nav-menu__list ul {
@@ -34,7 +35,7 @@
 }
 
 .nav-menu__list > li:last-child {
-  width: 20%;
+  width: 30%;
 }
 
 .nav-menu__list .nav-menu__list__featured li {
@@ -54,18 +55,22 @@
   cursor: pointer;
 }
 
-.nav-menu__list__featured li p {
-  margin-top: -1rem;
-}
-
 .nav-menu__list__featured li:nth-child(1) {
   background-image: url(https://cdn.allbirds.com/image/fetch/q_auto,f_auto/w_1982,f_auto,q_auto/https://images.ctfassets.net/9uo1qvvet3xa/gDI4ZkuO83l3gZcU4DUKR/cb66de39a9c8d1f0f1ac6cb22933e2bc/TreeFlyer_NavTile_Desktop_UN.jpg);
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   margin-bottom: var(--margin-sm-2);
 }
 .nav-menu__list__featured li:nth-child(2) {
   background-image: url(https://cdn.allbirds.com/image/fetch/q_auto,f_auto/w_1982,f_auto,q_auto/https://images.ctfassets.net/9uo1qvvet3xa/2yVudaPgKkRP1o9kmuyTiQ/99e0235289c9fcb16019a7dd3a5732eb/23Q2-SummerLookbook-Nav-Tile-Desktop-M.jpg);
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
+}
+
+.backdrop {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--color-grey-700);
+  opacity: 0.8;
 }
