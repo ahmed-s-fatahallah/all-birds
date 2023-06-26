@@ -35,7 +35,7 @@
   min-width: var(--nav-btn-min-width);
   min-height: var(--nav-btn-min-height);
   margin-left: var(--margin-sm);
-  outline: 0px;
+
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -48,8 +48,8 @@
 .nav__list button:focus {
   outline: var(--color-blue-800) solid 2px;
 }
-.nav__list button:hover,
-.nav__list button:active {
+
+.nav__list button:hover {
   text-decoration: underline;
 }
 

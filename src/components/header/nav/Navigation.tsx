@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import MainNavList from "./MainNavList";
@@ -5,12 +7,26 @@ import SecondaryNavList from "./SecondaryNavList";
 import NavListMenu from "./NavListMenu";
 
 import classes from "./Navigation.module.css";
+import { useState } from "react";
 
 const Navigation = () => {
+  const [navMenu, setNavMenu] = useState({
+    navStatus: false,
+    NavName: "",
+  });
+
+  const navListHandler = (name: string) => {
+    setNavMenu({ navStatus: true, NavName: name });
+  };
+
+  const onBackdropClickHandler = () => {
+    setNavMenu({ navStatus: false, NavName: "" });
+  };
+
   return (
     <div>
       <nav className={classes.nav}>
-        <MainNavList />
+        <MainNavList navMenu={navListHandler} />
         <Link href="/" className={classes.logo}>
           <Image
             alt="All birds Logo"
@@ -21,7 +37,13 @@ const Navigation = () => {
         </Link>
         <SecondaryNavList />
       </nav>
-      <NavListMenu />
+
+      {navMenu.navStatus && (
+        <NavListMenu
+          onBackdropClickHandler={onBackdropClickHandler}
+          navMenuName={navMenu.NavName}
+        />
+      )}
     </div>
   );
 };

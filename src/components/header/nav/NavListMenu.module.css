@@ -24,6 +24,17 @@
   letter-spacing: var(--letter-spacing-widest);
 }
 
+.nav-menu__list h4 a:link,
+.nav-menu__list h4 a:visited {
+  text-decoration: none;
+  color: var(--color-blue-800);
+}
+
+.nav-menu__list h4 a:hover,
+.nav-menu__list h4 a:active {
+  text-decoration: underline;
+}
+
 .nav-menu__list ul {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-md);
@@ -32,6 +43,15 @@
 
 .nav-menu__list ul li {
   padding: var(--nav-link-padding-sm) 0;
+}
+.nav-menu__list ul li a:link,
+.nav-menu__list ul li a:visited {
+  text-decoration: none;
+  color: var(--color-blue-800);
+}
+.nav-menu__list ul li a:hover,
+.nav-menu__list ul li a:active {
+  text-decoration: underline;
 }
 
 .nav-menu__list > li:last-child {
@@ -73,4 +93,5 @@
   width: 100%;
   background-color: var(--color-grey-700);
   opacity: 0.8;
+  cursor: pointer;
 }
