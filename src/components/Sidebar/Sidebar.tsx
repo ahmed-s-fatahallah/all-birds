@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import classes from "./Sidebar.module.css";
+import SizesFilters from "./SizesFilters";
 
 const Sidebar = () => {
   return (
@@ -45,29 +46,7 @@ const Sidebar = () => {
             Most of our shoes only come in full sizes. If you’re a half size,
             select your nearest whole size too.
           </p>
-          <div className={classes.sizes__btn__container}>
-            <button>
-              <span>8</span>
-            </button>
-            <button>
-              <span>9</span>
-            </button>
-            <button>
-              <span>10</span>
-            </button>
-            <button>
-              <span>11</span>
-            </button>
-            <button>
-              <span>12</span>
-            </button>
-            <button>
-              <span>13</span>
-            </button>
-            <button>
-              <span>14</span>
-            </button>
-          </div>
+          <SizesFilters />
         </div>
         <h4>Best For</h4>
         <div className={classes.filter__container}>

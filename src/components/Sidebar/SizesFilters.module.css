@@ -1,0 +1,7 @@
+.sizes__container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-grow: 0;
+  gap: var(--flex-gap-xxsm);
+}

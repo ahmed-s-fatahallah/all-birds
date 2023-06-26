@@ -1,0 +1,32 @@
+.size__btn {
+  min-width: var(--nav-btn-min-width);
+  padding: var(--filter-button-padding);
+  margin-right: var(--margin-xxsm);
+  margin-bottom: var(--margin-xxsm);
+
+  font-weight: var(--font-weight-light);
+  letter-spacing: var(--letter-spacing-wide);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  border: 1px solid var(--color-blue-800);
+  border-radius: var(--border-radius-sm);
+  outline: none;
+  color: var(--color-blue-800);
+  background-color: transparent;
+}
+
+.size__btn:hover {
+  background-color: var(--color-white-400);
+}
+
+.size__btn span {
+  display: inline-block;
+  padding: var(--nav-link-padding-sm) 0;
+}
+
+.size__btn:focus {
+  color: var(--color-blue-800);
+  background-color: var(--border-color);
+  outline: 2px solid var(--color-blue-800);
+  outline-offset: 2px;
+}

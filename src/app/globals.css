@@ -36,7 +36,7 @@
   --font-weight-bold: 700;
 
   /* MARGINS */
-  --margin-xxsm: 0.6px;
+  --margin-xxsm: 0.6rem;
   --margin-xsm: 1.2rem;
   --margin-sm: 1.8rem;
   --margin-sm-2: 2.4rem;
@@ -45,6 +45,9 @@
   --margin-xl: 7.2rem;
   --margin-xxl: 9rem;
   --margin-xxxl: 13rem;
+
+  /* PADDINGS */
+  --padding-xsm: 1.2rem;
 
   /* LETTER SPACING */
   --letter-spacing-wide: 0.5px;
