@@ -1,0 +1,84 @@
+.slider-container {
+  display: flex;
+  align-items: center;
+  width: 30rem;
+  position: relative;
+
+  overflow: hidden;
+}
+
+.slider-container__arrow-left,
+.slider-container__arrow-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--color-white-100);
+  min-width: 4.2rem;
+  min-height: 4.2rem;
+
+  border: 1px solid var(--color-white-400);
+
+  transform: translateY(-50%);
+}
+
+.slider-container__arrow-left:hover,
+.slider-container__arrow-right:hover {
+  border-color: var(--color-grey-500);
+  transition: border-color 125ms ease-in-out 0s;
+  cursor: pointer;
+}
+
+.slider-container__arrow-left {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: none;
+}
+.slider-container__arrow-right {
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
+
+.slider-container__arrow-left span,
+.slider-container__arrow-right span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  rotate: 45deg;
+}
+
+.slider-container__arrow-left span {
+  border-bottom: 3px solid var(--color-grey-700);
+  border-left: 3px solid var(--color-grey-700);
+  margin-left: var(--margin-xxsm);
+}
+
+.slider-container__arrow-right span {
+  border-top: 3px solid var(--color-grey-700);
+  border-right: 3px solid var(--color-grey-700);
+  margin-right: var(--margin-xxsm);
+}
+
+.colors__container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.colors__container button {
+  background-image: url("https://cdn.allbirds.com/image/upload/f_auto,q_auto/v1/production/colorway/en-US/images/6LZsdZwEZ4Bqkifd1dGl2w/1");
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: var(--color-white-300);
+  width: 4.5rem;
+  height: 4.5rem;
+  flex-shrink: 0;
+  margin: 0.3rem;
+}
+
+.colors__container .selected {
+  border: 1px solid var(--color-white-400);
+}

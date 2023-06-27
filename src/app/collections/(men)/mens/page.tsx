@@ -1,9 +1,33 @@
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/card/ProductCard";
 
 const Mens = () => {
   return (
     <section>
-      <ProductCard />
+      <div className="products__container">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </div>
     </section>
   );
 };
