@@ -42,7 +42,7 @@
 }
 
 .nav-menu__list ul li {
-  padding: var(--nav-link-padding-sm) 0;
+  padding: var(--padding-xxsm) 0;
 }
 .nav-menu__list ul li a:link,
 .nav-menu__list ul li a:visited {

@@ -1,6 +1,6 @@
 .size__btn {
-  min-width: var(--nav-btn-min-width);
-  padding: var(--filter-button-padding);
+  min-width: 4.2rem;
+  padding: var(--padding-xxsm) var(--padding-xsm);
   margin-right: var(--margin-xxsm);
   margin-bottom: var(--margin-xxsm);
 
@@ -21,7 +21,7 @@
 
 .size__btn span {
   display: inline-block;
-  padding: var(--nav-link-padding-sm) 0;
+  padding: var(--padding-xxsm) 0;
 }
 
 .size__btn:focus {

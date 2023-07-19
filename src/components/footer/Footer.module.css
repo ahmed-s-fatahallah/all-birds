@@ -2,12 +2,12 @@
   background-color: var(--color-blue-800);
   width: 100%;
   color: var(--color-white-100);
-  padding: var(--footer-padding);
+  padding: var(--padding-xxl);
 }
 
 .footer__container {
   max-width: var(--container-max-width);
-  padding: var(--container-padding);
+  padding: var(--padding-lg);
 }
 
 .footer__container h3 {

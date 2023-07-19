@@ -1,6 +1,6 @@
 .sidebar {
   width: 23%;
-  padding: var(--sidebar-padding);
+  padding: var(--padding-xxsm) var(--padding-lg) 0;
 
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-wide);
-  padding-bottom: var(--nav-link-padding-sm);
+  padding-bottom: var(--padding-xxsm);
   margin-bottom: var(--margin-sm);
 }
 
@@ -49,7 +49,7 @@
 
 .sidebar .filterby__container {
   margin-bottom: var(--margin-sm);
-  padding-bottom: var(--nav-link-padding-sm);
+  padding-bottom: var(--padding-xxsm);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -80,7 +80,7 @@
 }
 
 .sidebar .filter__container {
-  padding: var(--filter-container-padding);
+  padding: 1.2rem 0px 1.5rem;
   margin-bottom: var(--margin-sm);
 }
 

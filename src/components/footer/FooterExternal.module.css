@@ -28,7 +28,7 @@
 }
 
 .footer-external__container__logo div img {
-  max-width: var(--logo-footer-width);
+  max-width: 7.8rem;
 }
 
 .footer-external__container__flags {
