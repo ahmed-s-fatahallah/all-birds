@@ -1,20 +1,24 @@
 import classes from "./ColorsSlider.module.css";
 
-const ColorsSlider = () => {
+type Color = { colorName: string; imgs: string[] };
+
+interface ColorSliderProps {
+  colors: Color[];
+}
+
+const ColorsSlider = ({ colors }: ColorSliderProps) => {
   return (
     <div className={classes["slider-container"]}>
       <button className={classes["slider-container__arrow-left"]}>
         <span></span>
       </button>
       <div className={classes.colors__container}>
-        <button className={classes.selected}></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
-        <button></button>
+        {colors.map((color: Color, i) => (
+          <button
+            key={i}
+            style={{ backgroundImage: `url(${color.imgs[1]})` }}
+          ></button>
+        ))}
       </div>
       <button className={classes["slider-container__arrow-right"]}>
         <span></span>
