@@ -1,6 +1,6 @@
 .size__btn {
   min-width: 4.2rem;
-  padding: var(--padding-xxsm) var(--padding-xsm);
+  padding: var(--padding-xxsm) 0;
   margin-right: var(--margin-xxsm);
   margin-bottom: var(--margin-xxsm);
 
