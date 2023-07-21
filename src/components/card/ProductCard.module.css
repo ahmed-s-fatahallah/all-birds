@@ -1,6 +1,7 @@
 .card-container {
   position: relative;
   width: 33.333%;
+  cursor: pointer;
 }
 
 .card-container::before {
