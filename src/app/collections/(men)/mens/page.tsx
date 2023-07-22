@@ -15,7 +15,7 @@ interface Product {
 
 const getProductsData = async () => {
   const res = await fetch(
-    "https://react-http-47f95-default-rtdb.firebaseio.com/products.json"
+    "https://react-http-47f95-default-rtdb.firebaseio.com/products/men.json"
   );
   const data = await res.json();
 
@@ -23,16 +23,22 @@ const getProductsData = async () => {
 };
 
 const Mens = async () => {
-  let data;
+  let allProducts: Product[] = [];
   try {
-    data = await getProductsData();
+    const data = await getProductsData();
+    allProducts = [
+      ...data["mens-runners"],
+      ...data["mens-running-shoes"],
+      ...data["mens-loungers"],
+    ];
   } catch (error) {
     console.log(error);
   }
+
   return (
     <section>
       <div className="products__container">
-        {data.men.map((prod: Product) => (
+        {allProducts.map((prod: Product) => (
           <ProductCard key={prod.id} product={prod} />
         ))}
       </div>
