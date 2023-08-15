@@ -3,6 +3,8 @@
   width: 100%;
   color: var(--color-white-100);
   padding: var(--padding-xxl);
+  display: flex;
+  justify-content: center;
 }
 
 .footer__container {
