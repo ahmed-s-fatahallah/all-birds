@@ -114,9 +114,6 @@
 }
 
 .sidebar .filter__container .colors-filters-list button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
   text-align: center;
   outline: none;
   font-family: inherit;

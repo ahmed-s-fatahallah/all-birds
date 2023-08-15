@@ -35,9 +35,7 @@
   min-height: 4.2rem;
   margin-left: var(--margin-sm);
 
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+ 
   appearance: none;
 }
 .nav__list__cart {

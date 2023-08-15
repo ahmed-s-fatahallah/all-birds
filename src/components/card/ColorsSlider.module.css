@@ -26,7 +26,6 @@
 .slider-container__arrow-right:hover {
   border-color: var(--color-grey-500);
   transition: border-color 125ms ease-in-out 0s;
-  cursor: pointer;
 }
 
 .slider-container__arrow-left {
@@ -70,7 +69,6 @@
 .colors__container button {
   background-size: contain;
   background-repeat: no-repeat;
-  border: none;
   background-color: var(--color-white-300);
   width: 4.5rem;
   height: 4.5rem;

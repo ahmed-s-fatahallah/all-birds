@@ -112,6 +112,12 @@ body {
   font-weight: var(--font-weight);
 }
 
+button{
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 section {
   width: 100%;
 }

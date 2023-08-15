@@ -8,12 +8,10 @@
   font-weight: var(--font-weight-light);
   letter-spacing: var(--letter-spacing-wide);
   font-size: var(--font-size-sm);
-  cursor: pointer;
   border: 1px solid var(--color-blue-800);
   border-radius: var(--border-radius-sm);
   outline: none;
   color: var(--color-blue-800);
-  background-color: transparent;
 }
 
 .size__btn:hover {
