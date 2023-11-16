@@ -9,18 +9,22 @@ interface ColorSliderProps {
 const ColorsSlider = ({ colors }: ColorSliderProps) => {
   return (
     <div className={classes["slider-container"]}>
-      <button className={classes["slider-container__arrow-left"]}>
+      <button type="button" className={classes["slider-container__arrow-left"]}>
         <span></span>
       </button>
       <div className={classes.colors__container}>
         {colors.map((color: Color, i) => (
           <button
+            type="button"
             key={i}
             style={{ backgroundImage: `url(${color.imgs[1]})` }}
           ></button>
         ))}
       </div>
-      <button className={classes["slider-container__arrow-right"]}>
+      <button
+        type="button"
+        className={classes["slider-container__arrow-right"]}
+      >
         <span></span>
       </button>
     </div>
