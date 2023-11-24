@@ -1,6 +1,6 @@
 import ProductCard from "@/components/card/ProductCard";
 
-type Color = { colorName: string; imgs: string[] };
+type Color = { colorName: string; imgs: string[]; sliderImg: string };
 
 interface Product {
   bigImgs: string[];

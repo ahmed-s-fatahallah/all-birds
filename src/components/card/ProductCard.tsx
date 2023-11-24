@@ -1,31 +1,22 @@
+"use client";
+
 import SizeFilterBtn from "@/utilities/SizeFilterBtn";
 import Image from "next/image";
+import { useState } from "react";
+import ColorsSlider from "./ColorsSlider";
+import { Color, Product } from "@/definitions";
 
 import classes from "./ProductCard.module.css";
-import ColorsSlider from "./ColorsSlider";
 
-type Color = { colorName: string; imgs: string[] };
+const ProductCard = ({ product }: { product: Product }) => {
+  const [currentProductColor, setCurrentProductColor] = useState<Color>();
 
-interface Product {
-  product: {
-    bigImgs: string[];
-    colors: Color[];
-    displayImg: string;
-    id: number;
-    price: string;
-    sizes: number[] | string[];
-    title: string;
-    video: string;
-  };
-}
-
-const ProductCard = ({ product }: Product) => {
   return (
     <div className={classes["card-container"]}>
       <div className={classes["card-main"]}>
         <div className={classes["card-main__img"]}>
           <Image
-            src={product.colors[0].imgs[0]}
+            src={currentProductColor?.imgs[0] || product.colors[0].imgs[0]}
             alt={product.colors[0].colorName}
             width={308}
             height={308}
@@ -36,7 +27,10 @@ const ProductCard = ({ product }: Product) => {
           {product.colors[0].colorName}
         </p>
         <p>{`$${product.price}`}</p>
-        <ColorsSlider colors={product.colors} />
+        <ColorsSlider
+          colors={product.colors}
+          setCurrentProductColor={setCurrentProductColor}
+        />
       </div>
       <div className={classes["card-secondary"]}>
         <p className={classes["card-secondary__title"]}>Quick Add</p>
