@@ -76,6 +76,7 @@
   margin: 0.3rem;
 }
 
-.colors__container .selected {
-  border: 1px solid var(--color-white-400);
+.colors__container button.selected {
+  border: 2px solid var(--color-white-400);
+  border-radius: var(--border-radius-sm);
 }
