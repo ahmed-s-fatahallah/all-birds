@@ -14,18 +14,20 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div className={classes["card-container"]}>
       <div className={classes["card-main"]}>
-        <div className={classes["card-main__img"]}>
-          <Image
-            src={currentProductColor?.imgs[0] || product.colors[0].imgs[0]}
-            alt={product.colors[0].colorName}
-            width={308}
-            height={308}
-          />
+        <div>
+          <div className={classes["card-main__img"]}>
+            <Image
+              src={currentProductColor?.imgs[0] || product.colors[0].imgs[0]}
+              alt={product.colors[0].colorName}
+              width={308}
+              height={308}
+            />
+          </div>
+          <p className={classes["card-main__name"]}>{product.title}</p>
+          <p className={classes["card-main__color"]}>
+            {product.colors[0].colorName}
+          </p>
         </div>
-        <p className={classes["card-main__name"]}>{product.title}</p>
-        <p className={classes["card-main__color"]}>
-          {product.colors[0].colorName}
-        </p>
         <p>{`$${product.price}`}</p>
         <ColorsSlider
           colors={product.colors}

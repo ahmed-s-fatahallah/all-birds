@@ -3,7 +3,6 @@
   width: 33.333%;
   min-width: 30rem;
   margin-inline: auto;
-  cursor: pointer;
 }
 
 .card-container:hover {
@@ -22,6 +21,10 @@
 .card-main {
   padding: var(--padding-md);
   background-color: var(--color-white-100);
+}
+
+.card-main > div:first-child {
+  cursor: pointer;
 }
 
 .card-main .card-main__img {
