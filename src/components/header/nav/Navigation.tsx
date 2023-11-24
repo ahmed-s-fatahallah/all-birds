@@ -11,16 +11,16 @@ import { useState } from "react";
 
 const Navigation = () => {
   const [navMenu, setNavMenu] = useState({
-    navStatus: false,
+    isNavOpen: false,
     NavName: "",
   });
 
   const navListHandler = (name: string) => {
-    setNavMenu({ navStatus: true, NavName: name });
+    setNavMenu({ isNavOpen: true, NavName: name });
   };
 
   const onBackdropClickHandler = () => {
-    setNavMenu({ navStatus: false, NavName: "" });
+    setNavMenu({ isNavOpen: false, NavName: "" });
   };
 
   return (
@@ -38,7 +38,7 @@ const Navigation = () => {
         <SecondaryNavList />
       </nav>
 
-      {navMenu.navStatus && (
+      {navMenu.isNavOpen && (
         <NavListMenu
           onBackdropClickHandler={onBackdropClickHandler}
           navMenuName={navMenu.NavName}

@@ -60,14 +60,14 @@ const NavListMenu = (props: {
       <div className={classes["nav-menu"]}>
         <ul className={classes["nav-menu__list"]}>
           <li>
-            <h4>
+            <h4 onClick={props.onBackdropClickHandler}>
               <Link href={`/collections/${navRoutes.mainLink}`}>
                 {navRoutes.title}
               </Link>
             </h4>
             <ul>
               {navRoutes.subLinks.map((link, i) => (
-                <li key={i}>
+                <li key={i} onClick={props.onBackdropClickHandler}>
                   <Link href={`/collections/${link.link}`}>{link.title}</Link>
                 </li>
               ))}
