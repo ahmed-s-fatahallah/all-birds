@@ -1,39 +1,49 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import classes from "./Sidebar.module.css";
 import SizesFilters from "./SizesFilters";
 
+import classes from "./Sidebar.module.css";
+import { useState } from "react";
+
 const Sidebar = () => {
+  const [currentRouteName, setCurrentRouteName] = useState("");
+  const pathname = usePathname();
+  const routes = pathname.split("/");
+
+  const mensSideBarLinks: { [key: string]: string } = {
+    "mens-runners": "Everyday Sneakers",
+    "mens-running-shoes": "Active Shoes",
+    "mens-loungers": "Slip-Ons",
+    "mens-trail-runners-swt": "Hiking Shoes",
+    "mens-mizzles": "Water-Repellent-Shoes",
+    "mens-high-tops": "High Tops",
+    "sale-mens-shoes": "Sale Shoes",
+  };
+
   return (
     <aside className={classes.sidebar}>
       <div>
-        <div>Home /</div>
-        <h1>Men&apos;s Shoes</h1>
+        <div>
+          <span>
+            <Link href="/">Home</Link> /&nbsp;
+          </span>
+          {routes[2] === "mens" ? (
+            ""
+          ) : (
+            <span onClick={() => setCurrentRouteName("Men's Shoes")}>
+              <Link href={`/collections/mens`}>Men&apos;s shoes</Link> /
+            </span>
+          )}
+        </div>
+        <h1>{currentRouteName || mensSideBarLinks[routes[2]]}</h1>
         <ul className={classes.links__list}>
-          <li>
-            <Link href="mens-runners">Everyday Sneakers</Link>
-          </li>
-          <li>
-            <Link href="mens-running-shoes">Active Shoes</Link>
-          </li>
-          <li>
-            <Link href="mens-loungers">Slip-Ons</Link>
-          </li>
-          <li>
-            <Link href="mens-trail-runners-swt">Hiking Shoes</Link>
-          </li>
-          <li>
-            <Link href="/products/suger-sliders">Sandals</Link>
-          </li>
-          <li>
-            <Link href="mens-mizzles">Water-Repellent-Shoes</Link>
-          </li>
-          <li>
-            <Link href="mens-high-tops">High Tops</Link>
-          </li>
-          <li>
-            <Link href="mens-high-tops">Sale Shoes</Link>
-          </li>
+          {Object.entries(mensSideBarLinks).map((entry, i) => (
+            <li key={i} onClick={() => setCurrentRouteName(entry[1])}>
+              <Link href={entry[0]}>{entry[1]}</Link>
+            </li>
+          ))}
         </ul>
       </div>
       <div>

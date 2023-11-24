@@ -53,7 +53,7 @@
   --padding-sm: 1.8rem;
   --padding-md: 2rem;
   --padding-lg: 2.4rem;
-  --padding-xxl: 7.2rem
+  --padding-xxl: 7.2rem;
 
   /* LETTER SPACING */
   --letter-spacing-wide: 0.5px;
@@ -95,7 +95,6 @@
 
   /* CONTAINER MAC-WIDTH */
   --container-max-width: 138rem;
-
 }
 
 * {
@@ -112,7 +111,7 @@ body {
   font-weight: var(--font-weight);
 }
 
-button{
+button {
   border: none;
   background-color: transparent;
   cursor: pointer;

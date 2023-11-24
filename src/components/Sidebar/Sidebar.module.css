@@ -1,17 +1,23 @@
 .sidebar {
-  width: 23%;
+  width: 26%;
   padding: var(--padding-xxsm) var(--padding-lg) 0;
+  flex-shrink: 0;
 
   display: flex;
   flex-direction: column;
 }
 
 .sidebar div:first-of-type div {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-normal);
   letter-spacing: var(--letter-spacing-wide);
   padding-bottom: var(--padding-xxsm);
   margin-bottom: var(--margin-sm);
+}
+
+.sidebar div:first-of-type div a {
+  font-size: inherit;
+  font-family: inherit;
 }
 
 .sidebar h1 {
