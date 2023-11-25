@@ -8,7 +8,7 @@ import classes from "./Sidebar.module.css";
 import { useState } from "react";
 
 const Sidebar = () => {
-  const [currentRouteName, setCurrentRouteName] = useState("");
+  const [currentRouteName, setCurrentRouteName] = useState("Men's Shoes");
   const pathname = usePathname();
   const routes = pathname.split("/");
 
@@ -37,7 +37,7 @@ const Sidebar = () => {
             </span>
           )}
         </div>
-        <h1>{currentRouteName || mensSideBarLinks[routes[2]]}</h1>
+        <h1>{mensSideBarLinks[routes[2]] || currentRouteName}</h1>
         <ul className={classes.links__list}>
           {Object.entries(mensSideBarLinks).map((entry, i) => (
             <li key={i} onClick={() => setCurrentRouteName(entry[1])}>
