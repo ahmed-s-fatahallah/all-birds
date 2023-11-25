@@ -111,6 +111,11 @@ body {
   font-weight: var(--font-weight);
 }
 
+img {
+  width: 100%;
+  object-fit: contain;
+}
+
 button {
   border: none;
   background-color: transparent;
