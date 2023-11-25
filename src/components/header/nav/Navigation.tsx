@@ -33,6 +33,7 @@ const Navigation = () => {
             src="//cdn.allbirds.com/image/upload/v1571355713/icons/allbirds-logo.svg"
             width={120}
             height={38.14}
+            onClick={onBackdropClickHandler}
           />
         </Link>
         <SecondaryNavList />
