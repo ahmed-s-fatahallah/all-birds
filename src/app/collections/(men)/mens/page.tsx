@@ -13,7 +13,7 @@ interface Product {
   video: string;
 }
 
-const getProductsData = async () => {
+export const getProductsData = async () => {
   const res = await fetch(
     "https://react-http-47f95-default-rtdb.firebaseio.com/products/men.json",
     { next: { revalidate: 60 * 60 } }
@@ -27,11 +27,9 @@ const Mens = async () => {
   let allProducts: Product[] = [];
   try {
     const data = await getProductsData();
-    allProducts = [
-      ...data["mens-runners"],
-      ...data["mens-running-shoes"],
-      ...data["mens-loungers"],
-    ];
+    allProducts = Object.values<Product>(data)
+      .flat(1)
+      .sort((a, b) => a.id - b.id);
   } catch (error) {
     console.log(error);
   }
