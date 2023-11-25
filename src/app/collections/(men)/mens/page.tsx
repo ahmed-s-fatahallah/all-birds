@@ -13,7 +13,7 @@ interface Product {
   video: string;
 }
 
-export const getProductsData = async () => {
+const getProductsData = async () => {
   const res = await fetch(
     "https://react-http-47f95-default-rtdb.firebaseio.com/products/men.json",
     { next: { revalidate: 60 * 60 } }
