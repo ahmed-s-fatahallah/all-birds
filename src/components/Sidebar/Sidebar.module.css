@@ -1,6 +1,6 @@
 .sidebar {
-  width: 26%;
-  padding: var(--padding-xxsm) var(--padding-lg) 0;
+  width: 23%;
+  padding: var(--padding-xxsm) var(--padding-lg) var(--padding-lg) 0;
   flex-shrink: 0;
 
   display: flex;

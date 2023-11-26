@@ -1,7 +1,8 @@
 .card-container {
   position: relative;
-
   margin-inline: auto;
+  padding: var(--padding-lg);
+  background-color: var(--color-white-100);
 }
 
 .card-container:hover {
@@ -18,7 +19,7 @@
 }
 
 .card-main {
-  margin: var(--padding-lg);
+  padding-bottom: 0;
   background-color: var(--color-white-100);
 }
 
@@ -45,8 +46,10 @@
   display: none;
   position: absolute;
   top: 100%;
+  left: 0;
   width: 100%;
   padding: var(--padding-md);
+  padding-top: 0;
   background-color: var(--color-white-100);
   z-index: 2;
 }
