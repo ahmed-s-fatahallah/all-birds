@@ -1,7 +1,6 @@
 .card-container {
   position: relative;
-  width: 33.333%;
-  min-width: 30rem;
+
   margin-inline: auto;
 }
 
@@ -19,7 +18,7 @@
 }
 
 .card-main {
-  padding: var(--padding-md);
+  margin: var(--padding-lg);
   background-color: var(--color-white-100);
 }
 

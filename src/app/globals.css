@@ -128,9 +128,8 @@ section {
 
 .products__container {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(31rem, 1fr));
 
-  align-items: center;
-  flex-wrap: wrap;
   margin-bottom: var(--margin-xxxl);
 }
