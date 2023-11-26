@@ -11,7 +11,7 @@ const Sidebar = () => {
   const [currentRouteName, setCurrentRouteName] = useState("Men's Shoes");
   const pathname = usePathname();
   const routes = pathname.split("/");
-  console.log(pathname);
+
   const mensSideBarLinks: { [key: string]: string } = {
     "mens-runners": "Everyday Sneakers",
     "mens-running-shoes": "Active Shoes",
