@@ -11,13 +11,13 @@ const Sidebar = () => {
   const [currentRouteName, setCurrentRouteName] = useState("Men's Shoes");
   const pathname = usePathname();
   const routes = pathname.split("/");
-
+  console.log(pathname);
   const mensSideBarLinks: { [key: string]: string } = {
     "mens-runners": "Everyday Sneakers",
     "mens-running-shoes": "Active Shoes",
-    "mens-loungers": "Slip-Ons",
-    "mens-trail-runners-swt": "Hiking Shoes",
     "mens-mizzles": "Water-Repellent-Shoes",
+    "mens-trail-runners-swt": "Hiking Shoes",
+    "mens-loungers": "Slip-Ons",
     "mens-high-tops": "High Tops",
     "sale-mens-shoes": "Sale Shoes",
   };
@@ -33,15 +33,20 @@ const Sidebar = () => {
             ""
           ) : (
             <span onClick={() => setCurrentRouteName("Men's Shoes")}>
-              <Link href={`/collections/mens`}>Men&apos;s shoes</Link> /
+              <Link href="/collections/mens">Men&apos;s shoes</Link> /
             </span>
           )}
         </div>
         <h1>{mensSideBarLinks[routes[2]] || currentRouteName}</h1>
         <ul className={classes.links__list}>
-          {Object.entries(mensSideBarLinks).map((entry, i) => (
-            <li key={i} onClick={() => setCurrentRouteName(entry[1])}>
-              <Link href={entry[0]}>{entry[1]}</Link>
+          {Object.entries(mensSideBarLinks).map(([key, value], i) => (
+            <li key={i} onClick={() => setCurrentRouteName(value)}>
+              <Link
+                className={routes[2] === key ? `${classes.active}` : ""}
+                href={key}
+              >
+                {value}
+              </Link>
             </li>
           ))}
         </ul>

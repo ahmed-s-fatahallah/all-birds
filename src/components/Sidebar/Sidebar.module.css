@@ -146,3 +146,8 @@
   background-color: var(--color-grey-700);
   margin-right: var(--margin-xsm);
 }
+
+.sidebar a.active {
+  font-weight: var(--font-weight-bold);
+  pointer-events: none;
+}
