@@ -18,8 +18,6 @@ const Sidebar = () => {
     "mens-mizzles": "Water-Repellent-Shoes",
     "mens-trail-runners-swt": "Hiking Shoes",
     "mens-loungers": "Slip-Ons",
-    "mens-high-tops": "High Tops",
-    "sale-mens-shoes": "Sale Shoes",
   };
 
   return (
