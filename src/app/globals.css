@@ -130,6 +130,6 @@ section {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(31rem, 1fr));
-
+  row-gap: 5.4rem;
   margin-bottom: var(--margin-xxxl);
 }
