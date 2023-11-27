@@ -16,7 +16,6 @@
   text-transform: uppercase;
   margin-bottom: var(--margin-sm);
   font-size: var(--font-size-md);
-  font-family: var(--font-family-primary);
   letter-spacing: var(--letter-spacing-widest);
 }
 

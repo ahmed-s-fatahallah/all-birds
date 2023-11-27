@@ -14,10 +14,8 @@
 }
 
 .footer-privacy__container p button {
-  
   color: var(--color-white-100);
   text-decoration: underline;
   letter-spacing: var(--letter-spacing-wide);
   font-size: var(--font-size-sm);
-  font-family: var(--font-family-primary);
 }
