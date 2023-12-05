@@ -1,17 +1,5 @@
 import ProductCard from "@/components/card/ProductCard";
-
-type Color = { colorName: string; imgs: string[]; sliderImg: string };
-
-interface Product {
-  bigImgs: string[];
-  colors: Color[];
-  displayImg: string;
-  id: number;
-  price: string;
-  sizes: number[] | string[];
-  title: string;
-  video: string;
-}
+import { Product } from "@/definitions";
 
 const getProductsData = async () => {
   const res = await fetch(
