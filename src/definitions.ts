@@ -4,7 +4,7 @@ export type Color = { colorName: string; imgs: string[]; sliderImg: string };
 
 export interface Product {
   id: number;
-  category: string;
+  collection: string;
   price: string;
   title: string;
   sizes: number[] | string[];

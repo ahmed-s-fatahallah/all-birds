@@ -1,26 +1,26 @@
 import ProductCard from "@/components/card/ProductCard";
 import { Product } from "@/definitions";
 
-const getMensLoungersData = async () => {
+const getMensHikingShoesData = async () => {
   const res = await fetch(
     "https://react-http-47f95-default-rtdb.firebaseio.com/products.json",
     { next: { revalidate: 60 * 60 } }
   );
   const data = await res.json();
-  const mensLoungersData: Product[] = Object.values<Product>(data).filter(
-    (prod: Product) => prod.collection === "mens-loungers"
+  const mensHikingShoesData: Product[] = Object.values<Product>(data).filter(
+    (prod: Product) => prod.collection === "mens-hiking-shoes"
   );
-  return mensLoungersData;
+  return mensHikingShoesData;
 };
 
-const MensRunners = async () => {
+const MensTrialRunnersSWT = async () => {
   try {
-    const mensLoungersData = await getMensLoungersData();
+    const mensHikingShoesData = await getMensHikingShoesData();
 
     return (
       <section>
         <div className="products__container">
-          {mensLoungersData.map((prod: Product) => (
+          {mensHikingShoesData.map((prod: Product) => (
             <ProductCard key={prod.id} product={prod} />
           ))}
         </div>
@@ -31,4 +31,4 @@ const MensRunners = async () => {
   }
 };
 
-export default MensRunners;
+export default MensTrialRunnersSWT;

@@ -16,7 +16,7 @@ const Sidebar = () => {
     "mens-runners": "Everyday Sneakers",
     "mens-running-shoes": "Active Shoes",
     "mens-mizzles": "Water-Repellent-Shoes",
-    "mens-trail-runners-swt": "Hiking Shoes",
+    "mens-hiking-shoes": "Hiking Shoes",
     "mens-loungers": "Slip-Ons",
   };
 
