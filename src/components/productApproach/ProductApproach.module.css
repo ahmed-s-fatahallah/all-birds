@@ -1,0 +1,42 @@
+.approach-container {
+  padding-block: 7.8rem;
+  background-color: var(--color-white-300);
+  color: var(--color-blue-800);
+}
+
+.approach-container div {
+  margin-top: 0;
+}
+.approach-container div > h2 {
+  margin-bottom: var(--margin-sm-2);
+  font-size: var(--font-size-xxl);
+  line-height: var(--line-height-2);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-blue-800);
+}
+
+.approach-container div > ul {
+  display: flex;
+  gap: var(--flex-gap-lg);
+}
+
+.approach-container li > h3 {
+  margin-bottom: 0.9rem;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-2);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-blue-800);
+}
+.approach-container li > p {
+  line-height: var(--line-height-3);
+  font-size: var(--font-size-md);
+  letter-spacing: 0;
+}
+.approach-container li > a {
+  line-height: var(--line-height-3);
+  text-decoration: underline;
+  font-size: var(--font-size-md);
+  color: var(--color-blue-800);
+}

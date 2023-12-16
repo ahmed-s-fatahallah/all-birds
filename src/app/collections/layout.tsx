@@ -10,7 +10,7 @@ interface props {
 const CollectionsLayout = ({ children }: props) => {
   return (
     <main>
-      <div className={classes.container}>
+      <div className={`container ${classes.collections_Layout}`}>
         <Sidebar />
         {children}
       </div>

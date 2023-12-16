@@ -1,7 +1,3 @@
-.container {
+.collections_Layout {
   display: flex;
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  margin-top: var(--margin-lg);
-  padding: 0 var(--padding-lg);
 }

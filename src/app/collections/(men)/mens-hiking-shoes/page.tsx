@@ -1,27 +1,29 @@
 import ProductCard from "@/components/card/ProductCard";
 import { Product } from "@/definitions";
-
-const getMensHikingShoesData = async () => {
-  const res = await fetch(
-    "https://react-http-47f95-default-rtdb.firebaseio.com/products.json",
-    { next: { revalidate: 60 * 60 } }
-  );
-  const data = await res.json();
-  const mensHikingShoesData: Product[] = Object.values<Product>(data).filter(
-    (prod: Product) => prod.collection === "mens-hiking-shoes"
-  );
-  return mensHikingShoesData;
-};
+import fetchData from "@/utilities/FetchData";
+import filterProducts from "@/utilities/FilterProducts";
 
 const MensTrialRunnersSWT = async () => {
   try {
-    const mensHikingShoesData = await getMensHikingShoesData();
+    const allProductsData = await fetchData(
+      "https://react-http-47f95-default-rtdb.firebaseio.com/products.json",
+      { next: { revalidate: 60 * 60 } }
+    );
+
+    const { filteredProductsData, filteredProductsNames } = filterProducts(
+      allProductsData,
+      "mens-hiking-shoes"
+    );
 
     return (
       <section>
         <div className="products__container">
-          {mensHikingShoesData.map((prod: Product) => (
-            <ProductCard key={prod.id} product={prod} />
+          {filteredProductsData.map((prod: Product, i) => (
+            <ProductCard
+              key={prod.id}
+              product={prod}
+              productName={filteredProductsNames[i]}
+            />
           ))}
         </div>
       </section>

@@ -31,6 +31,7 @@
   --margin-sm-2: 2.4rem;
   --margin-md: 3.6rem;
   --margin-lg: 4.8rem;
+  --margin-lg-2: 6rem;
   --margin-xl: 7.2rem;
   --margin-xxl: 9rem;
   --margin-xxxl: 13rem;
@@ -44,6 +45,7 @@
   --padding-xxl: 7.2rem;
 
   /* LETTER SPACING */
+  --letter-spacing-medium: 0.3px;
   --letter-spacing-wide: 0.5px;
   --letter-spacing-wider: 1.7px;
   --letter-spacing-widest: 2px;
@@ -54,20 +56,22 @@
   --font-size-md: 1.4rem;
   --font-size-lg: 1.6rem;
   --font-size-xl: 2.2rem;
+  --font-size-xl-2: 2.5rem;
   --font-size-xxl: 3.2rem;
   --font-size-xxxl: 4.8rem;
 
   /* LINE HEIGHT */
-  --line-height-1: 1.2rem;
-  --line-height-2: 1.4rem;
-  --line-height-3: 1.6rem;
-  --line-height-4: 1.8rem;
-  --line-height-5: 2rem;
-  --line-height-6: 4.2rem;
-  --line-height-7: 6.3rem;
+  --line-height-1: 1.2;
+  --line-height-2: 1.4;
+  --line-height-3: 1.6;
+  --line-height-4: 1.8;
+  --line-height-5: 2;
+  --line-height-6: 4.2;
+  --line-height-7: 6.3;
 
   /* FLEX GAPS */
   --flex-gap-xxsm: 0.6rem;
+  --flex-gap-xsm: 1.2rem;
   --flex-gap-sm: 1.5rem;
   --flex-gap-md: 1.8rem;
   --flex-gap-lg: 2.4rem;
@@ -112,10 +116,63 @@ button {
   background-color: transparent;
   cursor: pointer;
   font-family: inherit;
+  color: var(--color-blue-800);
 }
 
 section {
   width: 100%;
+}
+
+h1 {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl-2);
+  line-height: var(--line-height-2);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-blue-800);
+  margin: 0px;
+  padding: 0px;
+}
+
+p {
+  font-weight: var(--font-weight-light);
+  color: var(--color-blue-800);
+  line-height: var(--line-height-2);
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-wide);
+  padding: 0px;
+}
+
+ul {
+  list-style: none;
+}
+
+input,
+select {
+  width: 100%;
+  appearance: none;
+  outline: none;
+  height: 4.8rem;
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-wide);
+  font-weight: var(--font-weight-light);
+  background: var(--color-white-300);
+  border-bottom: 2px solid var(--color-blue-800);
+
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-left-width: 0px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-left-style: solid;
+  border-radius: 0px;
+  padding: 2px 12px 0px;
+  color: var(--color-blue-800);
+  box-shadow: transparent 0px 2px 0px 0px inset,
+    transparent 2px 0px 0px 0px inset, transparent -2px 0px 0px 0px inset;
+  transition: border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s,
+    background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s,
+    box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .products__container {
@@ -124,4 +181,39 @@ section {
   grid-template-columns: repeat(auto-fill, minmax(31rem, 1fr));
   row-gap: 5.4rem;
   margin-bottom: var(--margin-xxxl);
+}
+
+.container {
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  margin-top: var(--margin-lg);
+  padding-inline: var(--padding-lg);
+}
+
+.chevron {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid var(--color-blue-800);
+  border-right: 2px solid var(--color-blue-800);
+  transition: all 250ms ease-in-out 0s;
+}
+
+.chevron-down {
+  transform: rotate(45deg);
+  margin-bottom: 3px;
+}
+.chevron-up {
+  transform: rotate(225deg);
+  margin-top: 3px;
+}
+
+.chevron-right {
+  transform: rotate(-45deg);
+  margin-right: 4.5px;
+}
+
+.chevron-left {
+  transform: rotate(135deg);
+  margin-left: 4.5px;
 }

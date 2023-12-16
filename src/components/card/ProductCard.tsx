@@ -1,6 +1,5 @@
 "use client";
 
-import SizeFilterBtn from "@/utilities/SizeFilterBtn";
 import Image from "next/image";
 import { useState } from "react";
 import ColorsSlider from "./ColorsSlider";
@@ -8,19 +7,21 @@ import { Color, Product } from "@/definitions";
 
 import classes from "./ProductCard.module.css";
 import Link from "next/link";
+import Button from "@/utilities/Button";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({
+  product,
+  productName,
+}: {
+  product: Product;
+  productName: string;
+}) => {
   const [currentProductColor, setCurrentProductColor] = useState<Color>();
-
-  const productLink = product.title
-    .replace(/\s/g, "-")
-    .replace(/'/g, "")
-    .toLowerCase();
 
   return (
     <div className={classes["card-container"]}>
       <div className={classes["card-main"]}>
-        <Link href={`/products/${productLink}`}>
+        <Link href={`/products/${productName}`}>
           <div>
             <div className={classes["card-main__img"]}>
               <Image
@@ -46,7 +47,9 @@ const ProductCard = ({ product }: { product: Product }) => {
         <p className={classes["card-secondary__title"]}>Quick Add</p>
         <div>
           {product.sizes.map((size) => (
-            <SizeFilterBtn key={size} size={size} />
+            <Button key={size} variant="filter-btn">
+              <span>{size}</span>
+            </Button>
           ))}
         </div>
       </div>

@@ -1,0 +1,124 @@
+.rating-container {
+  padding-block: 84px 60px;
+  background-color: var(--color-white-300);
+  margin-bottom: var(--margin-lg);
+}
+
+.rating-container > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rating-title {
+  text-align: center;
+  margin-bottom: var(--margin-sm);
+  font-size: var(--font-size-xxl);
+  line-height: var(--line-height-2);
+  font-weight: var(--font-weight-bold);
+}
+
+.stars-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stars-container p {
+  font-size: var(--font-size-xxxl);
+  text-align: left;
+  margin-left: var(--margin-sm-2);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-1);
+  color: var(--color-black);
+}
+.stars {
+  display: flex;
+  width: 13.9rem;
+  justify-content: space-between;
+  padding-left: 1.2rem;
+}
+
+.reviews-count {
+  margin-bottom: 4.2rem;
+  font-size: var(--font-size-md);
+}
+
+.fit-score-container {
+  padding: 18px 30px 24px;
+  background-color: var(--color-white-100);
+  max-width: 435px;
+  width: 100%;
+  text-align: center;
+}
+
+.fit-score-container > p {
+  margin-bottom: var(--margin-sm);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.line-container {
+  position: relative;
+}
+
+.line {
+  background-color: var(--color-blue-800);
+  height: 3px;
+  opacity: 0.15;
+  margin-bottom: 4.2rem;
+}
+
+.line div {
+  background-color: var(--color-blue-800);
+  width: 3px;
+  height: 18px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+}
+
+.line div:nth-of-type(1) {
+  left: 0;
+}
+.line div:nth-of-type(2) {
+  left: 50%;
+}
+.line div:nth-of-type(3) {
+  left: 100%;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-blue-800);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+.line-container p {
+  position: absolute;
+  top: 2.4rem;
+  font-size: var(--font-size-md);
+}
+
+.line-container p:nth-of-type(1) {
+  left: 0;
+}
+.line-container p:nth-of-type(2) {
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+.line-container p:nth-of-type(3) {
+  right: 0;
+}
+
+.rating-container p:last-of-type {
+  margin-top: 18px;
+  max-width: 600px;
+  text-align: center;
+  font-size: var(--font-size-md);
+}

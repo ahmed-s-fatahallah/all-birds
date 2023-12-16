@@ -14,7 +14,7 @@ const ColorsSlider = ({ colors, setCurrentProductColor }: ColorSliderProps) => {
   return (
     <div className={classes["slider-container"]}>
       {/* <button type="button" className={classes["slider-container__arrow-left"]}>
-        <span></span>
+        <span className="chevron chevron-left"></span>
       </button> */}
       <div className={classes.colors__container}>
         {colors.map((color: Color, i) => (
@@ -32,7 +32,7 @@ const ColorsSlider = ({ colors, setCurrentProductColor }: ColorSliderProps) => {
         type="button"
         className={classes["slider-container__arrow-right"]}
       >
-        <span></span>
+        <span className="chevron chevron-right"></span>
       </button> */}
     </div>
   );
