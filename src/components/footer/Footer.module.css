@@ -2,7 +2,7 @@
   background-color: var(--color-blue-800);
   width: 100%;
   color: var(--color-white-100);
-  padding: var(--padding-xxl);
+  padding-block: var(--padding-xxl);
   display: flex;
   justify-content: center;
 }
@@ -28,6 +28,6 @@
   font-weight: var(--font-weight-light);
   line-height: var(--line-height-2);
   letter-spacing: var(--letter-spacing-wide);
-
+  color: var(--color-white-100);
   margin-bottom: var(--margin-sm);
 }
