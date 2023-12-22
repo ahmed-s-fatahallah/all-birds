@@ -17,6 +17,7 @@ export default function productReviews() {
             />
             <button type="button">
               <Image
+                draggable={false}
                 src="//cdn.allbirds.com/image/upload/v1630526687/icons/search-fixed.svg"
                 alt="magnifying glass"
                 width={11}

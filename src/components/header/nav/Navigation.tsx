@@ -29,6 +29,7 @@ const Navigation = () => {
         <MainNavList navMenu={navListHandler} />
         <Link href="/" className={classes.logo}>
           <Image
+            draggable={false}
             alt="All birds Logo"
             src="//cdn.allbirds.com/image/upload/v1571355713/icons/allbirds-logo.svg"
             width={120}

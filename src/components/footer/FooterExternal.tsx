@@ -23,6 +23,7 @@ const FooterExternal = () => {
               >
                 <div>
                   <Image
+                    draggable={false}
                     alt="Social Icon - Instagram"
                     src="//cdn.allbirds.com/image/upload/q_auto/cms/7ALf4NFNH4VStmrXU0qSKK/0aa03178ac1a2dc0789703f6dac6e7ef/social-instagram.svg"
                     width={18}
@@ -40,6 +41,7 @@ const FooterExternal = () => {
               >
                 <div>
                   <Image
+                    draggable={false}
                     alt="Social Icon - Twitter"
                     src="//cdn.allbirds.com/image/upload/q_auto/cms/7jsrb2oMQypD1kO6iZLXZN/8bbcbd3f4c776e7150954f053aee3c00/social-twitter-white.svg"
                     width={18}
@@ -57,6 +59,7 @@ const FooterExternal = () => {
               >
                 <div>
                   <Image
+                    draggable={false}
                     alt="Social Icon - Facebook"
                     src="//cdn.allbirds.com/image/upload/q_auto/cms/55ZLXdMQu728huA78Qlfkb/faa7706d3b83f77d73026e3cfdaca7d0/social-facebook.svg"
                     width={18}
@@ -74,6 +77,7 @@ const FooterExternal = () => {
               >
                 <div>
                   <Image
+                    draggable={false}
                     alt="Social Icon - Pinterest"
                     src="//cdn.allbirds.com/image/upload/q_auto/cms/5VBkylibm5XkgzjDP153Mo/e3d80019f111cf8652618aa05ca5528e/social-pinterest-white.svg"
                     width={18}
@@ -88,6 +92,7 @@ const FooterExternal = () => {
         <div className={classes["footer-external__container__logo"]}>
           <div>
             <Image
+              draggable={false}
               alt="B Corporation Logo"
               src="//cdn.allbirds.com/image/upload/f_auto,q_auto/cms/1X4EOQF1JJOjMbo48vDUzB/c249da5825f9ae39f1f53bdb90d65285/icon-b-corp.svg"
               width={78}
@@ -101,6 +106,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="United States" href="https://www.allbirds.com/">
                 <Image
+                  draggable={false}
                   alt="US flag"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/3ohqY3WWyehlkYpVi815p9/6f7fbf2f1e4a08abc8da4788a95c2376/flag-us.svg"
                   width={37}
@@ -111,6 +117,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="New Zealand" href="https://www.allbirds.co.nz">
                 <Image
+                  draggable={false}
                   alt="Shop Flag - NZ"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/22gqFXi2QPoT2IhEpBuzOi/d01a77d603e94a10b8a690deded124f7/flag-nz.svg"
                   width={37}
@@ -121,6 +128,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="Australia" href="https://www.allbirds.com.au">
                 <Image
+                  draggable={false}
                   alt="Shop Flag - AU"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/6FnrOphj9NsjD38uREtsBn/cbf3c42e92a6c0628da4462b04e92e2c/flag-au.svg"
                   width={37}
@@ -131,6 +139,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="Canada" href="https://www.allbirds.ca">
                 <Image
+                  draggable={false}
                   alt="Shop Flag - CA"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/mpzswQHoLPhzgFkXpcZ7P/eba356c7c7929352d5d3eea6999f5ad3/flag-ca.svg"
                   width={37}
@@ -141,6 +150,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="UK" href="https://www.allbirds.co.uk">
                 <Image
+                  draggable={false}
                   alt="Shop Flag - UK"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/5OVl6dmwlwOJPrg5F3Ot1s/e9679772ddd64de49cd96cbd4a819743/flag-uk.svg"
                   width={37}
@@ -151,6 +161,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="China" href="https://www.allbirds.cn">
                 <Image
+                  draggable={false}
                   alt="Shop Flag - China"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/2bpMfDa3leuCSpX1lLXKvB/19c74fd77f850e29497ad82d91e83292/flag-cn.svg"
                   width={37}
@@ -161,6 +172,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="EU" href="https://www.allbirds.eu">
                 <Image
+                  draggable={false}
                   alt="EU Flag"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/5DEtULZUsBHTJp8aXcaOIc/c9d3ff14bde3bf45235f906dfb63f649/method-draw-image.svg"
                   width={37}
@@ -171,6 +183,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="JP" href="https://www.allbirds.jp">
                 <Image
+                  draggable={false}
                   alt="Japan flag icon"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/3TWBjQxibzqkiXua4hrmCu/1730ec7122e70b26bd29d972733a8190/Japan-Flag.svg"
                   width={37}
@@ -181,6 +194,7 @@ const FooterExternal = () => {
             <li>
               <Link aria-label="KR" href="https://www.allbirds.co.kr">
                 <Image
+                  draggable={false}
                   alt="South Korea flag icon"
                   src="//cdn.allbirds.com/image/upload/q_auto/cms/lqp21Rk7GI8HTImpSTOip/cdb1a8e18b337c27e91c18b82dd93ddf/South-Korea-Flag.svg"
                   width={37}

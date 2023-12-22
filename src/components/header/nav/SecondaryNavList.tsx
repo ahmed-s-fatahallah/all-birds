@@ -41,6 +41,7 @@ const SecondaryNavList = () => {
       <li>
         <a href="#">
           <Image
+            draggable={false}
             alt="login icon"
             src="//cdn.allbirds.com/image/upload/v1571355713/icons/user.svg"
             width={25}
@@ -51,6 +52,7 @@ const SecondaryNavList = () => {
       <li>
         <a href="#">
           <Image
+            draggable={false}
             alt="help icon"
             src="//cdn.allbirds.com/image/upload/v1571947807/icons/help.svg"
             width={25}

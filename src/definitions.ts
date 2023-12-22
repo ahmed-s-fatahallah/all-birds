@@ -13,6 +13,7 @@ export interface Product {
   title: string;
   sizes: number[] | string[];
   video: string;
+  videoThumbnail: string;
   bigImgs: string[];
   colors: Color[];
   displayImg: string;
