@@ -4,74 +4,10 @@
   grid-template-rows: [img-section-start] 62.9rem [img-section-end highlights-start] 19.5rem [highlights-end details-start] 1fr [details-end];
 }
 
-.slider {
-  grid-column: slider;
-  grid-row: img-section;
-
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1%;
-}
-
-.main-img-container {
-  grid-column: main-img;
-  grid-row: img-section;
-  align-self: self-start;
-  height: 100%;
-  margin-left: 2.4rem;
-
-  position: relative;
-}
-.main-img-container img {
-  object-fit: initial;
-  height: 100%;
-}
-
 .product-options {
   grid-column: product-options;
   grid-row: 1/-1;
   padding-left: 7.2rem;
-}
-
-.slider button {
-  width: 6.8rem;
-  flex: 1;
-  aspect-ratio: 1/1;
-  background-color: rgb(245, 245, 245);
-  border: 2px solid transparent;
-  border-radius: var(--border-radius-sm);
-}
-
-.arrows {
-  position: absolute;
-  bottom: 2.4rem;
-  right: 3rem;
-
-  display: flex;
-  gap: var(--flex-gap-xsm);
-}
-
-.arrows button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgb(211, 212, 213);
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-
-  transition: border-color 125ms ease-in-out 0s;
-}
-.arrows button:hover {
-  border-color: rgb(116, 121, 124);
-}
-
-.arrows span {
-  width: 1.2rem;
-  height: 1.2rem;
-  border-bottom: 3px solid var(--color-grey-700);
-  border-right: 3px solid var(--color-grey-700);
 }
 
 .path {

@@ -1,81 +1,22 @@
 import Button from "@/utilities/Button";
 import classes from "./ProductSection.module.css";
 import Image from "next/image";
+import ProductSlider from "../productSlider/ProductSlider";
+import { Product } from "@/definitions";
 
-export default function ProductSection() {
+export default function ProductSection({
+  productData,
+}: {
+  productData: Product;
+}) {
   return (
     <section className={classes["main-section"]}>
-      <div className={classes.slider}>
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-
-        <button type="button">
-          <img
-            src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_120,f_auto,q_auto/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-            alt=""
-          />
-        </button>
-      </div>
-      <div className={classes["main-img-container"]}>
-        <img
-          src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_1776,f_auto,q_auto,b_rgb:f5f5f5/https://www.allbirds.com/cdn/shop/products/TR2MWHE_SHOE_ANGLE_GLOBAL_MENS_TREE_RUNNER_WHEAT_DARK_BEIGE_edaca5c0-fdad-401c-afa5-f4496c49fcf7.png?v=1701808448"
-          alt=""
-        />
-        <div className={classes.arrows}>
-          <button type="button">
-            <span className="chevron chevron-left"></span>
-          </button>
-          <button type="button">
-            <span className="chevron chevron-right"></span>
-          </button>
-        </div>
-      </div>
+      <ProductSlider
+        productColors={productData.colors}
+        productVideo={productData.video}
+        productDisplayImg={productData.displayImg}
+        productVidThumbnail={productData.videoThumbnail}
+      />
       <div className={classes["product-options"]}>
         <div className={classes.path}>
           <a href="#">Home</a>/ <a href="#">Men&apos;s shoes</a>/
@@ -345,6 +286,7 @@ export default function ProductSection() {
       </div>
       <div className={classes["big-img-container"]}>
         <Image
+          draggable={false}
           src="https://cdn.dynamicyield.com/api/8776313/images/116be0f9f3ae6__product_features_module-tr_desktop_intrinsic.jpg"
           alt="product details"
           width={1196}
