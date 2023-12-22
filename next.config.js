@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "cdn.dynamicyield.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "www.allbirds.com",
+        port: "",
+      },
     ],
   },
 };
