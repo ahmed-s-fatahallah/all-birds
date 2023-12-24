@@ -16,21 +16,20 @@ export default function ProductSlider({
   productDisplayImg: string;
   productVidThumbnail: string;
 }) {
+  const finalProductArrRef = useRef<string[]>([]);
   const imagesWrapperRef = useRef<HTMLUListElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const isHoldingRef = useRef(false);
+  const currentClientXValueRef = useRef(0);
   const [currentImg, setCurrentImg] = useState(1);
   const [translateX, setTranslateX] = useState(0);
+  const [direction, setDirection] = useState<"left" | "right">();
 
-  useLayoutEffect(() => {
-    if (!imagesWrapperRef.current?.clientWidth) return;
-    setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
-  }, []);
-
-  const finalProductArr = productColors[0].imgs
+  finalProductArrRef.current = productColors[0].imgs
     .toSpliced(2, 0, productDisplayImg)
     .toSpliced(4, 0, productVidThumbnail);
 
-  let images = finalProductArr.map((el, i) => {
+  let images = finalProductArrRef.current.map((el, i) => {
     if (i === 4) {
       return (
         <li key={i}>
@@ -63,50 +62,115 @@ export default function ProductSlider({
     );
   });
 
-  useEffect(() => {
-    const transitionEnd = () => {
-      if (!imagesWrapperRef.current) return;
-      if (currentImg <= 1) {
+  useLayoutEffect(() => {
+    if (!imagesWrapperRef.current?.clientWidth) return;
+    setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const holdingHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    if (e.type === "pointerdown") {
+      if (
+        (e.target as HTMLDivElement).closest(
+          `.${classes["main-img-container"]}`
+        )
+      ) {
+        isHoldingRef.current = true;
+        currentClientXValueRef.current = e.clientX;
+        if (!imagesWrapperRef.current) return;
         imagesWrapperRef.current.style.transitionDuration = "0ms";
+      }
+    }
+
+    if (e.type === "pointerup" || e.type === "pointerleave") {
+      isHoldingRef.current = false;
+      if (!imagesWrapperRef.current) return;
+
+      if (direction === "left") {
+        setCurrentImg((prev) => ++prev);
+      } else if (direction === "right") {
+        setCurrentImg((prev) => --prev);
+      } else {
+        imagesWrapperRef.current.style.transitionDuration = "200ms";
         setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
       }
+    }
+  };
 
-      if (currentImg >= finalProductArr.length) {
-        imagesWrapperRef.current.style.transition = "0ms";
+  const pointerMoveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    if (isHoldingRef.current) {
+      if (!imagesWrapperRef.current) return;
+      if (currentClientXValueRef.current > e.clientX) {
         setTranslateX(
-          imagesWrapperRef.current?.clientWidth * finalProductArr.length
+          imagesWrapperRef.current?.clientWidth * currentImg +
+            (currentClientXValueRef.current - e.clientX)
         );
+        if (currentClientXValueRef.current - e.clientX >= 20) {
+          setDirection("left");
+        }
+      }
+      if (currentClientXValueRef.current < e.clientX) {
+        setTranslateX(
+          imagesWrapperRef.current?.clientWidth * currentImg -
+            (e.clientX - currentClientXValueRef.current)
+        );
+        if (currentClientXValueRef.current - e.clientX <= -20) {
+          setDirection("right");
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!imagesWrapperRef.current) return;
+    imagesWrapperRef.current.style.transitionDuration = "200ms";
+    setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
+    setDirection(undefined);
+    videoRef.current?.play();
+
+    const transitionEnd = () => {
+      if (!imagesWrapperRef.current) return;
+      if (currentImg < 1) {
+        imagesWrapperRef.current.style.transitionDuration = "0ms";
+        setTranslateX(
+          imagesWrapperRef.current?.clientWidth *
+            finalProductArrRef.current.length
+        );
+        setCurrentImg(finalProductArrRef.current.length);
+        return;
+      }
+
+      if (currentImg > finalProductArrRef.current.length) {
+        imagesWrapperRef.current.style.transitionDuration = "0ms";
+        setTranslateX(imagesWrapperRef.current?.clientWidth);
+        setCurrentImg(1);
+        return;
       }
     };
-    videoRef.current?.play();
+
     document.addEventListener("transitionend", transitionEnd);
 
     return () => {
       document.removeEventListener("transitionend", transitionEnd);
     };
-  }, [currentImg, finalProductArr]);
+  }, [currentImg]);
 
   const sliderBtnClickHandler = (direction: string) => {
     if (!imagesWrapperRef.current) return;
-    imagesWrapperRef.current.style.transitionDuration = "200ms";
     if (direction === "left") {
-      if (currentImg <= 1) {
-        setTranslateX(0);
-        setCurrentImg(finalProductArr.length);
+      if (currentImg === 1) {
+        setCurrentImg(finalProductArrRef.current.length);
       } else {
-        if (!imagesWrapperRef.current?.clientWidth) return;
-        setTranslateX(imagesWrapperRef.current?.clientWidth * (currentImg - 1));
         setCurrentImg((prev) => --prev);
       }
     } else if (direction === "right") {
-      if (!imagesWrapperRef.current?.clientWidth) return;
-      if (currentImg >= finalProductArr.length) {
-        setTranslateX(
-          imagesWrapperRef.current?.clientWidth * (finalProductArr.length + 1)
-        );
+      if (currentImg === finalProductArrRef.current.length) {
         setCurrentImg(1);
       } else {
-        setTranslateX(imagesWrapperRef.current?.clientWidth * (currentImg + 1));
         setCurrentImg((prev) => ++prev);
       }
     }
@@ -115,11 +179,14 @@ export default function ProductSlider({
   return (
     <>
       <div className={classes.slider}>
-        {finalProductArr.map((el, i) => (
+        {finalProductArrRef.current.map((el, i) => (
           <button
             type="button"
             key={i}
             className={`${currentImg - 1 === i && classes.active}`}
+            onClick={() => {
+              setCurrentImg(i + 1);
+            }}
           >
             <Image
               draggable={false}
@@ -131,29 +198,40 @@ export default function ProductSlider({
           </button>
         ))}
       </div>
-      <div className={classes["main-img-container"]}>
+      <div
+        className={classes["main-img-container"]}
+        onPointerDown={holdingHandler}
+        onPointerUp={holdingHandler}
+        onPointerLeave={holdingHandler}
+        onPointerMove={pointerMoveHandler}
+      >
         <ul
           className={classes["main-img-slider-wrapper"]}
           ref={imagesWrapperRef}
           style={{
             transform: `translateX(${-translateX}px)`,
+            transitionProperty: "all",
             transitionTimingFunction: "ease-in-out",
           }}
         >
-          <li key={finalProductArr.length + 1}>
+          <li key={finalProductArrRef.current.length + 1}>
             <Image
               draggable={false}
-              src={finalProductArr[finalProductArr.length - 1]}
+              src={
+                finalProductArrRef.current[
+                  finalProductArrRef.current.length - 1
+                ]
+              }
               alt="product image"
               width={631}
               height={631}
             />
           </li>
           {...images}
-          <li key={finalProductArr.length + 2}>
+          <li key={finalProductArrRef.current.length + 2}>
             <Image
               draggable={false}
-              src={finalProductArr[0]}
+              src={finalProductArrRef.current[0]}
               alt="product image"
               width={631}
               height={631}
