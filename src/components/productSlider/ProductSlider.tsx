@@ -23,7 +23,9 @@ export default function ProductSlider({
   const currentClientXValueRef = useRef(0);
   const [currentImg, setCurrentImg] = useState(1);
   const [translateX, setTranslateX] = useState(0);
-  const [direction, setDirection] = useState<"left" | "right">();
+  const [direction, setDirection] = useState<
+    "left" | "left-double" | "right" | "right-double"
+  >();
 
   finalProductArrRef.current = productColors[0].imgs
     .toSpliced(2, 0, productDisplayImg)
@@ -75,7 +77,8 @@ export default function ProductSlider({
       if (
         (e.target as HTMLDivElement).closest(
           `.${classes["main-img-container"]}`
-        )
+        ) &&
+        !(e.target as HTMLDivElement).classList.contains("placeholder")
       ) {
         isHoldingRef.current = true;
         currentClientXValueRef.current = e.clientX;
@@ -94,8 +97,12 @@ export default function ProductSlider({
       imagesWrapperRef.current.style.cursor = "grab";
       if (direction === "left") {
         setCurrentImg((prev) => ++prev);
+      } else if (direction === "left-double") {
+        setCurrentImg((prev) => (prev += 2));
       } else if (direction === "right") {
         setCurrentImg((prev) => --prev);
+      } else if (direction === "right-double") {
+        setCurrentImg((prev) => (prev -= 2));
       } else {
         setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
       }
@@ -112,7 +119,14 @@ export default function ProductSlider({
           imagesWrapperRef.current?.clientWidth * currentImg +
             (currentClientXValueRef.current - e.clientX)
         );
-        if (currentClientXValueRef.current - e.clientX >= 20) {
+        if (
+          Math.ceil(
+            (currentClientXValueRef.current - 20 - e.clientX) /
+              imagesWrapperRef.current?.clientWidth
+          ) >= 2
+        ) {
+          setDirection("left-double");
+        } else if (currentClientXValueRef.current - e.clientX >= 20) {
           setDirection("left");
         }
       }
@@ -121,7 +135,14 @@ export default function ProductSlider({
           imagesWrapperRef.current?.clientWidth * currentImg -
             (e.clientX - currentClientXValueRef.current)
         );
-        if (currentClientXValueRef.current - e.clientX <= -20) {
+        if (
+          Math.floor(
+            (currentClientXValueRef.current + 20 - e.clientX) /
+              imagesWrapperRef.current?.clientWidth
+          ) <= -2
+        ) {
+          setDirection("right-double");
+        } else if (currentClientXValueRef.current - e.clientX <= -20) {
           setDirection("right");
         }
       }
@@ -218,6 +239,7 @@ export default function ProductSlider({
         >
           <li key={finalProductArrRef.current.length + 1}>
             <Image
+              className="placeholder"
               draggable={false}
               src={
                 finalProductArrRef.current[
@@ -232,6 +254,7 @@ export default function ProductSlider({
           {...images}
           <li key={finalProductArrRef.current.length + 2}>
             <Image
+              className="placeholder"
               draggable={false}
               src={finalProductArrRef.current[0]}
               alt="product image"
