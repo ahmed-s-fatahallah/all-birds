@@ -100,6 +100,7 @@ body {
   max-width: 100vw;
   font-size: 62.5%;
   font-weight: var(--font-weight);
+  touch-action: pan-y;
 }
 
 img {

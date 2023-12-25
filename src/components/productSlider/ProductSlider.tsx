@@ -68,7 +68,7 @@ export default function ProductSlider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const holdingHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+  const holdingHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     if (e.type === "pointerdown") {
@@ -86,6 +86,8 @@ export default function ProductSlider({
     }
 
     if (e.type === "pointerup" || e.type === "pointerleave") {
+      if (e.pointerType === "touch" && e.type === "pointerup") return;
+
       isHoldingRef.current = false;
       if (!imagesWrapperRef.current) return;
       imagesWrapperRef.current.style.transitionDuration = "200ms";
@@ -100,7 +102,7 @@ export default function ProductSlider({
     }
   };
 
-  const pointerMoveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+  const pointerMoveHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     if (isHoldingRef.current) {
