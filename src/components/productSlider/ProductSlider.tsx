@@ -88,13 +88,13 @@ export default function ProductSlider({
     if (e.type === "pointerup" || e.type === "pointerleave") {
       isHoldingRef.current = false;
       if (!imagesWrapperRef.current) return;
+      imagesWrapperRef.current.style.transitionDuration = "200ms";
       imagesWrapperRef.current.style.cursor = "grab";
       if (direction === "left") {
         setCurrentImg((prev) => ++prev);
       } else if (direction === "right") {
         setCurrentImg((prev) => --prev);
       } else {
-        imagesWrapperRef.current.style.transitionDuration = "200ms";
         setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
       }
     }
@@ -128,29 +128,28 @@ export default function ProductSlider({
 
   useEffect(() => {
     if (!imagesWrapperRef.current) return;
-    imagesWrapperRef.current.style.transitionDuration = "200ms";
     setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
     setDirection(undefined);
     videoRef.current?.play();
 
     const transitionEnd = () => {
       if (!imagesWrapperRef.current) return;
+      imagesWrapperRef.current.style.transitionDuration = "0ms";
       if (currentImg < 1) {
-        imagesWrapperRef.current.style.transitionDuration = "0ms";
+        setCurrentImg(finalProductArrRef.current.length);
         setTranslateX(
           imagesWrapperRef.current?.clientWidth *
             finalProductArrRef.current.length
         );
-        setCurrentImg(finalProductArrRef.current.length);
         return;
       }
 
       if (currentImg > finalProductArrRef.current.length) {
-        imagesWrapperRef.current.style.transitionDuration = "0ms";
-        setTranslateX(imagesWrapperRef.current?.clientWidth);
         setCurrentImg(1);
+        setTranslateX(imagesWrapperRef.current?.clientWidth);
         return;
       }
+      imagesWrapperRef.current.style.transitionDuration = "200ms";
     };
 
     document.addEventListener("transitionend", transitionEnd);
