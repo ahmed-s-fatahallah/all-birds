@@ -24,12 +24,9 @@
   overflow: hidden;
 }
 
-.main-img-container:hover {
-  cursor: grab;
-}
-
 .main-img-slider-wrapper {
   display: flex;
+  cursor: grab;
 }
 
 .main-img-container img {

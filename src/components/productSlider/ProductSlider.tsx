@@ -81,13 +81,14 @@ export default function ProductSlider({
         currentClientXValueRef.current = e.clientX;
         if (!imagesWrapperRef.current) return;
         imagesWrapperRef.current.style.transitionDuration = "0ms";
+        imagesWrapperRef.current.style.cursor = "grabbing";
       }
     }
 
     if (e.type === "pointerup" || e.type === "pointerleave") {
       isHoldingRef.current = false;
       if (!imagesWrapperRef.current) return;
-
+      imagesWrapperRef.current.style.cursor = "grab";
       if (direction === "left") {
         setCurrentImg((prev) => ++prev);
       } else if (direction === "right") {
