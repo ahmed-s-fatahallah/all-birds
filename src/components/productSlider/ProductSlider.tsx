@@ -72,19 +72,18 @@ export default function ProductSlider({
 
   const holdingHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     e.preventDefault();
+    if (!imagesWrapperRef.current) return;
+    const imagesWrapper = imagesWrapperRef.current;
 
     if (e.type === "pointerdown") {
       if (
         (e.target as HTMLDivElement).closest(
           `.${classes["main-img-container"]}`
-        ) &&
-        !(e.target as HTMLDivElement).classList.contains("placeholder")
+        )
       ) {
         isHoldingRef.current = true;
         currentClientXValueRef.current = e.clientX;
-        if (!imagesWrapperRef.current) return;
-        imagesWrapperRef.current.style.transitionDuration = "0ms";
-        imagesWrapperRef.current.style.cursor = "grabbing";
+        imagesWrapper.style.cursor = "grabbing";
       }
     }
 
@@ -92,9 +91,8 @@ export default function ProductSlider({
       if (e.pointerType === "touch" && e.type === "pointerup") return;
 
       isHoldingRef.current = false;
-      if (!imagesWrapperRef.current) return;
-      imagesWrapperRef.current.style.transitionDuration = "200ms";
-      imagesWrapperRef.current.style.cursor = "grab";
+
+      imagesWrapper.style.cursor = "grab";
       if (direction === "left") {
         setCurrentImg((prev) => ++prev);
       } else if (direction === "left-double") {
@@ -104,25 +102,26 @@ export default function ProductSlider({
       } else if (direction === "right-double") {
         setCurrentImg((prev) => (prev -= 2));
       } else {
-        setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
+        setTranslateX(imagesWrapper.clientWidth * currentImg);
       }
     }
   };
 
   const pointerMoveHandler = (e: React.PointerEvent<HTMLDivElement>) => {
     e.preventDefault();
-
+    if (!imagesWrapperRef.current) return;
+    const imagesWrapper = imagesWrapperRef.current;
     if (isHoldingRef.current) {
-      if (!imagesWrapperRef.current) return;
+      imagesWrapper.style.transitionDuration = "0ms";
       if (currentClientXValueRef.current > e.clientX) {
         setTranslateX(
-          imagesWrapperRef.current?.clientWidth * currentImg +
+          imagesWrapper.clientWidth * currentImg +
             (currentClientXValueRef.current - e.clientX)
         );
         if (
           Math.ceil(
             (currentClientXValueRef.current - 20 - e.clientX) /
-              imagesWrapperRef.current?.clientWidth
+              imagesWrapper.clientWidth
           ) >= 2
         ) {
           setDirection("left-double");
@@ -132,13 +131,13 @@ export default function ProductSlider({
       }
       if (currentClientXValueRef.current < e.clientX) {
         setTranslateX(
-          imagesWrapperRef.current?.clientWidth * currentImg -
+          imagesWrapper.clientWidth * currentImg -
             (e.clientX - currentClientXValueRef.current)
         );
         if (
           Math.floor(
             (currentClientXValueRef.current + 20 - e.clientX) /
-              imagesWrapperRef.current?.clientWidth
+              imagesWrapper.clientWidth
           ) <= -2
         ) {
           setDirection("right-double");
@@ -146,39 +145,57 @@ export default function ProductSlider({
           setDirection("right");
         }
       }
+
+      if (
+        e.target === imagesWrapper.firstElementChild?.firstElementChild ||
+        e.target === imagesWrapper.lastElementChild?.firstElementChild
+      ) {
+        if (currentImg < 1) {
+          setCurrentImg(finalProductArrRef.current.length);
+          setTranslateX(
+            imagesWrapper.clientWidth * finalProductArrRef.current.length
+          );
+          return;
+        }
+
+        if (currentImg > finalProductArrRef.current.length) {
+          setCurrentImg(1);
+          setTranslateX(imagesWrapper.clientWidth);
+          return;
+        }
+      }
     }
   };
 
   useEffect(() => {
     if (!imagesWrapperRef.current) return;
-    setTranslateX(imagesWrapperRef.current?.clientWidth * currentImg);
+    const imagesWrapper = imagesWrapperRef.current;
+    setTranslateX(imagesWrapper.clientWidth * currentImg);
     setDirection(undefined);
-    videoRef.current?.play();
+    if (videoRef.current?.paused) videoRef.current?.play();
 
     const transitionEnd = () => {
-      if (!imagesWrapperRef.current) return;
-      imagesWrapperRef.current.style.transitionDuration = "0ms";
+      imagesWrapper.style.transitionDuration = "0ms";
       if (currentImg < 1) {
         setCurrentImg(finalProductArrRef.current.length);
         setTranslateX(
-          imagesWrapperRef.current?.clientWidth *
-            finalProductArrRef.current.length
+          imagesWrapper.clientWidth * finalProductArrRef.current.length
         );
         return;
       }
 
       if (currentImg > finalProductArrRef.current.length) {
         setCurrentImg(1);
-        setTranslateX(imagesWrapperRef.current?.clientWidth);
+        setTranslateX(imagesWrapper.clientWidth);
         return;
       }
-      imagesWrapperRef.current.style.transitionDuration = "200ms";
     };
+    imagesWrapper.style.transitionDuration = "200ms";
 
-    document.addEventListener("transitionend", transitionEnd);
+    imagesWrapper.addEventListener("transitionend", transitionEnd);
 
     return () => {
-      document.removeEventListener("transitionend", transitionEnd);
+      imagesWrapper.removeEventListener("transitionend", transitionEnd);
     };
   }, [currentImg]);
 
@@ -239,7 +256,6 @@ export default function ProductSlider({
         >
           <li key={finalProductArrRef.current.length + 1}>
             <Image
-              className="placeholder"
               draggable={false}
               src={
                 finalProductArrRef.current[
@@ -254,7 +270,6 @@ export default function ProductSlider({
           {...images}
           <li key={finalProductArrRef.current.length + 2}>
             <Image
-              className="placeholder"
               draggable={false}
               src={finalProductArrRef.current[0]}
               alt="product image"
