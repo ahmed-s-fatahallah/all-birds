@@ -292,34 +292,6 @@
   background-color: var(--color-white-400);
 }
 
-.details {
-  grid-row: details;
-  grid-column: slider/main-img;
-  margin-top: var(--margin-md);
-}
-
-.details > div {
-  border-top: 1px solid var(--color-white-400);
-}
-
-.details div button {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-
-  padding-block: var(--padding-sm);
-  background: var(--color-white-100);
-}
-
-.details div button p {
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-4);
-  letter-spacing: var(--letter-spacing-wider);
-  text-transform: uppercase;
-  color: var(--color-blue-800);
-}
-
 .big-img-container {
   grid-column: 1/-1;
   margin-top: var(--margin-lg-2);

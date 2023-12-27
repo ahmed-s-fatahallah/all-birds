@@ -3,6 +3,67 @@ import classes from "./ProductSection.module.css";
 import Image from "next/image";
 import ProductSlider from "../productSlider/ProductSlider";
 import { Product } from "@/definitions";
+import ProductAccordion from "../productAccordion/ProductAccordion";
+
+const MOCKDATA = [
+  {
+    title: "details",
+    description: `Our breathable, silky-smooth sneaker made with responsibly sourced eucalyptus tree fiber treads lightly in everything you do.
+
+Best For: Walking, warmer weather, everyday wear
+
+Thermoregulating Material: Lightweight, breathable eucalyptus fiber provides next-level comfort
+
+Versatile Design: Wear-with-everything classic style, great for travel
+
+Where It’s Made: Vietnam. Learn more about our operations`,
+  },
+  {
+    title: "sustainability",
+    description: `Our Tree Runner has a carbon footprint of 4.99 kg CO2e. Learn more about carbon footprint labeling and our commitments to reduce our impact.
+
+    As a carbon neutral business certified by Climate Neutral, we balance our emissions by funding high impact carbon projects.
+    
+    Sustainable Materials:
+    
+    FSC-certified TENCEL™ Lyocell (eucalyptus tree fiber) upper
+    
+    SweetFoam® midsole made with sugarcane-based green EVA
+    
+    Bio-based TPU eyelets
+    
+    Shoe laces made from recycled plastic bottles
+    
+    Castor bean oil-based insole foam
+    
+    ZQ merino wool heel lining
+    
+    Some models may include a wool-lined insole instead of the TENCEL™-lined insole featured in the image`,
+  },
+  {
+    title: "care guide",
+    description: `1. Remove the laces and insoles.
+
+    2. Place shoes in a delicates bag (pro tip: a pillowcase works too).
+    
+    3. Choose a gentle cycle with cold water & mild detergent.
+    
+    4. Shake out any excess water & set aside to air dry.
+    
+    5. Shoes will regain their original shape with one or two wears. 
+    
+    
+    Want the full refresh experience? Swap in some new laces and insoles.`,
+  },
+  {
+    title: "shipping & returns",
+    description: `Free shipping on orders over $75, and our 30 days, no questions asked return policy. Lightly worn shoes get donated to Soles4Souls. Visit our Returns Portal.
+
+    Final Sale items cannot be returned or exchanged. Final Sale items include: gift cards, insoles, sock bundles, TrinoXO Face Masks, and items tagged final sale on our website and in Allbirds retail stores.
+    
+    Need it sooner? See if the style you want is available at a store near you.`,
+  },
+];
 
 export default function ProductSection({
   productData,
@@ -254,36 +315,7 @@ export default function ProductSection({
         <hr />
         <p>Machine-washable materials keep shoes looking like new</p>
       </div>
-      <div className={classes.details}>
-        <div>
-          <button type="button">
-            <p>details</p>
-            <span className="chevron chevron-up"></span>
-          </button>
-          <div></div>
-        </div>
-        <div>
-          <button type="button">
-            <p>sustainability</p>
-            <span className="chevron chevron-up"></span>
-          </button>
-          <div></div>
-        </div>
-        <div>
-          <button type="button">
-            <p>care guide</p>
-            <span className="chevron chevron-up"></span>
-          </button>
-          <div></div>
-        </div>
-        <div>
-          <button type="button">
-            <p>shipping & returns</p>
-            <span className="chevron chevron-up"></span>
-          </button>
-          <div></div>
-        </div>
-      </div>
+      <ProductAccordion productDetails={MOCKDATA} />
       <div className={classes["big-img-container"]}>
         <Image
           draggable={false}
