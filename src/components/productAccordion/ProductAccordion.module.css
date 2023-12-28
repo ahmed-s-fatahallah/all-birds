@@ -10,9 +10,17 @@
 }
 
 .descriptionContainer {
-  height: 0;
-  transition: all 200ms ease-in-out;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: all 150ms ease-in-out;
+}
+.descriptionContainer p {
   overflow-y: hidden;
+}
+.active {
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
 .details div button {

@@ -10,35 +10,29 @@ export default function ProductAccordion({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const clickHandler = (e: MouseEvent) => {
-    const buttonArrowEl = (e.target as HTMLButtonElement)
-      .closest("button")
-      ?.querySelector("span");
-    const descriptionEl = (e.target as HTMLDivElement)
-      .closest("div")
-      ?.querySelector(`.${classes.descriptionContainer}`);
-    if (!descriptionEl || !containerRef.current) return;
-    const height = descriptionEl.querySelector("p")?.clientHeight;
+    const targetButtonEl = (e.target as HTMLButtonElement).closest("button");
+    const buttonArrowEl = targetButtonEl?.querySelector("span");
 
-    Array.from(containerRef.current.children).forEach((el) => {
-      if (
-        el.querySelector(`.${classes.descriptionContainer}`) === descriptionEl
+    if (
+      targetButtonEl?.nextElementSibling?.classList.contains(
+        `${classes.active}`
       )
-        return;
-
-      el.querySelector(`.${classes.descriptionContainer}`)?.removeAttribute(
-        "style"
-      );
-
-      el.querySelector("span")?.classList.replace("chevron-up", "chevron-down");
-    });
-
-    if (buttonArrowEl?.classList.contains("chevron-down")) {
-      buttonArrowEl?.classList.replace("chevron-down", "chevron-up");
-      descriptionEl.setAttribute("style", `height: ${height}px`);
-    } else {
+    ) {
       buttonArrowEl?.classList.replace("chevron-up", "chevron-down");
-      descriptionEl.removeAttribute("style");
+      targetButtonEl?.nextElementSibling?.classList.remove(`${classes.active}`);
+      return;
     }
+
+    containerRef.current
+      ?.querySelector(`.${classes.active}`)
+      ?.classList.remove(`${classes.active}`);
+
+    containerRef.current
+      ?.querySelector(".chevron-up")
+      ?.classList.replace("chevron-up", "chevron-down");
+
+    buttonArrowEl?.classList.replace("chevron-down", "chevron-up");
+    targetButtonEl?.nextElementSibling?.classList.add(`${classes.active}`);
   };
 
   return (
@@ -49,7 +43,7 @@ export default function ProductAccordion({
             <p>{detail.title}</p>
             <span className={`chevron chevron-down`}></span>
           </button>
-          <div className={`${classes.descriptionContainer}`}>
+          <div className={`${classes.descriptionContainer} `}>
             <p>{detail.description}</p>
           </div>
         </div>
