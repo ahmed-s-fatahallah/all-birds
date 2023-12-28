@@ -3,7 +3,7 @@ import classes from "./ProductRating.module.css";
 export default function ProductRating() {
   return (
     <div className={classes["rating-container"]}>
-      <div className="container">
+      <div className={classes.container}>
         <p className={classes["rating-title"]}>
           Men&apos;s Tree Runners Reviews
         </p>

@@ -24,7 +24,7 @@
   justify-content: center;
 }
 
-.stars-container p {
+.stars-container > p {
   font-size: var(--font-size-xxxl);
   text-align: left;
   margin-left: var(--margin-sm-2);
@@ -116,7 +116,7 @@
   right: 0;
 }
 
-.rating-container p:last-of-type {
+.container > p:last-of-type {
   margin-top: 18px;
   max-width: 600px;
   text-align: center;
