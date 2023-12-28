@@ -218,3 +218,12 @@ select {
   transform: rotate(135deg);
   margin-left: 4.5px;
 }
+
+.notice {
+  font-size: 2rem;
+  font-weight: 700;
+  padding-block: 1rem;
+  background-color: var(--color-blue-800);
+  color: #fff;
+  text-align: center;
+}
