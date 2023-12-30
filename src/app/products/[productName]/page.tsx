@@ -1,11 +1,10 @@
-import ProductPhotosCarousel from "@/components/productPhotosCarousel/ProductPhotosCarousel";
 import ProductRating from "@/components/productRating/ProductRating";
-
 import ProductSection from "@/components/productSection/ProductSection";
 import fetchData from "@/utilities/FetchData";
 import ProductDescriptionSection from "@/components/productDescriptionSection/ProductDescriptionSection";
 import ProductReviews from "@/components/productReviews/ProductReviews";
 import ProductApproach from "@/components/productApproach/ProductApproach";
+import ProductPhotosCarousel from "@/components/productPhotosCarousel/ProductPhotosCarousel";
 
 export default async function Page({
   params,
