@@ -38,7 +38,7 @@
 
 .slider button {
   width: 6.8rem;
-  flex: 1;
+
   aspect-ratio: 1/1;
   background-color: var(--color-white-300);
   border: 2px solid transparent;

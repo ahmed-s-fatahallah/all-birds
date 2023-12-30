@@ -1,6 +1,7 @@
 .product-carousel {
   overflow-x: hidden;
   padding-bottom: 12rem;
+  position: relative;
 }
 
 .product-carousel p {
@@ -16,7 +17,6 @@
   margin-inline: auto;
   padding-inline: 7.6rem;
   max-width: var(--container-max-width);
-  position: relative;
 }
 
 .slider {
@@ -26,7 +26,7 @@
 }
 
 .slider img {
-  width: 30%;
+  width: 34.5333rem;
   height: 37rem;
   object-fit: cover;
   margin-right: 6.4rem;
@@ -43,7 +43,7 @@
   transition: border-color 125ms ease-in-out 0s;
   z-index: 1;
   position: absolute;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   height: 48px;
   width: 48px;
@@ -65,4 +65,8 @@
   border-right: 3px solid var(--color-grey-700);
   width: 12px;
   height: 12px;
+}
+
+.slider-btn:first-of-type {
+  display: none;
 }

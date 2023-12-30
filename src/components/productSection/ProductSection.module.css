@@ -1,7 +1,7 @@
 .main-section {
   display: grid;
   grid-template-columns: [slider-start] 7.25rem [slider-end main-img-start] 65.5rem [main-img-end product-options-start] 1fr [product-options-end];
-  grid-template-rows: [img-section-start] 62.9rem [img-section-end highlights-start] 23rem [highlights-end details-start] 1fr [details-end];
+  grid-template-rows: [img-section-start] 61rem [img-section-end highlights-start] 23rem [highlights-end details-start] 1fr [details-end];
 }
 
 .product-options {
