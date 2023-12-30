@@ -48,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={geographFont.className}>
-        <p className="notice">This project still in progress</p>
+        <p className="notice">This project is still in progress</p>
         <Header />
         {children}
         <Footer />
