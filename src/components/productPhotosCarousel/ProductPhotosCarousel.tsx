@@ -22,7 +22,7 @@ const MockData = [
     alt: "slider Image",
   },
   {
-    src: "	https://cdn.dynamicyield.com/api/8776313/images/300f99de8ec6__frame_6_m.jpg",
+    src: "https://cdn.dynamicyield.com/api/8776313/images/300f99de8ec6__frame_6_m.jpg",
     alt: "slider Image",
   },
 ];
