@@ -147,13 +147,13 @@ export default function ProductPhotosCarousel() {
         );
 
         if (
-          currentClientXValueRef.current - e.clientX * 1.5 <=
-          imageContainerWidthRef.current
+          e.clientX - currentClientXValueRef.current >=
+          imageContainerWidthRef.current * 1.5
         ) {
           setDirection("right-double");
         } else if (
-          currentClientXValueRef.current - e.clientX / 2 <=
-          imageContainerWidthRef.current
+          e.clientX - currentClientXValueRef.current >=
+          imageContainerWidthRef.current / 2
         ) {
           setDirection("right");
         } else {
