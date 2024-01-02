@@ -56,7 +56,7 @@
   width: 30%;
 }
 
-.nav-menu__list .nav-menu__list__featured li {
+.nav-menu__list .nav-menu__list__featured li p {
   color: var(--color-white-100);
   text-transform: uppercase;
   text-align: center;
