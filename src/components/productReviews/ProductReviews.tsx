@@ -1,11 +1,48 @@
+"use client";
 import Link from "next/link";
 import classes from "./ProductReviews.module.css";
 import Image from "next/image";
+import { ChangeEvent, useEffect, useRef } from "react";
 
-export default function productReviews() {
+export default function ProductReviews() {
+  const clearFiltersBtnRef = useRef<HTMLButtonElement>(null);
+  const formElRef = useRef<HTMLFormElement>(null);
+
+  const valueChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (!formElRef.current || !clearFiltersBtnRef.current) return;
+    const selectEl = (e.target as HTMLSelectElement)!;
+    const selectElsArr: HTMLSelectElement[] = Array.from(
+      formElRef.current.querySelectorAll("select:not(#sort)")
+    );
+
+    if (selectEl.value === "all") {
+      selectEl.style.color = "transparent";
+    } else {
+      selectEl.style.color = "inherit";
+    }
+
+    if (selectElsArr.some((el) => el.value !== "all")) {
+      clearFiltersBtnRef.current.style.display = "block";
+    } else {
+      clearFiltersBtnRef.current.style.display = "none";
+    }
+  };
+
+  const clearFiltersHandler = () => {
+    if (!formElRef.current || !clearFiltersBtnRef.current) return;
+    const selectElsArr: HTMLSelectElement[] = Array.from(
+      formElRef.current.querySelectorAll("select:not(#sort)")
+    );
+    selectElsArr.forEach((el) => {
+      el.value = "all";
+      el.style.color = "transparent";
+    });
+    clearFiltersBtnRef.current.style.display = "none";
+  };
+
   return (
     <>
-      <form className={classes["reviews-filters"]}>
+      <form className={classes["reviews-filters"]} ref={formElRef}>
         <div className={classes["search-box"]}>
           <label htmlFor="search">Search</label>
           <div>
@@ -42,11 +79,12 @@ export default function productReviews() {
             </div>
           </div>
         </div>
+
         <div className={classes["rating-box"]}>
           <label htmlFor="rating">Star Rating</label>
           <div>
-            <select id="rating" name="rating">
-              <option value="" selected>
+            <select id="rating" name="rating" onChange={valueChangeHandler}>
+              <option value="all" selected>
                 All
               </option>
               <option value="1">★☆☆☆☆</option>
@@ -58,7 +96,7 @@ export default function productReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button">
+            <button type="button" title="clear filter">
               <span></span>
             </button>
           </div>
@@ -66,8 +104,8 @@ export default function productReviews() {
         <div className={classes["size-box"]}>
           <label htmlFor="size">Typical Size</label>
           <div>
-            <select id="size" name="size">
-              <option value="">All</option>
+            <select id="size" name="size" onChange={valueChangeHandler}>
+              <option value="all">All</option>
               <option value="8">8</option>
               <option value="9">9</option>
               <option value="10">10</option>
@@ -79,7 +117,7 @@ export default function productReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button">
+            <button type="button" title="clear filter">
               <span></span>
             </button>
           </div>
@@ -87,8 +125,8 @@ export default function productReviews() {
         <div className={classes["width-box"]}>
           <label htmlFor="width">Typical Width</label>
           <div>
-            <select id="width" name="width">
-              <option value="" selected>
+            <select id="width" name="width" onChange={valueChangeHandler}>
+              <option value="all" selected>
                 All
               </option>
               <option value="narrow">Narrow</option>
@@ -98,7 +136,7 @@ export default function productReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button">
+            <button type="button" title="clear filter">
               <span></span>
             </button>
           </div>
@@ -106,8 +144,12 @@ export default function productReviews() {
         <div className={classes["purchased-box"]}>
           <label htmlFor="purchased">Size Purchased</label>
           <div>
-            <select id="purchased" name="purchased">
-              <option value="">All</option>
+            <select
+              id="purchased"
+              name="purchased"
+              onChange={valueChangeHandler}
+            >
+              <option value="all">All</option>
               <option value="8">8</option>
               <option value="9">9</option>
               <option value="10">10</option>
@@ -119,7 +161,7 @@ export default function productReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button">
+            <button type="button" title="clear filter">
               <span></span>
             </button>
           </div>
@@ -127,8 +169,8 @@ export default function productReviews() {
         <div className={classes["fit-box"]}>
           <label htmlFor="fit">Overall Fit</label>
           <div>
-            <select id="fit" name="fit">
-              <option value="" selected>
+            <select id="fit" name="fit" onChange={valueChangeHandler}>
+              <option value="all" selected>
                 All
               </option>
               <option value="small">Runs Small</option>
@@ -138,7 +180,7 @@ export default function productReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button">
+            <button type="button" title="clear filter">
               <span></span>
             </button>
           </div>
@@ -146,8 +188,8 @@ export default function productReviews() {
         <div className={classes["activity-box"]}>
           <label htmlFor="activity">Activity Level</label>
           <div>
-            <select id="activity" name="activity">
-              <option value="" selected>
+            <select id="activity" name="activity" onChange={valueChangeHandler}>
+              <option value="all" selected>
                 All
               </option>
               <option value="house">Around The House</option>
@@ -159,7 +201,7 @@ export default function productReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button">
+            <button type="button" title="clear filter">
               <span></span>
             </button>
           </div>
@@ -168,7 +210,13 @@ export default function productReviews() {
       <div className={classes["reviews-list"]}>
         <div className={classes["reviews-list__header"]}>
           <p>142 Reviews</p>
-          <button type="button">Clear All Filters</button>
+          <button
+            type="button"
+            ref={clearFiltersBtnRef}
+            onClick={clearFiltersHandler}
+          >
+            Clear All Filters
+          </button>
         </div>
         <div className={classes["reviews"]}>
           <div className={classes["review"]}>

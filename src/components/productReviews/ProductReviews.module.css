@@ -67,6 +67,15 @@
 
 .reviews-filters select {
   font-size: var(--font-size-md);
+  color: transparent;
+}
+
+.reviews-filters .sort-box select {
+  color: inherit;
+}
+
+.reviews-filters select option {
+  color: var(--color-blue-800);
 }
 
 .reviews-filters select + div {
@@ -92,6 +101,7 @@
   display: inline-block;
   padding: 3px;
   margin-left: -3.5rem;
+  display: none;
 }
 
 .reviews-filters select ~ button span {
@@ -146,6 +156,7 @@
   text-decoration: underline;
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-widest);
+  display: none;
 }
 
 .reviews {
