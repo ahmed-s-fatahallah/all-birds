@@ -2,9 +2,118 @@
 import Link from "next/link";
 import classes from "./ProductReviews.module.css";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
+import Review from "./Review/Review";
+
+const MockData = [
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 9,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 8,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 10,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 9,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 8,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 10,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+];
 
 export default function ProductReviews() {
+  const [shownReviews, setShownReviews] = useState(
+    MockData.sort((b, a) => {
+      if (a.date > b.date) {
+        return 1;
+      } else if (a.date < b.date) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })
+  );
+  const [filters, setFilters] = useState<{
+    rating: string;
+    size: string;
+    width: string;
+    purchasedSize: string;
+    fit: string;
+    activity: string;
+  }>({
+    rating: "all",
+    size: "all",
+    width: "all",
+    purchasedSize: "all",
+    fit: "all",
+    activity: "all",
+  });
+  const [searchInput, setSearchInput] = useState("");
   const clearFiltersBtnRef = useRef<HTMLButtonElement>(null);
   const formElRef = useRef<HTMLFormElement>(null);
 
@@ -26,6 +135,43 @@ export default function ProductReviews() {
     } else {
       clearFiltersBtnRef.current.style.display = "none";
     }
+
+    setFilters((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
+  const sortChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    const sortSelectEl = e.target as HTMLSelectElement;
+    if (sortSelectEl.value === "newest") {
+      setShownReviews([
+        ...MockData.sort((b, a) => {
+          if (a.date > b.date) {
+            return 1;
+          } else if (a.date < b.date) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }),
+      ]);
+    } else if (sortSelectEl.value === "oldest") {
+      setShownReviews([
+        ...MockData.sort((a, b) => {
+          if (a.date > b.date) {
+            return 1;
+          } else if (a.date < b.date) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }),
+      ]);
+    } else if (sortSelectEl.value === "highest-rated") {
+      setShownReviews([...MockData.sort((a, b) => b.stars - a.stars)]);
+    } else if (sortSelectEl.value === "lowest-rated") {
+      setShownReviews([...MockData.sort((a, b) => a.stars - b.stars)]);
+    }
   };
 
   const clearFiltersHandler = () => {
@@ -38,7 +184,64 @@ export default function ProductReviews() {
       el.style.color = "transparent";
     });
     clearFiltersBtnRef.current.style.display = "none";
+    setFilters({
+      rating: "all",
+      size: "all",
+      width: "all",
+      purchasedSize: "all",
+      fit: "all",
+      activity: "all",
+    });
   };
+
+  // Filtering the results according to the filters selected before rendering them
+  const filteredArr = shownReviews
+    .filter((review) => {
+      if (filters.rating === "all") return review;
+      return review.stars === +filters.rating;
+    })
+    .filter((review) => {
+      if (filters.size === "all") return review;
+      return review.size === +filters.size;
+    })
+    .filter((review) => {
+      if (filters.purchasedSize === "all") return review;
+      return review.purchasedSize === +filters.purchasedSize;
+    })
+    .filter((review) => {
+      if (filters.width === "all") return review;
+      return (
+        review.width.toLocaleLowerCase() === filters.width.toLocaleLowerCase()
+      );
+    })
+    .filter((review) => {
+      if (filters.fit === "all") return review;
+      return review.fit
+        .toLocaleLowerCase()
+        .includes(filters.fit.toLocaleLowerCase());
+    })
+    .filter((review) => {
+      if (filters.activity === "all") return review;
+      return review.activity
+        .toLocaleLowerCase()
+        .includes(filters.activity.toLocaleLowerCase());
+    })
+    .filter((review) => {
+      if (!searchInput) return review;
+      return review.msg
+        .toLocaleLowerCase()
+        .includes(searchInput.toLocaleLowerCase());
+    });
+  ////////////////////////////////////////////////////////
+  let pages = [];
+
+  for (let i = 1; i <= filteredArr.length / 3; i++) {
+    pages.push(
+      <Link href="#" key={i}>
+        <p>{i}</p>
+      </Link>
+    );
+  }
 
   return (
     <>
@@ -51,6 +254,10 @@ export default function ProductReviews() {
               id="search"
               name="search"
               placeholder="Enter Search Term"
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+              }}
+              value={searchInput}
             />
             <button type="button">
               <Image
@@ -66,7 +273,7 @@ export default function ProductReviews() {
         <div className={classes["sort-box"]}>
           <label htmlFor="sort">Sort by</label>
           <div>
-            <select id="sort" name="sort">
+            <select id="sort" name="sort" onChange={sortChangeHandler}>
               <option value="newest" selected>
                 Newest
               </option>
@@ -91,7 +298,7 @@ export default function ProductReviews() {
               <option value="2">★★☆☆☆</option>
               <option value="3">★★★☆☆</option>
               <option value="4">★★★★☆</option>
-              <option value="4">★★★★★</option>
+              <option value="5">★★★★★</option>
             </select>
             <div>
               <span className="chevron chevron-down"></span>
@@ -146,7 +353,7 @@ export default function ProductReviews() {
           <div>
             <select
               id="purchased"
-              name="purchased"
+              name="purchasedSize"
               onChange={valueChangeHandler}
             >
               <option value="all">All</option>
@@ -209,7 +416,7 @@ export default function ProductReviews() {
       </form>
       <div className={classes["reviews-list"]}>
         <div className={classes["reviews-list__header"]}>
-          <p>142 Reviews</p>
+          <p>{filteredArr.length} Reviews</p>
           <button
             type="button"
             ref={clearFiltersBtnRef}
@@ -219,341 +426,28 @@ export default function ProductReviews() {
           </button>
         </div>
         <div className={classes["reviews"]}>
-          <div className={classes["review"]}>
-            <div className={classes.review__content}>
-              <div className={classes.stars}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-              </div>
-              <h3 className={classes["review__content__header"]}>
-                Very comfortable.
-              </h3>
-              <p className={classes["review__content__text"]}>
-                Very comfortable.
-              </p>
-              <p className={classes["review__content__date"]}>
-                December 1, 2023
-              </p>
-            </div>
-            <div className={classes.review__details}>
-              <div>
-                <p className={classes["review__author"]}>Ed C.</p>
-                <p className={classes["review__verified"]}>Verified Buyer</p>
-              </div>
-
-              <ul>
-                <li>
-                  <span>Typical Size:</span>
-                  <span>8</span>
-                </li>
-                <li>
-                  <span>Typical Width:</span>
-                  <span>Average</span>
-                </li>
-                <li>
-                  <span>Size Purchased:</span>
-                  <span>8</span>
-                </li>
-                <li>
-                  <span>Overall Fit:</span>
-                  <span>Just Right</span>
-                </li>
-                <li>
-                  <span>Activity Level:</span>
-                  <span>Walking, Running Errands</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className={classes["review"]}>
-            <div className={classes.review__content}>
-              <div className={classes.stars}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-              </div>
-              <h3 className={classes["review__content__header"]}>
-                Very comfortable.
-              </h3>
-              <p className={classes["review__content__text"]}>
-                Very comfortable.
-              </p>
-              <p className={classes["review__content__date"]}>
-                December 1, 2023
-              </p>
-            </div>
-            <div className={classes.review__details}>
-              <div>
-                <p className={classes["review__author"]}>Ed C.</p>
-                <p className={classes["review__verified"]}>Verified Buyer</p>
-              </div>
-
-              <ul>
-                <li>
-                  <span>Typical Size:</span>
-                  <span>8</span>
-                </li>
-                <li>
-                  <span>Typical Width:</span>
-                  <span>Average</span>
-                </li>
-                <li>
-                  <span>Size Purchased:</span>
-                  <span>8</span>
-                </li>
-                <li>
-                  <span>Overall Fit:</span>
-                  <span>Just Right</span>
-                </li>
-                <li>
-                  <span>Activity Level:</span>
-                  <span>Walking, Running Errands</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className={classes["review"]}>
-            <div className={classes.review__content}>
-              <div className={classes.stars}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 23 23"
-                  width="17"
-                  height="17"
-                >
-                  <title>Full Star</title>
-                  <polygon
-                    fill="#212a2f"
-                    points="23,8.8 15,7.6 11.5,0 8,7.6 0,8.8 5.7,14.7 4.4,23 11.5,19 18.6,23 17.2,14.7"
-                  ></polygon>
-                </svg>
-              </div>
-              <h3 className={classes["review__content__header"]}>
-                Very comfortable.
-              </h3>
-              <p className={classes["review__content__text"]}>
-                Very comfortable.
-              </p>
-              <p className={classes["review__content__date"]}>
-                December 1, 2023
-              </p>
-            </div>
-            <div className={classes.review__details}>
-              <div>
-                <p className={classes["review__author"]}>Ed C.</p>
-                <p className={classes["review__verified"]}>Verified Buyer</p>
-              </div>
-
-              <ul>
-                <li>
-                  <span>Typical Size:</span>
-                  <span>8</span>
-                </li>
-                <li>
-                  <span>Typical Width:</span>
-                  <span>Average</span>
-                </li>
-                <li>
-                  <span>Size Purchased:</span>
-                  <span>8</span>
-                </li>
-                <li>
-                  <span>Overall Fit:</span>
-                  <span>Just Right</span>
-                </li>
-                <li>
-                  <span>Activity Level:</span>
-                  <span>Walking, Running Errands</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          {filteredArr.map((review, i) => (
+            <Review
+              key={i}
+              name={review.name}
+              isVerified={review.isVerified}
+              size={review.size}
+              width={review.width}
+              purchasedSize={review.purchasedSize}
+              fit={review.fit}
+              activity={review.activity}
+              stars={review.stars}
+              header={review.header}
+              msg={review.msg}
+              date={review.date}
+            />
+          ))}
         </div>
         <div className={classes.pages}>
           <Link href="#">
             <span className="chevron chevron-left"></span>
           </Link>
-          <Link href="#">
-            <p>1</p>
-          </Link>
-          <Link href="#">
-            <p>2</p>
-          </Link>
-          <Link href="#">
-            <p>3</p>
-          </Link>
-          <Link href="#">
-            <p>4</p>
-          </Link>
-          <Link href="#">
-            <p>5</p>
-          </Link>
+          {pages.map((page) => page)}
           <Link href="#">
             <span className="chevron chevron-right"></span>
           </Link>
