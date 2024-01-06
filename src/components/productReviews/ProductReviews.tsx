@@ -144,7 +144,7 @@ const MockData = [
     purchasedSize: 8,
     fit: "Just Right",
     activity: "Walking, Running",
-    stars: 4,
+    stars: 1,
     header: "Very Comfortable.",
     msg: "Very Comfortable",
     date: "December 1, 2023",
@@ -404,6 +404,7 @@ export default function ProductReviews() {
   const clearFiltersBtnRef = useRef<HTMLButtonElement>(null);
   const formElRef = useRef<HTMLFormElement>(null);
   const pagesContainerRef = useRef<HTMLDivElement>(null);
+  const reviewsListRef = useRef<HTMLDivElement>(null);
 
   const valueChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     if (!formElRef.current || !clearFiltersBtnRef.current) return;
@@ -424,9 +425,8 @@ export default function ProductReviews() {
       clearFiltersBtnRef.current.style.display = "none";
     }
 
-    setFilters((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
+    setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setCurrentPage(0);
   };
 
   const sortChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -460,6 +460,7 @@ export default function ProductReviews() {
     } else if (sortSelectEl.value === "lowest-rated") {
       setShownReviews([...MockData.sort((a, b) => a.stars - b.stars)]);
     }
+    setCurrentPage(0);
   };
 
   const clearFiltersHandler = () => {
@@ -480,6 +481,7 @@ export default function ProductReviews() {
       fit: "all",
       activity: "all",
     });
+    setCurrentPage(0);
   };
 
   // Filtering the results according to the filters selected before rendering them
@@ -532,27 +534,21 @@ export default function ProductReviews() {
   for (let i = 1; i <= Math.ceil(filteredArr.length / 3); i++) {
     pages.push(
       <Link
+        className={`${i === currentPage + 1 && classes.active}`}
         href="#"
         key={i}
         onClick={(e) => {
           e.preventDefault();
           setCurrentPage(i - 1);
+          reviewsListRef.current?.scrollIntoView({
+            behavior: "smooth",
+          });
         }}
       >
         <p>{i}</p>
       </Link>
     );
   }
-
-  useEffect(() => {
-    pagesContainerRef.current
-      ?.querySelector(`.${classes.active}`)
-      ?.classList.remove(`${classes.active}`);
-
-    pagesContainerRef.current?.children[currentPage].classList.add(
-      `${classes.active}`
-    );
-  }, [currentPage]);
 
   return (
     <>
@@ -725,9 +721,11 @@ export default function ProductReviews() {
           </div>
         </div>
       </form>
-      <div className={classes["reviews-list"]}>
+      <div className={classes["reviews-list"]} ref={reviewsListRef}>
         <div className={classes["reviews-list__header"]}>
-          <p>{filteredArr.length} Reviews</p>
+          <p>{`${filteredArr.length} ${
+            filteredArr.length <= 1 ? "Review" : "Reviews"
+          }`}</p>
           <button
             type="button"
             ref={clearFiltersBtnRef}
@@ -761,20 +759,33 @@ export default function ProductReviews() {
               onClick={(e) => {
                 e.preventDefault();
                 setCurrentPage((prev) => --prev);
+                reviewsListRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                });
               }}
             >
               <span className="chevron chevron-left"></span>
             </Link>
           )}
-          <div className={classes["pages-container"]} ref={pagesContainerRef}>
-            {pages.map((page) => page)}
-          </div>
+
+          {pages.length <= 0 ? (
+            <p className={classes["no-result-text"]}>
+              Sorry, no reviews match your criteria.
+            </p>
+          ) : (
+            <div className={classes["pages-container"]} ref={pagesContainerRef}>
+              {pages.map((page) => page)}
+            </div>
+          )}
           {currentPage < Math.ceil(filteredArr.length / 3) - 1 && (
             <Link
               href="#"
               onClick={(e) => {
                 e.preventDefault();
                 setCurrentPage((prev) => ++prev);
+                reviewsListRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                });
               }}
             >
               <span className="chevron chevron-right"></span>

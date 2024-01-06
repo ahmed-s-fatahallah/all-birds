@@ -174,7 +174,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  opacity: 0.5;
   color: var(--color-blue-800);
   width: 4.2rem;
   height: 4.2rem;
@@ -182,9 +182,14 @@
 }
 
 .pages a p {
+  padding-top: 2px;
+  font-weight: inherit;
+  font-size: var(--font-size-md);
+}
+
+.pages > a {
   font-weight: var(--font-weight-bold);
   opacity: 1;
-  padding-top: 2px;
 }
 
 .pages-container {
@@ -192,5 +197,15 @@
 }
 
 .pages-container .active {
-  text-decoration: underline;
+  opacity: 1;
+  font-weight: var(--font-weight-bold);
+  pointer-events: none;
+}
+
+.no-result-text {
+  padding: 120px 20%;
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-2);
 }
