@@ -2,7 +2,16 @@
 import Link from "next/link";
 import classes from "./ProductReviews.module.css";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  EventHandler,
+  FocusEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Review from "./Review/Review";
 
 const MockData = [
@@ -406,27 +415,22 @@ export default function ProductReviews() {
   const pagesContainerRef = useRef<HTMLDivElement>(null);
   const reviewsListRef = useRef<HTMLDivElement>(null);
 
-  const valueChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (!formElRef.current || !clearFiltersBtnRef.current) return;
+  const filterValueChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectEl = (e.target as HTMLSelectElement)!;
-    const selectElsArr: HTMLSelectElement[] = Array.from(
-      formElRef.current.querySelectorAll("select:not(#sort)")
-    );
 
     if (selectEl.value === "all") {
       selectEl.style.color = "transparent";
+      selectEl.parentElement
+        ?.querySelector("button")
+        ?.classList.remove(`${classes.shown}`);
     } else {
       selectEl.style.color = "inherit";
-    }
-
-    if (selectElsArr.some((el) => el.value !== "all")) {
-      clearFiltersBtnRef.current.style.display = "block";
-    } else {
-      clearFiltersBtnRef.current.style.display = "none";
+      selectEl.parentElement
+        ?.querySelector("button")
+        ?.classList.add(`${classes.shown}`);
     }
 
     setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setCurrentPage(0);
   };
 
   const sortChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -468,9 +472,15 @@ export default function ProductReviews() {
     const selectElsArr: HTMLSelectElement[] = Array.from(
       formElRef.current.querySelectorAll("select:not(#sort)")
     );
+    const clearFilterBtnEls = Array.from(
+      formElRef.current.querySelectorAll("select ~ button")
+    );
     selectElsArr.forEach((el) => {
       el.value = "all";
       el.style.color = "transparent";
+    });
+    clearFilterBtnEls.forEach((el) => {
+      el.classList.remove(`${classes.shown}`);
     });
     clearFiltersBtnRef.current.style.display = "none";
     setFilters({
@@ -481,8 +491,53 @@ export default function ProductReviews() {
       fit: "all",
       activity: "all",
     });
-    setCurrentPage(0);
   };
+
+  const clearFilterBtnHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    const buttonEl = (e.target as HTMLElement).closest("button")!;
+    const selectEl = buttonEl.parentElement?.querySelector("select")!;
+    buttonEl.classList.remove(`${classes.shown}`);
+    selectEl.value = "all";
+    selectEl.style.color = "transparent";
+    setFilters((prev) => ({ ...prev, [selectEl.name]: "all" }));
+  };
+
+  const inputBoxHandler = (e: MouseEvent | FocusEvent | KeyboardEvent) => {
+    let inputBoxEl;
+
+    if (e.type === "click") {
+      inputBoxEl = (
+        e.currentTarget as HTMLButtonElement
+      ).parentElement!.querySelector("input") as HTMLInputElement;
+      if (!inputBoxEl.value.trim()) {
+        setSearchInput(inputBoxEl.value.trim());
+      } else {
+        inputBoxEl.value = "";
+        setSearchInput("");
+      }
+    } else if (
+      (e.type === "keydown" && "key" in e && e.key === "Enter") ||
+      e.type === "blur"
+    ) {
+      inputBoxEl = e.target as HTMLInputElement;
+      setSearchInput(inputBoxEl.value.trim());
+    }
+  };
+
+  useEffect(() => {
+    if (!formElRef.current || !clearFiltersBtnRef.current) return;
+    const selectElsArr: HTMLSelectElement[] = Array.from(
+      formElRef.current.querySelectorAll("select:not(#sort)")
+    );
+
+    if (selectElsArr.some((el) => el.value !== "all")) {
+      clearFiltersBtnRef.current.style.display = "block";
+    } else {
+      clearFiltersBtnRef.current.style.display = "none";
+    }
+
+    setCurrentPage(0);
+  }, [filters]);
 
   // Filtering the results according to the filters selected before rendering them
   const filteredArr = shownReviews
@@ -549,10 +604,16 @@ export default function ProductReviews() {
       </Link>
     );
   }
-
+  //IMPLEMENT SMALL X BUTTONS NEXT TO EACH FILTER
   return (
     <>
-      <form className={classes["reviews-filters"]} ref={formElRef}>
+      <form
+        className={classes["reviews-filters"]}
+        ref={formElRef}
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <div className={classes["search-box"]}>
           <label htmlFor="search">Search</label>
           <div>
@@ -561,19 +622,21 @@ export default function ProductReviews() {
               id="search"
               name="search"
               placeholder="Enter Search Term"
-              onChange={(e) => {
-                setSearchInput(e.target.value);
-              }}
-              value={searchInput}
+              onBlur={inputBoxHandler}
+              onKeyDown={inputBoxHandler}
             />
-            <button type="button">
-              <Image
-                draggable={false}
-                src="//cdn.allbirds.com/image/upload/v1630526687/icons/search-fixed.svg"
-                alt="magnifying glass"
-                width={11}
-                height={11}
-              />
+            <button type="button" onClick={inputBoxHandler}>
+              {!searchInput ? (
+                <Image
+                  draggable={false}
+                  src="//cdn.allbirds.com/image/upload/v1630526687/icons/search-fixed.svg"
+                  alt="magnifying glass"
+                  width={11}
+                  height={11}
+                />
+              ) : (
+                <span></span>
+              )}
             </button>
           </div>
         </div>
@@ -597,7 +660,11 @@ export default function ProductReviews() {
         <div className={classes["rating-box"]}>
           <label htmlFor="rating">Star Rating</label>
           <div>
-            <select id="rating" name="rating" onChange={valueChangeHandler}>
+            <select
+              id="rating"
+              name="rating"
+              onChange={filterValueChangeHandler}
+            >
               <option value="all" selected>
                 All
               </option>
@@ -610,7 +677,11 @@ export default function ProductReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button" title="clear filter">
+            <button
+              type="button"
+              title="clear filter"
+              onClick={clearFilterBtnHandler}
+            >
               <span></span>
             </button>
           </div>
@@ -618,7 +689,7 @@ export default function ProductReviews() {
         <div className={classes["size-box"]}>
           <label htmlFor="size">Typical Size</label>
           <div>
-            <select id="size" name="size" onChange={valueChangeHandler}>
+            <select id="size" name="size" onChange={filterValueChangeHandler}>
               <option value="all">All</option>
               <option value="8">8</option>
               <option value="9">9</option>
@@ -631,7 +702,11 @@ export default function ProductReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button" title="clear filter">
+            <button
+              type="button"
+              title="clear filter"
+              onClick={clearFilterBtnHandler}
+            >
               <span></span>
             </button>
           </div>
@@ -639,7 +714,7 @@ export default function ProductReviews() {
         <div className={classes["width-box"]}>
           <label htmlFor="width">Typical Width</label>
           <div>
-            <select id="width" name="width" onChange={valueChangeHandler}>
+            <select id="width" name="width" onChange={filterValueChangeHandler}>
               <option value="all" selected>
                 All
               </option>
@@ -650,7 +725,11 @@ export default function ProductReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button" title="clear filter">
+            <button
+              type="button"
+              title="clear filter"
+              onClick={clearFilterBtnHandler}
+            >
               <span></span>
             </button>
           </div>
@@ -661,7 +740,7 @@ export default function ProductReviews() {
             <select
               id="purchased"
               name="purchasedSize"
-              onChange={valueChangeHandler}
+              onChange={filterValueChangeHandler}
             >
               <option value="all">All</option>
               <option value="8">8</option>
@@ -675,7 +754,11 @@ export default function ProductReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button" title="clear filter">
+            <button
+              type="button"
+              title="clear filter"
+              onClick={clearFilterBtnHandler}
+            >
               <span></span>
             </button>
           </div>
@@ -683,7 +766,7 @@ export default function ProductReviews() {
         <div className={classes["fit-box"]}>
           <label htmlFor="fit">Overall Fit</label>
           <div>
-            <select id="fit" name="fit" onChange={valueChangeHandler}>
+            <select id="fit" name="fit" onChange={filterValueChangeHandler}>
               <option value="all" selected>
                 All
               </option>
@@ -694,7 +777,11 @@ export default function ProductReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button" title="clear filter">
+            <button
+              type="button"
+              title="clear filter"
+              onClick={clearFilterBtnHandler}
+            >
               <span></span>
             </button>
           </div>
@@ -702,7 +789,11 @@ export default function ProductReviews() {
         <div className={classes["activity-box"]}>
           <label htmlFor="activity">Activity Level</label>
           <div>
-            <select id="activity" name="activity" onChange={valueChangeHandler}>
+            <select
+              id="activity"
+              name="activity"
+              onChange={filterValueChangeHandler}
+            >
               <option value="all" selected>
                 All
               </option>
@@ -715,7 +806,11 @@ export default function ProductReviews() {
             <div>
               <span className="chevron chevron-down"></span>
             </div>
-            <button type="button" title="clear filter">
+            <button
+              type="button"
+              title="clear filter"
+              onClick={clearFilterBtnHandler}
+            >
               <span></span>
             </button>
           </div>

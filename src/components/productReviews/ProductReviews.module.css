@@ -81,6 +81,7 @@
 .reviews-filters select + div {
   display: inline-block;
   margin-left: -3rem;
+  pointer-events: none;
 }
 
 .reviews-filters select,
@@ -98,13 +99,15 @@
 }
 
 .reviews-filters select ~ button {
-  display: inline-block;
   padding: 3px;
   margin-left: -3.5rem;
   display: none;
 }
+.reviews-filters select ~ button.shown {
+  display: inline-block;
+}
 
-.reviews-filters select ~ button span {
+:is(.reviews-filters select ~ button, .search-box button) span {
   display: block;
   position: relative;
   height: 12px;
@@ -113,8 +116,8 @@
   background-color: transparent;
 }
 
-.reviews-filters select ~ button span::after,
-.reviews-filters select ~ button span::before {
+:is(.reviews-filters select ~ button, .search-box button) span::after,
+:is(.reviews-filters select ~ button, .search-box button) span::before {
   content: "";
   position: absolute;
   width: 2px;
@@ -125,11 +128,11 @@
   transition: transform 250ms ease-in-out 0s;
 }
 
-.reviews-filters select ~ button span::after {
+:is(.reviews-filters select ~ button, .search-box button) span::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.reviews-filters select ~ button span::before {
+:is(.reviews-filters select ~ button, .search-box button) span::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
