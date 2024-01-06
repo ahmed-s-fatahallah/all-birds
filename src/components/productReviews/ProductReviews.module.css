@@ -172,10 +172,10 @@
 
 .pages a {
   display: flex;
-
   justify-content: center;
-
   align-items: center;
+
+  color: var(--color-blue-800);
   width: 4.2rem;
   height: 4.2rem;
   text-decoration: none;
@@ -185,4 +185,12 @@
   font-weight: var(--font-weight-bold);
   opacity: 1;
   padding-top: 2px;
+}
+
+.pages-container {
+  display: flex;
+}
+
+.pages-container .active {
+  text-decoration: underline;
 }

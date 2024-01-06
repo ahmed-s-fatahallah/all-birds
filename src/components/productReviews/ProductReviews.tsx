@@ -2,14 +2,14 @@
 import Link from "next/link";
 import classes from "./ProductReviews.module.css";
 import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Review from "./Review/Review";
 
 const MockData = [
   {
     name: "Osama Salem",
     isVerified: true,
-    size: 9,
+    size: 1,
     width: "Average",
     purchasedSize: 9,
     fit: "Just Right",
@@ -22,7 +22,7 @@ const MockData = [
   {
     name: "Ahmed Saeed",
     isVerified: true,
-    size: 8,
+    size: 2,
     width: "Average",
     purchasedSize: 8,
     fit: "Just Right",
@@ -35,7 +35,7 @@ const MockData = [
   {
     name: "Karim Shalapy",
     isVerified: false,
-    size: 10,
+    size: 3,
     width: "wide",
     purchasedSize: 10,
     fit: "Runs Big",
@@ -48,7 +48,46 @@ const MockData = [
   {
     name: "Osama Salem",
     isVerified: true,
-    size: 9,
+    size: 4,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 5,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 6,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 7,
     width: "Average",
     purchasedSize: 9,
     fit: "Just Right",
@@ -74,7 +113,254 @@ const MockData = [
   {
     name: "Karim Shalapy",
     isVerified: false,
+    size: 9,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
     size: 10,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 11,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 12,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 13,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 14,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 15,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 16,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 17,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 18,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 19,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 20,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 21,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 22,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 23,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 24,
+    width: "wide",
+    purchasedSize: 10,
+    fit: "Runs Big",
+    activity: "Traveling",
+    stars: 2,
+    header: "Very Comfortable.",
+    msg: "Very Large",
+    date: "December 2, 2023",
+  },
+  {
+    name: "Osama Salem",
+    isVerified: true,
+    size: 25,
+    width: "Average",
+    purchasedSize: 9,
+    fit: "Just Right",
+    activity: "Walking, Running, Errands",
+    stars: 5,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 3, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 26,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Ahmed Saeed",
+    isVerified: true,
+    size: 27,
+    width: "Average",
+    purchasedSize: 8,
+    fit: "Just Right",
+    activity: "Walking, Running",
+    stars: 4,
+    header: "Very Comfortable.",
+    msg: "Very Comfortable",
+    date: "December 1, 2023",
+  },
+  {
+    name: "Karim Shalapy",
+    isVerified: false,
+    size: 28,
     width: "wide",
     purchasedSize: 10,
     fit: "Runs Big",
@@ -114,8 +400,10 @@ export default function ProductReviews() {
     activity: "all",
   });
   const [searchInput, setSearchInput] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
   const clearFiltersBtnRef = useRef<HTMLButtonElement>(null);
   const formElRef = useRef<HTMLFormElement>(null);
+  const pagesContainerRef = useRef<HTMLDivElement>(null);
 
   const valueChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     if (!formElRef.current || !clearFiltersBtnRef.current) return;
@@ -234,14 +522,37 @@ export default function ProductReviews() {
     });
   ////////////////////////////////////////////////////////
   let pages = [];
+  let renderedReviews = [];
 
-  for (let i = 1; i <= filteredArr.length / 3; i++) {
+  for (let i = currentPage * 3; i < currentPage * 3 + 3; i++) {
+    if (!filteredArr[i]) break;
+    renderedReviews.push(filteredArr[i]);
+  }
+
+  for (let i = 1; i <= Math.ceil(filteredArr.length / 3); i++) {
     pages.push(
-      <Link href="#" key={i}>
+      <Link
+        href="#"
+        key={i}
+        onClick={(e) => {
+          e.preventDefault();
+          setCurrentPage(i - 1);
+        }}
+      >
         <p>{i}</p>
       </Link>
     );
   }
+
+  useEffect(() => {
+    pagesContainerRef.current
+      ?.querySelector(`.${classes.active}`)
+      ?.classList.remove(`${classes.active}`);
+
+    pagesContainerRef.current?.children[currentPage].classList.add(
+      `${classes.active}`
+    );
+  }, [currentPage]);
 
   return (
     <>
@@ -426,7 +737,7 @@ export default function ProductReviews() {
           </button>
         </div>
         <div className={classes["reviews"]}>
-          {filteredArr.map((review, i) => (
+          {renderedReviews.map((review, i) => (
             <Review
               key={i}
               name={review.name}
@@ -444,13 +755,31 @@ export default function ProductReviews() {
           ))}
         </div>
         <div className={classes.pages}>
-          <Link href="#">
-            <span className="chevron chevron-left"></span>
-          </Link>
-          {pages.map((page) => page)}
-          <Link href="#">
-            <span className="chevron chevron-right"></span>
-          </Link>
+          {currentPage > 0 && (
+            <Link
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage((prev) => --prev);
+              }}
+            >
+              <span className="chevron chevron-left"></span>
+            </Link>
+          )}
+          <div className={classes["pages-container"]} ref={pagesContainerRef}>
+            {pages.map((page) => page)}
+          </div>
+          {currentPage < Math.ceil(filteredArr.length / 3) - 1 && (
+            <Link
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage((prev) => ++prev);
+              }}
+            >
+              <span className="chevron chevron-right"></span>
+            </Link>
+          )}
         </div>
       </div>
     </>
