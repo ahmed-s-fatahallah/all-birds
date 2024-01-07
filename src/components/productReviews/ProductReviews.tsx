@@ -4,7 +4,6 @@ import classes from "./ProductReviews.module.css";
 import Image from "next/image";
 import {
   ChangeEvent,
-  EventHandler,
   FocusEvent,
   KeyboardEvent,
   MouseEvent,
@@ -508,7 +507,7 @@ export default function ProductReviews() {
     if (e.type === "click") {
       inputBoxEl = (
         e.currentTarget as HTMLButtonElement
-      ).parentElement!.querySelector("input") as HTMLInputElement;
+      ).parentElement!.querySelector<HTMLInputElement>("input")!;
       if (!inputBoxEl.value.trim()) {
         setSearchInput(inputBoxEl.value.trim());
       } else {

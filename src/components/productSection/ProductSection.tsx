@@ -1,9 +1,12 @@
+"use client";
 import Button from "@/utilities/Button";
 import classes from "./ProductSection.module.css";
 import Image from "next/image";
 import ProductSlider from "../productSlider/ProductSlider";
 import { Product } from "@/definitions";
 import ProductAccordion from "../productAccordion/ProductAccordion";
+import Link from "next/link";
+import { MouseEvent, useRef, useState } from "react";
 
 const MOCKDATA = [
   {
@@ -70,6 +73,26 @@ export default function ProductSection({
 }: {
   productData: Product;
 }) {
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const sizesBtnContainerRef = useRef<HTMLUListElement>(null);
+
+  const selectSizeHandler = (e: MouseEvent) => {
+    const selectedBtnEl = e.currentTarget;
+
+    if (selectedBtnEl.textContent === selectedSize) {
+      selectedBtnEl.classList.remove(`${classes.selected}`);
+      setSelectedSize(null);
+      return;
+    }
+
+    setSelectedSize(selectedBtnEl.textContent);
+    sizesBtnContainerRef.current
+      ?.querySelector(`.${classes.selected}`)
+      ?.classList.remove(`${classes.selected}`);
+
+    selectedBtnEl.classList.add(`${classes.selected}`);
+  };
+
   return (
     <section className={classes["main-section"]}>
       <ProductSlider
@@ -80,15 +103,16 @@ export default function ProductSection({
       />
       <div className={classes["product-options"]}>
         <div className={classes.path}>
-          <a href="#">Home</a>/ <a href="#">Men&apos;s shoes</a>/
-          <a href="#">Everyday sneakers</a>/
+          <Link href="/">Home</Link>/{" "}
+          <Link href="/collections/mens">Men&apos;s shoes</Link>/
+          <Link href="#">Everyday sneakers</Link>/
         </div>
-        <h1 className={classes["main-product-title"]}>
-          Men&apos;s Tree Runners
-        </h1>
+        <h1 className={classes["main-product-title"]}>{productData.title}</h1>
         <div className={classes["price-container"]}>
-          <p>$98</p>
-          <div className={classes["free-shipping"]}>FREE SHIPPING</div>
+          <p>{`$${productData.price}`}</p>
+          {+productData.price > 75 && (
+            <div className={classes["free-shipping"]}>FREE SHIPPING</div>
+          )}
         </div>
         <div className={classes["rating-container"]}>
           <div className={classes.stars}>
@@ -166,22 +190,46 @@ export default function ProductSection({
               <span> Mist (white Sole)</span>
             </div>
             <div className={classes["color-select"]}>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
             </div>
@@ -192,25 +240,53 @@ export default function ProductSection({
               <span> Mist (white Sole)</span>
             </div>
             <div className={classes["color-select"]}>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
             </div>
@@ -221,7 +297,11 @@ export default function ProductSection({
               <span> Mist (white Sole)</span>
             </div>
             <div className={classes["color-select"]}>
-              <button type="button" className={classes.color}>
+              <button
+                type="button"
+                className={classes.color}
+                title="color picker"
+              >
                 <span></span>
               </button>
             </div>
@@ -229,50 +309,24 @@ export default function ProductSection({
         </div>
         <div className={classes["size-container"]}>
           <p>select size</p>
-          <ul className={classes["sizes-list"]}>
-            <li>
-              <Button variant="filter-btn">
-                <span>{8}</span>
-              </Button>
-            </li>
-            <li>
-              <Button variant="filter-btn">
-                <span>{9}</span>
-              </Button>
-            </li>
-            <li>
-              <Button variant="filter-btn">
-                <span>{10}</span>
-              </Button>
-            </li>
-            <li>
-              <Button variant="filter-btn">
-                <span>{11}</span>
-              </Button>
-            </li>
-            <li>
-              <Button variant="filter-btn">
-                <span>{12}</span>
-              </Button>
-            </li>
-            <li>
-              <Button variant="filter-btn">
-                <span>{13}</span>
-              </Button>
-            </li>
-            <li>
-              <Button variant="filter-btn">
-                <span>{14}</span>
-              </Button>
-            </li>
+          <ul className={classes["sizes-list"]} ref={sizesBtnContainerRef}>
+            {productData.sizes.map((size, i) => (
+              <li key={i}>
+                <Button variant="filter-btn" onClick={selectSizeHandler}>
+                  <span>{size}</span>
+                </Button>
+              </li>
+            ))}
           </ul>
         </div>
         <p className={classes["size-chart-text"]}>
           This style is available in whole sizes only. In between sizes? We
           recommend you size up. <button>See Size Chart</button>
         </p>
-        <Button variant="add-to-cart-btn" disabled>
-          Select a size
+        <Button variant="add-to-cart-btn" disabled={!Boolean(selectedSize)}>
+          {selectedSize
+            ? `Add to cart - $${productData.price}`
+            : "Select a size"}
         </Button>
         <div className={classes["promo-banner"]}>
           <h3>Don&apos;t Be Fa-la-late</h3>

@@ -168,6 +168,11 @@
   height: 100%;
 }
 
+.sizes-list button.selected {
+  color: var(--color-white-100);
+  background-color: var(--color-blue-800);
+}
+
 .size-chart-text {
   margin-bottom: var(--margin-sm-2);
   margin-right: 9px;
