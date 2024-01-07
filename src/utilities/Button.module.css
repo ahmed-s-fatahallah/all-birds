@@ -53,7 +53,7 @@
   padding: var(--padding-xxsm) 0;
 }
 
-.filter-btn:focus {
+.filter-btn:focus-visible {
   color: var(--color-blue-800);
   background-color: var(--border-color);
   outline: 2px solid var(--color-blue-800);

@@ -89,9 +89,9 @@
   transition: none;
 }
 
-.reviews-filters select:focus,
+.reviews-filters select:focus-visible,
 .reviews-filters select:active,
-.reviews-filters input:focus,
+.reviews-filters input:focus-visible,
 .reviews-filters input:active {
   box-shadow: var(--color-blue-800) 0px 2px 0px 0px inset,
     var(--color-blue-800) 2px 0px 0px 0px inset,
