@@ -342,20 +342,23 @@ export default function ProductSection({
         <div className={classes.recommendations}>
           <p>Also consider</p>
           <div className={classes["recommendations__container"]}>
-            <div>
-              <img
-                src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_650,f_auto,q_auto/https://cdn.allbirds.com/image/upload/f_auto,q_auto/v1/production/colorway/en-US/images/7aJZ8e9C8er0utTjy5pSu4/1"
-                alt=""
-              />
-              <p>Title1</p>
-            </div>
-            <div>
-              <img
-                src="//cdn.allbirds.com/image/fetch/q_auto,f_auto/w_650,f_auto,q_auto/https://cdn.allbirds.com/image/upload/f_auto,q_auto/v1/production/colorway/en-US/images/7aJZ8e9C8er0utTjy5pSu4/1"
-                alt=""
-              />
-              <p>Title2</p>
-            </div>
+            {randomProducts.map((product, i) => (
+              <Link
+                href={`/products/${product.title
+                  .toLocaleLowerCase()
+                  .replaceAll("'", "")
+                  .replaceAll(" ", "-")}`}
+                key={i}
+              >
+                <Image
+                  src={product.colors[0].imgs[1]}
+                  alt="recommended random products"
+                  width={217}
+                  height={217}
+                />
+                <p>{product.title}</p>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
