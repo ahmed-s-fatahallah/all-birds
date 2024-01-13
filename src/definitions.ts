@@ -1,6 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 
-export type Color = { colorName: string; imgs: string[]; sliderImg: string };
+export type Color = {
+  colorName: string;
+  imgs: string[];
+  sliderImg: string;
+  type: "classic" | "limited" | "sale";
+  rgb: string;
+};
 
 export interface ProductData {
   [key: string]: Product;
