@@ -3,7 +3,7 @@ import Button from "@/utilities/Button";
 import classes from "./ProductSection.module.css";
 import Image from "next/image";
 import ProductSlider from "../productSlider/ProductSlider";
-import { Product } from "@/definitions";
+import { Color, Product } from "@/definitions";
 import ProductAccordion from "../productAccordion/ProductAccordion";
 import Link from "next/link";
 import { MouseEvent, useRef, useState } from "react";
@@ -70,11 +70,15 @@ Where It’s Made: Vietnam. Learn more about our operations`,
 
 export default function ProductSection({
   productData,
+  randomProducts,
 }: {
   productData: Product;
+  randomProducts: Product[];
 }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState(productData.colors[0]);
   const sizesBtnContainerRef = useRef<HTMLUListElement>(null);
+  const colorsContainerRef = useRef<HTMLDivElement>(null);
 
   const selectSizeHandler = (e: MouseEvent) => {
     const selectedBtnEl = e.currentTarget;
@@ -93,10 +97,18 @@ export default function ProductSection({
     selectedBtnEl.classList.add(`${classes.selected}`);
   };
 
+  const selectColorClickHandler = (color: Color, e: MouseEvent) => {
+    colorsContainerRef.current
+      ?.querySelector("span[aria-selected]")
+      ?.removeAttribute("aria-selected");
+    (e.target as HTMLSpanElement).ariaSelected = "true";
+    setSelectedColor(color);
+  };
+
   return (
     <section className={classes["main-section"]}>
       <ProductSlider
-        productColors={productData.colors}
+        productColor={selectedColor}
         productVideo={productData.video}
         productDisplayImg={productData.displayImg}
         productVidThumbnail={productData.videoThumbnail}
@@ -183,130 +195,90 @@ export default function ProductSection({
           </div>
           {/* {TODO: NUMBER OF REVIEWS NEEDS TO BE DYNAMIC} */}
           <div className={classes["number-of-reviews"]}>(7219)</div>
-        </div>
-        <div className={classes["colors-container"]}>
-          <div className={classes["color-row"]}>
-            <div>
-              <span className={classes["colors-type"]}>Classics:</span>
-              <span> Mist (white Sole)</span>
+        </Link>
+        <div className={classes["colors-container"]} ref={colorsContainerRef}>
+          {productData.colors.some((color) => color.type === "classic") && (
+            <div className={classes["color-row"]}>
+              <div>
+                <span className={classes["colors-type"]}>Classics:</span>
+                {selectedColor.type === "classic" && (
+                  <span>{selectedColor.colorName}</span>
+                )}
+              </div>
+              <div className={classes["color-select"]}>
+                {productData.colors.map((color, i) => {
+                  if (color.type !== "classic") return;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      className={classes.color}
+                      title="color picker"
+                      onClick={selectColorClickHandler.bind(null, color)}
+                    >
+                      <span style={{ background: `${color.rgb}` }}></span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className={classes["color-select"]}>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
+          )}
+          {productData.colors.some((color) => color.type === "limited") && (
+            <div className={classes["color-row"]}>
+              <div>
+                <span className={classes["colors-type"]}>limited edition:</span>
+                {selectedColor.type === "limited" && (
+                  <span>{selectedColor.colorName}</span>
+                )}
+              </div>
+              <div className={classes["color-select"]}>
+                {productData.colors.map((color, i) => {
+                  if (color.type !== "limited") return;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      className={classes.color}
+                      title="color picker"
+                      onClick={selectColorClickHandler.bind(null, color)}
+                    >
+                      <span
+                        style={{ background: `${color.rgb}` }}
+                        aria-selected={i === 0}
+                      ></span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <div className={classes["color-row"]}>
-            <div>
-              <span className={classes["colors-type"]}>limited edition:</span>
-              <span> Mist (white Sole)</span>
+          )}
+
+          {productData.colors.some((color) => color.type === "sale") && (
+            <div className={classes["color-row"]}>
+              <div>
+                <span className={classes["colors-type"]}>sale:</span>
+                {selectedColor.type === "sale" && (
+                  <span>{selectedColor.colorName}</span>
+                )}
+              </div>
+              <div className={classes["color-select"]}>
+                {productData.colors.map((color, i) => {
+                  if (color.type !== "sale") return;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      className={classes.color}
+                      title="color picker"
+                      onClick={selectColorClickHandler.bind(null, color)}
+                    >
+                      <span style={{ background: `${color.rgb}` }}></span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className={classes["color-select"]}>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-            </div>
-          </div>
-          <div className={classes["color-row"]}>
-            <div>
-              <span className={classes["colors-type"]}>sale:</span>
-              <span> Mist (white Sole)</span>
-            </div>
-            <div className={classes["color-select"]}>
-              <button
-                type="button"
-                className={classes.color}
-                title="color picker"
-              >
-                <span></span>
-              </button>
-            </div>
-          </div>
+          )}
         </div>
         <div className={classes["size-container"]}>
           <p>select size</p>

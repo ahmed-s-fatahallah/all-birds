@@ -6,12 +6,12 @@ import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export default function ProductSlider({
-  productColors,
+  productColor,
   productVideo,
   productDisplayImg,
   productVidThumbnail,
 }: {
-  productColors: Color[];
+  productColor: Color;
   productVideo: string;
   productDisplayImg: string;
   productVidThumbnail: string;
@@ -27,7 +27,7 @@ export default function ProductSlider({
     "left" | "left-double" | "right" | "right-double"
   >();
 
-  finalProductArrRef.current = productColors[0].imgs
+  finalProductArrRef.current = productColor.imgs
     .toSpliced(2, 0, productDisplayImg)
     .toSpliced(4, 0, productVidThumbnail);
 
