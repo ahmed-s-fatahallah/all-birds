@@ -114,7 +114,7 @@ export default function ProductSection({
             <div className={classes["free-shipping"]}>FREE SHIPPING</div>
           )}
         </div>
-        <div className={classes["rating-container"]}>
+        <Link href="#rating-section" className={classes["rating-container"]}>
           <div className={classes.stars}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -181,6 +181,7 @@ export default function ProductSection({
               ></path>
             </svg>
           </div>
+          {/* {TODO: NUMBER OF REVIEWS NEEDS TO BE DYNAMIC} */}
           <div className={classes["number-of-reviews"]}>(7219)</div>
         </div>
         <div className={classes["colors-container"]}>
