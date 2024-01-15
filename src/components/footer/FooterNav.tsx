@@ -9,13 +9,13 @@ const FooterNav = () => {
         <h3>Help</h3>
         <ul>
           <li>
-            <a href="tel:18889638944">1-888-963-8944</a>
+            <Link href="tel:18889638944">1-888-963-8944</Link>
           </li>
           <li>
-            <a href="sms:18142519966">1-814-251-9966 (text)</a>
+            <Link href="sms:18142519966">1-814-251-9966 (text)</Link>
           </li>
           <li>
-            <a href="mailto:help@allbirds.com">help@allbirds.com</a>
+            <Link href="mailto:help@allbirds.com">help@allbirds.com</Link>
           </li>
           <li>
             <Link href="/pages/returns-exchanges">Returns/Exchanges</Link>

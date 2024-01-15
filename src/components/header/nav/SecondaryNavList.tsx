@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import classes from "./Navigation.module.css";
+import Link from "next/link";
 
 const SecondaryNavList = () => {
   return (
@@ -21,7 +22,7 @@ const SecondaryNavList = () => {
         </button>
       </li>
       <li>
-        <a href="#">
+        <Link href="#">
           <svg
             width="23"
             height="23"
@@ -36,10 +37,10 @@ const SecondaryNavList = () => {
               fill="#212A2F"
             ></path>
           </svg>
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="#">
+        <Link href="#">
           <Image
             draggable={false}
             alt="login icon"
@@ -47,10 +48,10 @@ const SecondaryNavList = () => {
             width={25}
             height={25}
           />
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="#">
+        <Link href="#">
           <Image
             draggable={false}
             alt="help icon"
@@ -58,7 +59,7 @@ const SecondaryNavList = () => {
             width={25}
             height={25}
           />
-        </a>
+        </Link>
       </li>
       <li>
         <button className={classes.nav__list__cart}>

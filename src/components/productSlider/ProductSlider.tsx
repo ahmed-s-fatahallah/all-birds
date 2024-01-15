@@ -43,8 +43,6 @@ export default function ProductSlider({
             autoPlay
             loop
             playsInline
-            webkit-playsinline
-            x5-playsinline
           >
             <source src={productVideo} type="video/mp4" />
           </video>
@@ -172,8 +170,12 @@ export default function ProductSlider({
     const imagesWrapper = imagesWrapperRef.current;
     setTranslateX(imagesWrapper.clientWidth * currentImg);
     setDirection(undefined);
-    if (videoRef.current?.paused) videoRef.current?.play();
-
+    const playVideo = async () => {
+      try {
+        await videoRef.current?.play();
+      } catch (e) {}
+    };
+    if (videoRef.current?.paused) playVideo();
     const transitionEnd = () => {
       imagesWrapper.style.transitionDuration = "0ms";
       if (currentImg < 1) {

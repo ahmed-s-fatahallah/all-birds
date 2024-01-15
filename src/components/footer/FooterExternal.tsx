@@ -33,7 +33,7 @@ const FooterExternal = () => {
               </a>
             </li>
             <li>
-              <a
+              <Link
                 aria-label="Twitter"
                 href="https://twitter.com/allbirds"
                 target="_blank"
@@ -48,10 +48,10 @@ const FooterExternal = () => {
                     height={16.69}
                   />
                 </div>
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 aria-label="Facebook"
                 href="https://www.facebook.com/weareallbirds"
                 target="_blank"
@@ -66,10 +66,10 @@ const FooterExternal = () => {
                     height={16.69}
                   />
                 </div>
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 aria-label="Pinterest"
                 href="http://pinterest.com/weareallbirds"
                 target="_blank"
@@ -84,7 +84,7 @@ const FooterExternal = () => {
                     height={16.69}
                   />
                 </div>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

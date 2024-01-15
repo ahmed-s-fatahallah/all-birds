@@ -1,13 +1,16 @@
 import classes from "./ProductDescriptionSection.module.css";
+import Image from "next/image";
 
 export default function ProductDescriptionSection() {
   return (
     <section>
       <div className={classes["product-photos-grid"]}>
         <div>
-          <img
+          <Image
             src="https://cdn.allbirds.com/image/upload/f_auto,q_auto,w_860/cms/5Jik1aEjDwjZGVfnBSznul/f12167a46bfb3b1abfe858009ead7028/TR-Desktop__PDP_BTF-1.jpg"
-            alt=""
+            alt="big display image"
+            width={735}
+            height={476}
           />
           <div className={classes["description-section__text-wrapper"]}>
             <h4>Tree Upper</h4>
@@ -20,9 +23,11 @@ export default function ProductDescriptionSection() {
           </div>
         </div>
         <div>
-          <img
+          <Image
             src="https://cdn.allbirds.com/image/upload/f_auto,q_auto,w_860/cms/3pKvnZNTDIwEfBAiQqUGKv/62ddfb766757f6a442f0f159925dedf6/TR-Desktop__PDP_BTF-2.jpg"
-            alt=""
+            alt="big display image"
+            width={735}
+            height={476}
           />
           <div className={classes["description-section__text-wrapper"]}>
             <h4>SUGARCANE MIDSOLE</h4>
@@ -35,9 +40,11 @@ export default function ProductDescriptionSection() {
           </div>
         </div>
         <div>
-          <img
+          <Image
             src="https://cdn.allbirds.com/image/upload/f_auto,q_auto,w_860/cms/3CLeqgsBFXlGKEg516fX8B/1f121f7523896325db13a6fd7c0d3c71/TR-Desktop__PDP_BTF-4.jpg"
-            alt=""
+            alt="big display image"
+            width={735}
+            height={476}
           />
           <div className={classes["description-section__text-wrapper"]}>
             <h4>RECYCLED LACES</h4>

@@ -30,6 +30,7 @@ export default function Review({
     if (i < stars) {
       starsEls.push(
         <svg
+          key={i}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 23 23"
           width="17"
@@ -45,7 +46,7 @@ export default function Review({
     } else {
       starsEls.push(
         <svg
-          data-name="Layer 1"
+          key={i}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 23 23"
           width="17"

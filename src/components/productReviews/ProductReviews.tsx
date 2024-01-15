@@ -643,9 +643,7 @@ export default function ProductReviews() {
           <label htmlFor="sort">Sort by</label>
           <div>
             <select id="sort" name="sort" onChange={sortChangeHandler}>
-              <option value="newest" selected>
-                Newest
-              </option>
+              <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
               <option value="highest-rated">Highest Rated</option>
               <option value="lowest-rated">Lowest Rated</option>
@@ -664,9 +662,7 @@ export default function ProductReviews() {
               name="rating"
               onChange={filterValueChangeHandler}
             >
-              <option value="all" selected>
-                All
-              </option>
+              <option value="all">All</option>
               <option value="1">★☆☆☆☆</option>
               <option value="2">★★☆☆☆</option>
               <option value="3">★★★☆☆</option>
@@ -714,9 +710,7 @@ export default function ProductReviews() {
           <label htmlFor="width">Typical Width</label>
           <div>
             <select id="width" name="width" onChange={filterValueChangeHandler}>
-              <option value="all" selected>
-                All
-              </option>
+              <option value="all">All</option>
               <option value="narrow">Narrow</option>
               <option value="average">Average</option>
               <option value="wide">Wide</option>
@@ -766,9 +760,7 @@ export default function ProductReviews() {
           <label htmlFor="fit">Overall Fit</label>
           <div>
             <select id="fit" name="fit" onChange={filterValueChangeHandler}>
-              <option value="all" selected>
-                All
-              </option>
+              <option value="all">All</option>
               <option value="small">Runs Small</option>
               <option value="right">Just Right</option>
               <option value="big">Runs Big</option>
@@ -793,9 +785,7 @@ export default function ProductReviews() {
               name="activity"
               onChange={filterValueChangeHandler}
             >
-              <option value="all" selected>
-                All
-              </option>
+              <option value="all">All</option>
               <option value="house">Around The House</option>
               <option value="walking">Walking</option>
               <option value="commuting">Commuting</option>
