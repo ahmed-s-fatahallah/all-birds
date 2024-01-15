@@ -642,7 +642,12 @@ export default function ProductReviews() {
         <div className={classes["sort-box"]}>
           <label htmlFor="sort">Sort by</label>
           <div>
-            <select id="sort" name="sort" onChange={sortChangeHandler}>
+            <select
+              id="sort"
+              name="sort"
+              defaultValue="newest"
+              onChange={sortChangeHandler}
+            >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
               <option value="highest-rated">Highest Rated</option>
@@ -660,6 +665,7 @@ export default function ProductReviews() {
             <select
               id="rating"
               name="rating"
+              defaultValue="all"
               onChange={filterValueChangeHandler}
             >
               <option value="all">All</option>
@@ -684,7 +690,12 @@ export default function ProductReviews() {
         <div className={classes["size-box"]}>
           <label htmlFor="size">Typical Size</label>
           <div>
-            <select id="size" name="size" onChange={filterValueChangeHandler}>
+            <select
+              id="size"
+              name="size"
+              defaultValue="all"
+              onChange={filterValueChangeHandler}
+            >
               <option value="all">All</option>
               <option value="8">8</option>
               <option value="9">9</option>
@@ -709,7 +720,12 @@ export default function ProductReviews() {
         <div className={classes["width-box"]}>
           <label htmlFor="width">Typical Width</label>
           <div>
-            <select id="width" name="width" onChange={filterValueChangeHandler}>
+            <select
+              id="width"
+              name="width"
+              defaultValue="all"
+              onChange={filterValueChangeHandler}
+            >
               <option value="all">All</option>
               <option value="narrow">Narrow</option>
               <option value="average">Average</option>
@@ -733,6 +749,7 @@ export default function ProductReviews() {
             <select
               id="purchased"
               name="purchasedSize"
+              defaultValue="all"
               onChange={filterValueChangeHandler}
             >
               <option value="all">All</option>
@@ -759,7 +776,12 @@ export default function ProductReviews() {
         <div className={classes["fit-box"]}>
           <label htmlFor="fit">Overall Fit</label>
           <div>
-            <select id="fit" name="fit" onChange={filterValueChangeHandler}>
+            <select
+              id="fit"
+              name="fit"
+              defaultValue="all"
+              onChange={filterValueChangeHandler}
+            >
               <option value="all">All</option>
               <option value="small">Runs Small</option>
               <option value="right">Just Right</option>
@@ -783,6 +805,7 @@ export default function ProductReviews() {
             <select
               id="activity"
               name="activity"
+              defaultValue="all"
               onChange={filterValueChangeHandler}
             >
               <option value="all">All</option>
