@@ -1,0 +1,149 @@
+.sizes-chart-dialog {
+  position: fixed;
+  inset: 50% 0 0 50%;
+  transform: translate(-50%, -50%);
+
+  border: none;
+  width: 97%;
+  max-width: 138rem;
+  min-width: auto;
+  max-height: 95%;
+}
+
+.sizes-chart-dialog[open] {
+  animation-name: transition-in;
+  animation-duration: 650ms;
+  animation-direction: normal;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes transition-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 500px));
+  }
+
+  40% {
+    opacity: 1;
+    transform: translate(-50%, calc(-50% + -20px));
+  }
+
+  60% {
+    transform: translate(-50%, calc(-50% + 10px));
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.sizes-chart-dialog > div {
+  padding: 6rem 14.4rem;
+}
+
+.sizes-chart-dialog::backdrop {
+  background: rgba(33, 42, 47, 0.85);
+}
+
+.sizes-chart-dialog h2 {
+  margin-bottom: var(--margin-xsm);
+
+  font-size: var(--font-size-xxl);
+  line-height: var(--line-height-2);
+}
+
+.sizes-chart-dialog p {
+  margin-bottom: var(--margin-sm);
+}
+.sizes-chart-dialog h4 {
+  margin-bottom: var(--margin-xsm);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-3);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+}
+
+.table-wrapper {
+  margin-bottom: var(--margin-md);
+}
+
+.sizes-chart-dialog table {
+  display: block;
+  table-layout: fixed;
+  border-spacing: 3px;
+  border-collapse: separate;
+}
+
+.sizes-chart-dialog table :is(th, td) {
+  padding: var(--padding-sm);
+  text-align: center;
+  vertical-align: middle;
+  min-width: 77px;
+}
+
+.sizes-chart-dialog table th {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  background-color: var(--color-blue-800);
+  color: var(--color-white-100);
+  padding: var(--padding-sm);
+}
+
+.sizes-chart-dialog table td {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  color: var(--color-blue-800);
+}
+
+.sizes-chart-dialog table td:nth-of-type(2n) {
+  background-color: rgb(238, 235, 229);
+}
+.sizes-chart-dialog table td:nth-of-type(2n + 1) {
+  background-color: rgb(241, 246, 248);
+}
+
+.sizes-chart-dialog > div > button {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 4.2rem;
+  min-height: 4.2rem;
+  outline: 0px;
+  appearance: none;
+}
+.sizes-chart-dialog > div > button > span {
+  position: relative;
+  text-indent: -9999em;
+  background-color: transparent;
+  transition: transform 250ms ease-in-out 0s;
+}
+
+.sizes-chart-dialog > div > button:hover span {
+  transform: rotate(90deg);
+}
+
+.sizes-chart-dialog > div > button > span::after,
+.sizes-chart-dialog > div > button > span::before {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 0.2rem;
+  top: 50%;
+  left: 50%;
+  height: 3.6rem;
+  background-color: var(--color-blue-800);
+}
+
+.sizes-chart-dialog > div > button > span::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.sizes-chart-dialog > div > button > span::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}

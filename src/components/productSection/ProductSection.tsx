@@ -1,12 +1,13 @@
 "use client";
-import Button from "@/utilities/Button";
 import classes from "./ProductSection.module.css";
+import Button from "@/utilities/Button";
 import Image from "next/image";
 import ProductSlider from "../productSlider/ProductSlider";
 import { Color, Product } from "@/definitions";
 import ProductAccordion from "../productAccordion/ProductAccordion";
 import Link from "next/link";
-import { MouseEvent, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
+import SizesChartDialog from "../sizesChartDialog/SizesChartDialog";
 
 const MOCKDATA = [
   {
@@ -79,6 +80,7 @@ export default function ProductSection({
   const [selectedColor, setSelectedColor] = useState(productData.colors[0]);
   const sizesBtnContainerRef = useRef<HTMLUListElement>(null);
   const colorsContainerRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const selectSizeHandler = (e: MouseEvent) => {
     const selectedBtnEl = e.currentTarget;
@@ -105,8 +107,14 @@ export default function ProductSection({
     setSelectedColor(color);
   };
 
+  const sizeChartClickHandler = () => {
+    dialogRef.current?.showModal();
+    document.body.style.overflowY = "hidden";
+  };
+
   return (
     <section className={classes["main-section"]}>
+      <SizesChartDialog dialogRef={dialogRef} />
       <ProductSlider
         productColor={selectedColor}
         productVideo={productData.video}
@@ -117,6 +125,7 @@ export default function ProductSection({
         <div className={classes.path}>
           <Link href="/">Home</Link>/{" "}
           <Link href="/collections/mens">Men&apos;s shoes</Link>/
+          {/*TODO:Fix link*/}
           <Link href="#">Everyday sneakers</Link>/
         </div>
         <h1 className={classes["main-product-title"]}>{productData.title}</h1>
@@ -178,7 +187,6 @@ export default function ProductSection({
             </svg>
 
             <svg
-              data-name="Layer 1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 23 23"
               width="13"
@@ -294,7 +302,8 @@ export default function ProductSection({
         </div>
         <p className={classes["size-chart-text"]}>
           This style is available in whole sizes only. In between sizes? We
-          recommend you size up. <button>See Size Chart</button>
+          recommend you size up.{" "}
+          <button onClick={sizeChartClickHandler}>See Size Chart</button>
         </p>
         <Button variant="add-to-cart-btn" disabled={!Boolean(selectedSize)}>
           {selectedSize

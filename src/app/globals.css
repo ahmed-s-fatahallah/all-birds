@@ -126,7 +126,9 @@ section {
   width: 100%;
 }
 
-h1 {
+h1,
+h2,
+h4 {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-xl-2);
   line-height: var(--line-height-2);
