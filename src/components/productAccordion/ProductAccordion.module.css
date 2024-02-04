@@ -13,14 +13,28 @@
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  transition: all 150ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+.descriptionContainer div {
+  overflow-y: hidden;
 }
 .descriptionContainer p {
-  overflow-y: hidden;
+  margin-bottom: var(--margin-sm);
+}
+.descriptionContainer ul {
+  list-style: initial;
+  padding-inline: 2rem;
+}
+
+.descriptionContainer :is(ul li::marker, p, li) {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-3);
+  letter-spacing: var(--letter-spacing-wide);
 }
 .active {
   grid-template-rows: 1fr;
   opacity: 1;
+  padding: 9px 0px 24px;
 }
 
 .details div button {

@@ -9,65 +9,64 @@ import Link from "next/link";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import SizesChartDialog from "../sizesChartDialog/SizesChartDialog";
 
-const MOCKDATA = [
-  {
-    title: "details",
-    description: `Our breathable, silky-smooth sneaker made with responsibly sourced eucalyptus tree fiber treads lightly in everything you do.
+const MOCKDATADETAILS = {
+  title: "details",
+  description: `Our breathable, silky-smooth sneaker made with responsibly sourced eucalyptus tree fiber treads lightly in everything you do.`,
 
-Best For: Walking, warmer weather, everyday wear
+  paragraphs: [
+    { title: `Best For:`, content: ` Walking, warmer weather, everyday wear` },
+    {
+      title: `Thermoregulating Material:`,
+      content: ` Lightweight, breathable eucalyptus fiber provides next-level comfort`,
+    },
+    {
+      title: `Versatile Design:`,
+      content: ` Wear-with-everything classic style, great for travel`,
+    },
+    {
+      title: `Where It’s Made:`,
+      content: ` Vietnam. Learn more about our operations`,
+    },
+  ],
+};
+const MOCKDATASUSTAINABILITY = {
+  title: "sustainability",
+  descriptions: [
+    `Our Tree Runner has a carbon footprint of 4.99 kg CO2e. Learn more about carbon footprint labeling and our commitments to reduce our impact.`,
+    `As a carbon neutral business certified by Climate Neutral, we balance our emissions by funding high impact carbon projects.`,
+  ],
+  listHeader: `Sustainable Materials:`,
+  ulListItems: [
+    `FSC-certified TENCEL™ Lyocell (eucalyptus tree fiber) upper`,
+    `SweetFoam® midsole made with sugarcane-based green EVA`,
+    `Bio-based TPU eyelets`,
+    `Shoe laces made from recycled plastic bottles`,
+    `Castor bean oil-based insole foam`,
+    `ZQ merino wool heel lining`,
+    `Some models may include a wool-lined insole instead of the TENCEL™-lined insole featured in the image`,
+  ],
+};
+const MOCKDATACARE = {
+  title: "care guide",
+  olListItems: [
+    `Remove the laces and insoles.`,
+    ` Place shoes in a delicates bag (pro tip: a pillowcase works too).`,
+    `Choose a gentle cycle with cold water & mild detergent.`,
+    `Shake out any excess water & set aside to air dry.`,
+    `Shoes will regain their original shape with one or two wears. `,
+  ],
+  footer: `Want the full refresh experience? Swap in some new laces and insoles.`,
+};
+const MOCKDATASHIPPING = {
+  title: "shipping & returns",
+  paragraphs: [
+    `Free shipping on orders over $75, and our 30 days, no questions asked return policy. Lightly worn shoes get donated to Soles4Souls. Visit our Returns Portal.`,
 
-Thermoregulating Material: Lightweight, breathable eucalyptus fiber provides next-level comfort
+    `Final Sale items cannot be returned or exchanged. Final Sale items include: gift cards, insoles, sock bundles, TrinoXO Face Masks, and items tagged final sale on our website and in Allbirds retail stores.`,
 
-Versatile Design: Wear-with-everything classic style, great for travel
-
-Where It’s Made: Vietnam. Learn more about our operations`,
-  },
-  {
-    title: "sustainability",
-    description: `Our Tree Runner has a carbon footprint of 4.99 kg CO2e. Learn more about carbon footprint labeling and our commitments to reduce our impact.
-
-    As a carbon neutral business certified by Climate Neutral, we balance our emissions by funding high impact carbon projects.
-    
-    Sustainable Materials:
-    
-    FSC-certified TENCEL™ Lyocell (eucalyptus tree fiber) upper
-    
-    SweetFoam® midsole made with sugarcane-based green EVA
-    
-    Bio-based TPU eyelets
-    
-    Shoe laces made from recycled plastic bottles
-    
-    Castor bean oil-based insole foam
-    
-    ZQ merino wool heel lining
-    
-    Some models may include a wool-lined insole instead of the TENCEL™-lined insole featured in the image`,
-  },
-  {
-    title: "care guide",
-    description: `1. Remove the laces and insoles.
-
-    2. Place shoes in a delicates bag (pro tip: a pillowcase works too).
-    
-    3. Choose a gentle cycle with cold water & mild detergent.
-    
-    4. Shake out any excess water & set aside to air dry.
-    
-    5. Shoes will regain their original shape with one or two wears. 
-    
-    
-    Want the full refresh experience? Swap in some new laces and insoles.`,
-  },
-  {
-    title: "shipping & returns",
-    description: `Free shipping on orders over $75, and our 30 days, no questions asked return policy. Lightly worn shoes get donated to Soles4Souls. Visit our Returns Portal.
-
-    Final Sale items cannot be returned or exchanged. Final Sale items include: gift cards, insoles, sock bundles, TrinoXO Face Masks, and items tagged final sale on our website and in Allbirds retail stores.
-    
-    Need it sooner? See if the style you want is available at a store near you.`,
-  },
-];
+    `Need it sooner? See if the style you want is available at a store near you.`,
+  ],
+};
 
 export default function ProductSection({
   productData,
@@ -117,9 +116,9 @@ export default function ProductSection({
       <SizesChartDialog dialogRef={dialogRef} />
       <ProductSlider
         productColor={selectedColor}
-        productVideo={productData.video}
+        productVideo={productData?.video}
         productDisplayImg={productData.displayImg}
-        productVidThumbnail={productData.videoThumbnail}
+        productVidThumbnail={productData?.videoThumbnail}
       />
       <div className={classes["product-options"]}>
         <div className={classes.path}>
@@ -354,7 +353,12 @@ export default function ProductSection({
         <hr />
         <p>Machine-washable materials keep shoes looking like new</p>
       </div>
-      <ProductAccordion productDetails={MOCKDATA} />
+      <ProductAccordion
+        details={MOCKDATADETAILS}
+        sustainability={MOCKDATASUSTAINABILITY}
+        care={MOCKDATACARE}
+        shipping={MOCKDATASHIPPING}
+      />
       <div className={classes["big-img-container"]}>
         <Image
           draggable={false}

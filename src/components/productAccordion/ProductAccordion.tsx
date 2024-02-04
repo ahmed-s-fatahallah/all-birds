@@ -3,9 +3,31 @@ import { MouseEvent, useRef } from "react";
 import classes from "./ProductAccordion.module.css";
 
 export default function ProductAccordion({
-  productDetails,
+  details,
+  sustainability,
+  care,
+  shipping,
 }: {
-  productDetails: { title: string; description: string }[];
+  details: {
+    title: string;
+    description: string;
+    paragraphs: { title: string; content: string }[];
+  };
+  sustainability: {
+    title: string;
+    descriptions: string[];
+    listHeader: string;
+    ulListItems: string[];
+  };
+  care: {
+    title: string;
+    olListItems: string[];
+    footer: string;
+  };
+  shipping: {
+    title: string;
+    paragraphs: string[];
+  };
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -37,17 +59,76 @@ export default function ProductAccordion({
 
   return (
     <div className={classes.details} ref={containerRef}>
-      {productDetails.map((detail, i) => (
-        <div key={i}>
-          <button type="button" onClick={clickHandler}>
-            <p>{detail.title}</p>
-            <span className={`chevron chevron-down`}></span>
-          </button>
-          <div className={`${classes.descriptionContainer} `}>
-            <p>{detail.description}</p>
+      <div>
+        <button type="button" onClick={clickHandler}>
+          <p>{details.title}</p>
+          <span className={`chevron chevron-down`}></span>
+        </button>
+        <div className={`${classes.descriptionContainer} `}>
+          <div>
+            <p>{details.description}</p>
+            {details.paragraphs.map((paragraph, i) => (
+              <p key={i}>
+                <b>{paragraph.title}</b>
+                {paragraph.content}
+              </p>
+            ))}
           </div>
         </div>
-      ))}
+      </div>
+      <div>
+        <button type="button" onClick={clickHandler}>
+          <p>{sustainability.title}</p>
+          <span className={`chevron chevron-down`}></span>
+        </button>
+        <div className={`${classes.descriptionContainer} `}>
+          <div>
+            {sustainability.descriptions.map((description, i) => (
+              <p key={i}>{description}</p>
+            ))}
+            <p>
+              <b>{sustainability.listHeader}</b>
+            </p>
+            <ul>
+              {sustainability.ulListItems.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button type="button" onClick={clickHandler}>
+          <p>{care.title}</p>
+          <span className={`chevron chevron-down`}></span>
+        </button>
+        <div className={`${classes.descriptionContainer} `}>
+          <div>
+            <ol>
+              {care.olListItems.map((item, i) => (
+                <li key={i}>
+                  <p>{`${i + 1}. ${item}`}</p>
+                </li>
+              ))}
+            </ol>
+            <br />
+            <p>{care.footer}</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button type="button" onClick={clickHandler}>
+          <p>{shipping.title}</p>
+          <span className={`chevron chevron-down`}></span>
+        </button>
+        <div className={`${classes.descriptionContainer} `}>
+          <div>
+            {shipping.paragraphs.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
