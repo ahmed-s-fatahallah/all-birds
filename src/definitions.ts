@@ -23,6 +23,7 @@ export interface Product {
   bigImgs: string[];
   colors: Color[];
   displayImg: string;
+  "slider-imgs"?: string[];
 }
 
 export interface ColorSliderProps {

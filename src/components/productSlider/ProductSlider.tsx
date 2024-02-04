@@ -27,12 +27,17 @@ export default function ProductSlider({
     "left" | "left-double" | "right" | "right-double"
   >();
 
-  finalProductArrRef.current = productColor.imgs
-    .toSpliced(2, 0, productDisplayImg)
-    .toSpliced(4, 0, productVidThumbnail);
+  finalProductArrRef.current = productColor.imgs.toSpliced(
+    2,
+    0,
+    productDisplayImg
+  );
 
+  if (productVideo) {
+    finalProductArrRef.current.splice(4, 0, productVidThumbnail);
+  }
   let images = finalProductArrRef.current.map((el, i) => {
-    if (i === 4) {
+    if (i === 4 && productVideo) {
       return (
         <li key={i}>
           <video

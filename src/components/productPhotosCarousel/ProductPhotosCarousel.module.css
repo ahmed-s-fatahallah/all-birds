@@ -5,12 +5,13 @@
 }
 
 .product-carousel p {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-xxl);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--margin-sm-2);
   padding-inline: 7.6rem;
   max-width: var(--container-max-width);
   margin-inline: auto;
+  line-height: var(--line-height-2);
 }
 
 .slider-container {

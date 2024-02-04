@@ -33,7 +33,7 @@ export default async function Page({
           />
           <ProductDescriptionSection />
         </div>
-        <ProductPhotosCarousel />
+        {productData["slider-imgs"] && <ProductPhotosCarousel />}
         <ProductRating />
         <div className="container">
           <ProductReviews />
