@@ -26,7 +26,9 @@ const ProductCard = ({
             <div className={classes["card-main__img"]}>
               <Image
                 draggable={false}
-                src={currentProductColor?.imgs[1] || product.colors[0].imgs[1]}
+                src={
+                  currentProductColor?.sliderImg || product.colors[0].imgs[1]
+                }
                 alt={product.colors[0].colorName}
                 width={308}
                 height={308}
