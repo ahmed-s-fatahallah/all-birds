@@ -229,9 +229,10 @@
   display: flex;
   gap: var(--flex-gap-md);
 }
-.recommendations__container P {
+.recommendations__container p {
   padding: var(--padding-sm);
   font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
 }
 
 .recommendations__container a {

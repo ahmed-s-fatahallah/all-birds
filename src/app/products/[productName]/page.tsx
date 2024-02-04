@@ -14,7 +14,7 @@ export default async function Page({
   params: { productName: string };
 }) {
   try {
-    const productData = await fetchData(
+    const productData: Product = await fetchData(
       `https://react-http-47f95-default-rtdb.firebaseio.com/products/${params.productName}.json`,
       { next: { revalidate: 60 * 60 } }
     );
@@ -31,7 +31,7 @@ export default async function Page({
             productData={productData}
             randomProducts={getRandomProducts(productsArr, productData)}
           />
-          <ProductDescriptionSection />
+          <ProductDescriptionSection data={productData.bigImgs} />
         </div>
         {productData["slider-imgs"] && <ProductPhotosCarousel />}
         <ProductRating />

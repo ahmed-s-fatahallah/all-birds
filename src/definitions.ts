@@ -12,6 +12,12 @@ export interface ProductData {
   [key: string]: Product;
 }
 
+export type BigImages = {
+  img: string;
+  "s-title": string;
+  "b-title": string;
+  text: string;
+}[];
 export interface Product {
   id: number;
   collection: string;
@@ -20,7 +26,7 @@ export interface Product {
   sizes: number[] | string[];
   video: string;
   videoThumbnail: string;
-  bigImgs: string[];
+  bigImgs: BigImages;
   colors: Color[];
   displayImg: string;
   "slider-imgs"?: string[];
