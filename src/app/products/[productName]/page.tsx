@@ -22,14 +22,13 @@ export default async function Page({
       `https://react-http-47f95-default-rtdb.firebaseio.com/products.json`,
       { next: { revalidate: 60 * 60 } }
     );
-    const productsArr = Object.values<Product>(allProducts);
 
     return (
       <>
         <div className="container">
           <ProductSection
             productData={productData}
-            randomProducts={getRandomProducts(productsArr, productData)}
+            randomProducts={getRandomProducts(allProducts, productData)}
           />
           <ProductDescriptionSection data={productData.bigImgs} />
         </div>

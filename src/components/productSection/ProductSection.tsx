@@ -73,7 +73,7 @@ export default function ProductSection({
   randomProducts,
 }: {
   productData: Product;
-  randomProducts: Product[];
+  randomProducts: { [productName: string]: Product }[];
 }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState(productData.colors[0]);
@@ -100,7 +100,7 @@ export default function ProductSection({
 
   const selectColorClickHandler = (color: Color, e: MouseEvent) => {
     colorsContainerRef.current
-      ?.querySelector("span[aria-selected]")
+      ?.querySelector(`span[aria-selected="true"]`)
       ?.removeAttribute("aria-selected");
     (e.target as HTMLSpanElement).ariaSelected = "true";
     setSelectedColor(color);
@@ -109,6 +109,29 @@ export default function ProductSection({
   const sizeChartClickHandler = () => {
     dialogRef.current?.showModal();
     document.body.style.overflowY = "hidden";
+  };
+
+  const getRandomProductsJSX = (
+    randomProducts: {
+      [name: string]: Product;
+    }[]
+  ) => {
+    const jsxElements = randomProducts.map((product) => {
+      for (const [name, productData] of Object.entries(product)) {
+        return (
+          <Link href={`/products/${name}`} key={name}>
+            <Image
+              src={productData.colors[0].sliderImg}
+              alt="recommended random products"
+              width={217}
+              height={217}
+            />
+            <p>{productData.title}</p>
+          </Link>
+        );
+      }
+    });
+    return jsxElements;
   };
 
   return (
@@ -223,7 +246,10 @@ export default function ProductSection({
                       title="color picker"
                       onClick={selectColorClickHandler.bind(null, color)}
                     >
-                      <span style={{ background: `${color.rgb}` }}></span>
+                      <span
+                        aria-selected={color === productData.colors[0]}
+                        style={{ background: `${color.rgb}` }}
+                      ></span>
                     </button>
                   );
                 })}
@@ -250,8 +276,8 @@ export default function ProductSection({
                       onClick={selectColorClickHandler.bind(null, color)}
                     >
                       <span
+                        aria-selected={color === productData.colors[0]}
                         style={{ background: `${color.rgb}` }}
-                        aria-selected={i === 0}
                       ></span>
                     </button>
                   );
@@ -279,7 +305,10 @@ export default function ProductSection({
                       title="color picker"
                       onClick={selectColorClickHandler.bind(null, color)}
                     >
-                      <span style={{ background: `${color.rgb}` }}></span>
+                      <span
+                        aria-selected={color === productData.colors[0]}
+                        style={{ background: `${color.rgb}` }}
+                      ></span>
                     </button>
                   );
                 })}
@@ -322,23 +351,7 @@ export default function ProductSection({
         <div className={classes.recommendations}>
           <p>Also consider</p>
           <div className={classes["recommendations__container"]}>
-            {randomProducts.map((product, i) => (
-              <Link
-                href={`/products/${product.title
-                  .toLocaleLowerCase()
-                  .replaceAll("'", "")
-                  .replaceAll(" ", "-")}`}
-                key={i}
-              >
-                <Image
-                  src={product.colors[0].imgs[1]}
-                  alt="recommended random products"
-                  width={217}
-                  height={217}
-                />
-                <p>{product.title}</p>
-              </Link>
-            ))}
+            {getRandomProductsJSX(randomProducts)}
           </div>
         </div>
       </div>
@@ -359,15 +372,17 @@ export default function ProductSection({
         care={MOCKDATACARE}
         shipping={MOCKDATASHIPPING}
       />
-      <div className={classes["big-img-container"]}>
-        <Image
-          draggable={false}
-          src="https://cdn.dynamicyield.com/api/8776313/images/116be0f9f3ae6__product_features_module-tr_desktop_intrinsic.jpg"
-          alt="product details"
-          width={1196}
-          height={580}
-        />
-      </div>
+      {productData.id === 0 && (
+        <div className={classes["big-img-container"]}>
+          <Image
+            draggable={false}
+            src="https://cdn.dynamicyield.com/api/8776313/images/116be0f9f3ae6__product_features_module-tr_desktop_intrinsic.jpg"
+            alt="product details"
+            width={1196}
+            height={580}
+          />
+        </div>
+      )}
     </section>
   );
 }
