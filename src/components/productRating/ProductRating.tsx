@@ -1,3 +1,4 @@
+import { MockDataReviews } from "@/utilities/MockData";
 import classes from "./ProductRating.module.css";
 
 export default function ProductRating() {
@@ -75,7 +76,9 @@ export default function ProductRating() {
             </svg>
           </div>
         </div>
-        <p className={classes["reviews-count"]}>7230 Reviews</p>
+        <p className={classes["reviews-count"]}>
+          {MockDataReviews.length} Reviews
+        </p>
         <div className={classes["fit-score-container"]}>
           <p>Size</p>
           <div className={classes["line-container"]}>

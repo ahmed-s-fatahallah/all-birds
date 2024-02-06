@@ -226,8 +226,9 @@ export default function ProductSection({
               ></path>
             </svg>
           </div>
-          {/* {TODO: NUMBER OF REVIEWS NEEDS TO BE DYNAMIC} */}
-          <div className={classes["number-of-reviews"]}>(7219)</div>
+          <div className={classes["number-of-reviews"]}>
+            ({MockDataReviews.length})
+          </div>
         </Link>
         <div className={classes["colors-container"]} ref={colorsContainerRef}>
           {productData.colors.some((color) => color.type === "classic") && (
