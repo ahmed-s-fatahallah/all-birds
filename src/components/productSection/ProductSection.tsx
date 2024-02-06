@@ -8,6 +8,7 @@ import ProductAccordion from "../productAccordion/ProductAccordion";
 import Link from "next/link";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import SizesChartDialog from "../sizesChartDialog/SizesChartDialog";
+import collectionsMapper from "@/utilities/collectionsMapper";
 
 const MOCKDATADETAILS = {
   title: "details",
@@ -147,8 +148,10 @@ export default function ProductSection({
         <div className={classes.path}>
           <Link href="/">Home</Link>/{" "}
           <Link href="/collections/mens">Men&apos;s shoes</Link>/
-          {/*TODO:Fix link*/}
-          <Link href="#">Everyday sneakers</Link>/
+          <Link href={`/collections/${productData.collection}`}>
+            {collectionsMapper[productData.collection]}
+          </Link>
+          /
         </div>
         <h1 className={classes["main-product-title"]}>{productData.title}</h1>
         <div className={classes["price-container"]}>

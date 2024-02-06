@@ -25,6 +25,10 @@
   color: var(--color-blue-800);
 }
 
+.path a:is(:hover, :active) {
+  text-decoration: underline;
+}
+
 .main-product-title {
   font-size: 32px;
   line-height: 1.31;

@@ -1,24 +1,16 @@
 "use client";
+import SizesFilters from "./SizesFilters";
+import collectionsMapper from "@/utilities/collectionsMapper";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import SizesFilters from "./SizesFilters";
+import { useState } from "react";
 
 import classes from "./Sidebar.module.css";
-import { useState } from "react";
 
 const Sidebar = () => {
   const [currentRouteName, setCurrentRouteName] = useState("Men's Shoes");
   const pathname = usePathname();
   const routes = pathname.split("/");
-
-  const mensSideBarLinks: { [key: string]: string } = {
-    "mens-runners": "Everyday Sneakers",
-    "mens-running-shoes": "Active Shoes",
-    "mens-mizzles": "Water-Repellent-Shoes",
-    "mens-hiking-shoes": "Hiking Shoes",
-    "mens-loungers": "Slip-Ons",
-  };
 
   return (
     <aside className={classes.sidebar}>
@@ -35,9 +27,9 @@ const Sidebar = () => {
             </span>
           )}
         </div>
-        <h1>{mensSideBarLinks[routes[2]] || currentRouteName}</h1>
+        <h1>{collectionsMapper[routes[2]] || currentRouteName}</h1>
         <ul className={classes.links__list}>
-          {Object.entries(mensSideBarLinks).map(([key, value], i) => (
+          {Object.entries(collectionsMapper).map(([key, value], i) => (
             <li key={i} onClick={() => setCurrentRouteName(value)}>
               <Link
                 className={routes[2] === key ? `${classes.active}` : ""}
