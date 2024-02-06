@@ -32,7 +32,11 @@ export default async function Page({
           />
           <ProductDescriptionSection data={productData.bigImgs} />
         </div>
-        {productData["slider-imgs"] && <ProductPhotosCarousel />}
+        {productData["slider-imgs"] && (
+          <ProductPhotosCarousel
+            carouselImgsLinks={productData["slider-imgs"]}
+          />
+        )}
         <ProductRating />
         <div className="container">
           <ProductReviews />

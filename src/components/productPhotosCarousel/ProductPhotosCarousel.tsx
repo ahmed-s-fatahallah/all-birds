@@ -4,30 +4,11 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import classes from "./ProductPhotosCarousel.module.css";
 import Image from "next/image";
 
-const MockData = [
-  {
-    src: "https://cdn.dynamicyield.com/api/8776313/images/30d230234c2fd__frame_9.jpg",
-    alt: "slider Image",
-  },
-  {
-    src: "https://cdn.dynamicyield.com/api/8776313/images/2d9506840952f__frame_2_m.jpg",
-    alt: "slider Image",
-  },
-  {
-    src: "https://cdn.dynamicyield.com/api/8776313/images/1ade000ce61eb__frame_11.jpg",
-    alt: "slider Image",
-  },
-  {
-    src: "https://cdn.dynamicyield.com/api/8776313/images/34b97f76b71ae__frame_8.jpg",
-    alt: "slider Image",
-  },
-  {
-    src: "https://cdn.dynamicyield.com/api/8776313/images/300f99de8ec6__frame_6_m.jpg",
-    alt: "slider Image",
-  },
-];
-
-export default function ProductPhotosCarousel() {
+export default function ProductPhotosCarousel({
+  carouselImgsLinks,
+}: {
+  carouselImgsLinks: string[];
+}) {
   const sliderWrapperRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLImageElement>(null);
   const imageContainerWidthRef = useRef(0);
@@ -213,9 +194,14 @@ export default function ProductPhotosCarousel() {
           onPointerLeave={pointerHandler}
           onPointerMove={pointerMoveHandler}
         >
-          {MockData.map((img, i) => (
+          {carouselImgsLinks.map((link, i) => (
             <div key={i} ref={imageContainerRef}>
-              <Image src={img.src} alt={img.alt} width={345.333} height={370} />
+              <Image
+                src={link}
+                alt="display Image"
+                width={345.333}
+                height={370}
+              />
             </div>
           ))}
         </div>
