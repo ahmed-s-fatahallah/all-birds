@@ -40,7 +40,7 @@ const SecondaryNavList = () => {
         </Link>
       </li>
       <li>
-        <Link href="#">
+        <Link href="/login">
           <Image
             draggable={false}
             alt="login icon"
