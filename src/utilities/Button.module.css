@@ -3,7 +3,6 @@
   width: 100%;
   font-size: var(--font-size-md);
   padding: var(--padding-xsm) var(--padding-sm);
-  cursor: pointer;
   transition: all 100ms ease 0s;
   letter-spacing: var(--letter-spacing-widest);
   background-color: var(--color-blue-800);
@@ -15,7 +14,6 @@
   opacity: 1;
 
   font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
 }
 
 .add-to-cart-btn:disabled {
@@ -58,4 +56,26 @@
   background-color: var(--border-color);
   outline: 2px solid var(--color-blue-800);
   outline-offset: 2px;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-sm);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background-color: var(--color-black);
+  color: var(--color-white-100);
+  padding: var(--padding-lg) 0;
+  text-align: center;
+  border-radius: var(--border-radius-sm);
+  border: 2px solid transparent;
+  transition: all 300ms ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: transparent;
+  border-color: var(--color-black);
+  color: var(--color-black);
 }

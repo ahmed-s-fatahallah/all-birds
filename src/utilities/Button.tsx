@@ -7,7 +7,7 @@ interface ButtonProps
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  variant: "filter-btn" | "add-to-cart-btn" | "";
+  variant: "filter-btn" | "add-to-cart-btn" | "submit-btn" | "";
 }
 
 export default function Button({
