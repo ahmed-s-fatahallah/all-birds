@@ -1,0 +1,24 @@
+.login-register label {
+  display: block;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.login-register input {
+  margin-bottom: 19px;
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-white-100);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-lg);
+  padding: 19px 20px;
+  height: auto;
+}
+
+.login-register input:focus-visible {
+  outline: auto;
+}
