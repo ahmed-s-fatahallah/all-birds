@@ -22,3 +22,9 @@
 .login-register input:focus-visible {
   outline: auto;
 }
+
+.error__msg {
+  color: var(--color-red-400);
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
+}

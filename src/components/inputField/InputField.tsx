@@ -10,6 +10,7 @@ interface InputFieldProps
   variant: "login" | "register";
   type: "email" | "password" | "text";
   name: "email" | "first-name" | "last-name" | "password" | "confirm-password";
+  errorMsg?: string;
 }
 
 export default function InputField({
@@ -17,11 +18,14 @@ export default function InputField({
   type,
   children,
   name,
+  errorMsg = "",
   ...rest
 }: InputFieldProps) {
   return (
     <div className={classes["login-register"]}>
-      <label htmlFor={`${variant}__${name}`}>{children}</label>
+      <label htmlFor={`${variant}__${name}`}>
+        {children} <span className={classes.error__msg}>{errorMsg}</span>
+      </label>
       <input
         type={type}
         name={`${variant}__${name}`}
