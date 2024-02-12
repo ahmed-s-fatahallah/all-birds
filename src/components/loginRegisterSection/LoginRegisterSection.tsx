@@ -63,7 +63,12 @@ export default function LoginRegisterSection() {
           >
             password
           </InputField>
-          <Button variant="submit-btn">sign in</Button>
+          <Button
+            variant="submit-btn"
+            disabled={Boolean(!loginState?.fieldErrors)}
+          >
+            sign in
+          </Button>
           <Link className={classes["forgot-password"]} href="#">
             forgot password
           </Link>
@@ -134,7 +139,14 @@ export default function LoginRegisterSection() {
           >
             confirm password*
           </InputField>
-          <Button variant="submit-btn">register</Button>
+          <Button
+            variant="submit-btn"
+            disabled={Boolean(
+              !registerState?.fieldErrors && !registerState?.formErrors
+            )}
+          >
+            register
+          </Button>
           <p className={classes["register__terms-policy"]}>
             By creating an account, you agree to our{" "}
             <Link href="#">Terms of Use</Link> and{" "}
