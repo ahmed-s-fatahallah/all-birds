@@ -2,8 +2,19 @@ import Image from "next/image";
 
 import classes from "./Navigation.module.css";
 import Link from "next/link";
+import { auth } from "@/utilities/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import { useState } from "react";
 
 const SecondaryNavList = () => {
+  const [loginNavigation, setLoginNavigation] = useState("");
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setLoginNavigation("/profile");
+    } else {
+      setLoginNavigation("/login");
+    }
+  });
   return (
     <ul className={classes.nav__list}>
       <li>
@@ -40,7 +51,7 @@ const SecondaryNavList = () => {
         </Link>
       </li>
       <li>
-        <Link href="/login">
+        <Link href={loginNavigation}>
           <Image
             draggable={false}
             alt="login icon"

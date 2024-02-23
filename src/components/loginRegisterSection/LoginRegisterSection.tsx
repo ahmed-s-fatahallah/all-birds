@@ -1,79 +1,170 @@
 "use client";
+import { FormEvent, useRef, useState } from "react";
 import InputField from "@/components/inputField/InputField";
 import Button from "@/utilities/Button";
 import Link from "next/link";
+import { formSchema } from "@/utilities/ZodSchema";
 
 import classes from "./LoginRegisterSection.module.css";
-import { useFormState } from "react-dom";
-import { loginHandler, registerHandler } from "@/utilities/actions";
-import { z } from "zod";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "@/utilities/firebaseConfig";
+import { useRouter } from "next/navigation";
+import { FirebaseError } from "firebase/app";
 
 export default function LoginRegisterSection() {
-  const initialState: z.typeToFlattenedError<
-    {
-      email: string;
-      password: string | number;
-      confirm_password: string | number;
-      first_name?: string | undefined;
-      last_name?: string | undefined;
-    },
-    string
-  > = {
-    fieldErrors: {
-      email: undefined,
-      password: undefined,
-      confirm_password: undefined,
-      first_name: undefined,
-      last_name: undefined,
-    },
-    formErrors: [],
+  const router = useRouter();
+  const loginEmailRef = useRef<HTMLInputElement>(null);
+  const loginPasswordRef = useRef<HTMLInputElement>(null);
+  const registerFirstNameRef = useRef<HTMLInputElement>(null);
+  const registerLastNameRef = useRef<HTMLInputElement>(null);
+  const registerEmailRef = useRef<HTMLInputElement>(null);
+  const registerPasswordRef = useRef<HTMLInputElement>(null);
+  const registerConfirmPasswordRef = useRef<HTMLInputElement>(null);
+
+  const [loginFormErrors, setLoginFormErrors] = useState<{
+    email?: string[];
+    password?: string[];
+  } | null>(null);
+
+  const [registerFormErrors, setRegisterFormErrors] = useState<{
+    fieldErrors?: {
+      first_name?: string[];
+      last_name?: string[];
+      email?: string[];
+      password?: string[];
+      confirm_password?: string[];
+    };
+    formErrors?: string[];
+  } | null>(null);
+
+  const [isFormLoading, setIsFormLoading] = useState(false);
+
+  const loginSubmitHandler = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const loginFormSchema = formSchema.omit({
+      first_name: true,
+      last_name: true,
+      confirm_password: true,
+    });
+    const parsedForm = loginFormSchema.safeParse({
+      email: loginEmailRef.current?.value,
+      password: loginPasswordRef.current?.value,
+    });
+
+    if (!parsedForm.success) {
+      setLoginFormErrors(parsedForm.error.flatten().fieldErrors);
+      return;
+    }
+    setLoginFormErrors(null);
+    try {
+      setIsFormLoading(true);
+      await signInWithEmailAndPassword(
+        auth,
+        parsedForm.data.email,
+        parsedForm.data.password
+      );
+
+      setIsFormLoading(false);
+      router.back();
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        console.log(error.code);
+        console.log(error.message);
+      }
+      setLoginFormErrors({
+        email: ["invalid Credentials"],
+      });
+      setIsFormLoading(false);
+    }
   };
-  const [loginState, loginFormAction] = useFormState(
-    loginHandler,
-    initialState
-  );
-  const [registerState, registerFormAction] = useFormState(
-    registerHandler,
-    initialState
-  );
+
+  const registerHandler = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const refinedRegisterSchema = formSchema.refine(
+      (data) => data.password === data.confirm_password,
+      {
+        message: "The password and confirm password fields must match",
+      }
+    );
+
+    const parsedForm = refinedRegisterSchema.safeParse({
+      first_name: registerFirstNameRef.current?.value,
+      last_name: registerLastNameRef.current?.value,
+      email: registerEmailRef.current?.value,
+      password: registerPasswordRef.current?.value,
+      confirm_password: registerConfirmPasswordRef.current?.value,
+    });
+
+    if (!parsedForm.success) {
+      setRegisterFormErrors(parsedForm.error.flatten());
+
+      return;
+    }
+
+    try {
+      setIsFormLoading(true);
+      await createUserWithEmailAndPassword(
+        auth,
+        parsedForm.data.email,
+        parsedForm.data.password
+      );
+
+      setIsFormLoading(false);
+      router.back();
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        console.log(error.code);
+        console.log(error.message);
+      }
+      setRegisterFormErrors({
+        fieldErrors: {
+          first_name: ["An Error Occurred Please Try again Later"],
+        },
+      });
+      setIsFormLoading(false);
+    }
+  };
+
   return (
     <section className={classes["login-register-section"]}>
       <div className={classes.container}>
-        <form className="login" action={loginFormAction}>
+        {/* Login Form */}
+        <form className="login" onSubmit={loginSubmitHandler}>
           <h1 className={classes.login__title}>LOGIN</h1>
           <InputField
+            ref={loginEmailRef}
             name="email"
             variant="login"
             type="text"
-            errorMsg={
-              loginState?.fieldErrors?.email && loginState.fieldErrors?.email[0]
-            }
+            errorMsg={loginFormErrors?.email && loginFormErrors.email[0]}
           >
             email
           </InputField>
 
           <InputField
+            ref={loginPasswordRef}
             name="password"
             variant="login"
             type="password"
-            errorMsg={
-              loginState?.fieldErrors?.password &&
-              loginState.fieldErrors?.password[0]
-            }
+            errorMsg={loginFormErrors?.password && loginFormErrors.password[0]}
           >
             password
           </InputField>
-          <Button
-            variant="submit-btn"
-            disabled={Boolean(!loginState?.fieldErrors)}
-          >
+          <Button variant="submit-btn" disabled={isFormLoading}>
             sign in
           </Button>
           <Link className={classes["forgot-password"]} href="#">
             forgot password
           </Link>
         </form>
-        <form className="register" action={registerFormAction}>
+
+        {/* Register Form */}
+        <form className="register" onSubmit={registerHandler}>
           <h1 className={classes.register__title}>Create an account</h1>
           <p className={classes["security-text"]}>
             We never save credit card information.
@@ -83,70 +174,73 @@ export default function LoginRegisterSection() {
             information in your account.
           </p>
           <InputField
+            ref={registerFirstNameRef}
             name="first-name"
             variant="register"
             type="text"
             errorMsg={
-              registerState?.fieldErrors?.first_name &&
-              registerState.fieldErrors?.first_name[0]
+              registerFormErrors?.fieldErrors?.first_name &&
+              registerFormErrors.fieldErrors.first_name[0]
             }
           >
             first name
           </InputField>
           <InputField
+            ref={registerLastNameRef}
             name="last-name"
             variant="register"
             type="text"
             errorMsg={
-              registerState?.fieldErrors?.last_name &&
-              registerState.fieldErrors?.last_name[0]
+              registerFormErrors?.fieldErrors?.last_name &&
+              registerFormErrors.fieldErrors.last_name[0]
             }
           >
             last name
           </InputField>
 
           <InputField
+            ref={registerEmailRef}
             name="email"
             variant="register"
             type="email"
             errorMsg={
-              registerState?.fieldErrors?.email &&
-              registerState.fieldErrors?.email[0]
+              registerFormErrors?.fieldErrors?.email &&
+              registerFormErrors.fieldErrors.email[0]
             }
           >
             email*
           </InputField>
           <InputField
+            ref={registerPasswordRef}
             name="password"
             variant="register"
             type="password"
             errorMsg={
-              registerState?.fieldErrors?.password &&
-              registerState.fieldErrors?.password[0]
+              registerFormErrors?.fieldErrors?.password &&
+              registerFormErrors.fieldErrors.password[0]
             }
           >
             password*
           </InputField>
           <InputField
+            ref={registerConfirmPasswordRef}
             name="confirm-password"
             variant="register"
             type="password"
             errorMsg={
-              (registerState?.fieldErrors?.confirm_password &&
-                registerState.fieldErrors?.confirm_password[0]) ||
-              (registerState?.formErrors && registerState.formErrors[0])
+              (registerFormErrors?.fieldErrors?.confirm_password &&
+                registerFormErrors.fieldErrors.confirm_password[0]) ||
+              (registerFormErrors?.formErrors &&
+                registerFormErrors.formErrors[0])
             }
           >
             confirm password*
           </InputField>
-          <Button
-            variant="submit-btn"
-            disabled={Boolean(
-              !registerState?.fieldErrors && !registerState?.formErrors
-            )}
-          >
+
+          <Button variant="submit-btn" disabled={isFormLoading}>
             register
           </Button>
+
           <p className={classes["register__terms-policy"]}>
             By creating an account, you agree to our{" "}
             <Link href="#">Terms of Use</Link> and{" "}
