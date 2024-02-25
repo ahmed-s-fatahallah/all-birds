@@ -9,6 +9,7 @@ import classes from "./LoginRegisterSection.module.css";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "@/utilities/firebaseConfig";
 import { useRouter } from "next/navigation";
@@ -113,6 +114,12 @@ export default function LoginRegisterSection() {
         parsedForm.data.email,
         parsedForm.data.password
       );
+
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: `${parsedForm.data.first_name} ${parsedForm.data.last_name}`,
+        });
+      }
 
       setIsFormLoading(false);
       router.back();
