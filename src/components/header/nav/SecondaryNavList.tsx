@@ -10,7 +10,7 @@ const SecondaryNavList = () => {
   const [loginNavigation, setLoginNavigation] = useState("");
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      setLoginNavigation("/profile");
+      setLoginNavigation("/account");
     } else {
       setLoginNavigation("/login");
     }
