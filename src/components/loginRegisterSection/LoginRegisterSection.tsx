@@ -209,7 +209,7 @@ export default function LoginRegisterSection() {
             ref={registerEmailRef}
             name="email"
             variant="register"
-            type="email"
+            type="text"
             errorMsg={
               registerFormErrors?.fieldErrors?.email &&
               registerFormErrors.fieldErrors.email[0]
