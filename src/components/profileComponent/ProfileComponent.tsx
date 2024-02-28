@@ -9,7 +9,6 @@ import classes from "./ProfileComponent.module.css";
 
 export default function ProfileComponent() {
   const router = useRouter();
-  console.log(auth.currentUser);
 
   return (
     <main className={classes["container"]}>

@@ -4,17 +4,31 @@ import classes from "./Navigation.module.css";
 import Link from "next/link";
 import { auth } from "@/utilities/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const SecondaryNavList = () => {
   const [loginNavigation, setLoginNavigation] = useState("");
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setLoginNavigation("/account");
-    } else {
-      setLoginNavigation("/login");
-    }
-  });
+  const router = useRouter();
+  const path = usePathname();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoginNavigation("/account");
+        if (path === "/login") {
+          router.replace("/account");
+        }
+      } else {
+        setLoginNavigation("/login");
+        if (path === "/account") {
+          router.replace("/login");
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
   return (
     <ul className={classes.nav__list}>
       <li>
