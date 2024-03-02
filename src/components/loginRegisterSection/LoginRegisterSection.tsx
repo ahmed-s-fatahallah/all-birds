@@ -163,7 +163,6 @@ export default function LoginRegisterSection() {
               <InputField
                 ref={loginEmailRef}
                 name="email"
-                variant="login"
                 type="text"
                 errorMsg={loginFormErrors?.email && loginFormErrors.email[0]}
               >
@@ -173,7 +172,6 @@ export default function LoginRegisterSection() {
               <InputField
                 ref={loginPasswordRef}
                 name="password"
-                variant="login"
                 type="password"
                 errorMsg={
                   loginFormErrors?.password && loginFormErrors.password[0]
@@ -202,7 +200,6 @@ export default function LoginRegisterSection() {
               <InputField
                 ref={registerFirstNameRef}
                 name="first-name"
-                variant="register"
                 type="text"
                 errorMsg={
                   registerFormErrors?.fieldErrors?.first_name &&
@@ -214,7 +211,6 @@ export default function LoginRegisterSection() {
               <InputField
                 ref={registerLastNameRef}
                 name="last-name"
-                variant="register"
                 type="text"
                 errorMsg={
                   registerFormErrors?.fieldErrors?.last_name &&
@@ -227,7 +223,6 @@ export default function LoginRegisterSection() {
               <InputField
                 ref={registerEmailRef}
                 name="email"
-                variant="register"
                 type="text"
                 errorMsg={
                   registerFormErrors?.fieldErrors?.email &&
@@ -239,7 +234,6 @@ export default function LoginRegisterSection() {
               <InputField
                 ref={registerPasswordRef}
                 name="password"
-                variant="register"
                 type="password"
                 errorMsg={
                   registerFormErrors?.fieldErrors?.password &&
@@ -251,7 +245,6 @@ export default function LoginRegisterSection() {
               <InputField
                 ref={registerConfirmPasswordRef}
                 name="confirm-password"
-                variant="register"
                 type="password"
                 errorMsg={
                   (registerFormErrors?.fieldErrors?.confirm_password &&

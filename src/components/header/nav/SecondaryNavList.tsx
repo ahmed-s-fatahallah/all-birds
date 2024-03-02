@@ -5,7 +5,6 @@ import Link from "next/link";
 import { auth } from "@/utilities/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useLayoutEffect, useState } from "react";
-import { redirect } from "next/navigation";
 
 const SecondaryNavList = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,10 +13,8 @@ const SecondaryNavList = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsAuthenticated(true);
-        redirect("/account");
       } else {
         setIsAuthenticated(false);
-        redirect("/login");
       }
     });
 
