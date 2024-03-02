@@ -4,26 +4,20 @@ import classes from "./Navigation.module.css";
 import Link from "next/link";
 import { auth } from "@/utilities/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useLayoutEffect, useState } from "react";
+import { redirect } from "next/navigation";
 
 const SecondaryNavList = () => {
-  const [loginNavigation, setLoginNavigation] = useState("");
-  const router = useRouter();
-  const path = usePathname();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoginNavigation("/account");
-        if (path === "/login") {
-          router.replace("/account");
-        }
+        setIsAuthenticated(true);
+        redirect("/account");
       } else {
-        setLoginNavigation("/login");
-        if (path === "/account") {
-          router.replace("/login");
-        }
+        setIsAuthenticated(false);
+        redirect("/login");
       }
     });
 
@@ -65,7 +59,7 @@ const SecondaryNavList = () => {
         </Link>
       </li>
       <li>
-        <Link href={loginNavigation}>
+        <Link href={isAuthenticated ? "/account" : "/login"}>
           <Image
             draggable={false}
             alt="login icon"

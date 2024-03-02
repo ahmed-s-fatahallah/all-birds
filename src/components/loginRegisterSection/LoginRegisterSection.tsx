@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useLayoutEffect, useRef, useState } from "react";
 import InputField from "@/components/inputField/InputField";
 import Button from "@/utilities/Button";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { formSchema } from "@/utilities/ZodSchema";
 import classes from "./LoginRegisterSection.module.css";
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
@@ -24,6 +25,8 @@ export default function LoginRegisterSection() {
   const registerEmailRef = useRef<HTMLInputElement>(null);
   const registerPasswordRef = useRef<HTMLInputElement>(null);
   const registerConfirmPasswordRef = useRef<HTMLInputElement>(null);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const [loginFormErrors, setLoginFormErrors] = useState<{
     email?: string[];
@@ -137,125 +140,143 @@ export default function LoginRegisterSection() {
     }
   };
 
+  useLayoutEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.replace("/account");
+        return;
+      } else {
+        setIsAuthenticated(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <section className={classes["login-register-section"]}>
-      <div className={classes.container}>
-        {/* Login Form */}
-        <form className="login" onSubmit={loginSubmitHandler}>
-          <h1 className={classes.login__title}>LOGIN</h1>
-          <InputField
-            ref={loginEmailRef}
-            name="email"
-            variant="login"
-            type="text"
-            errorMsg={loginFormErrors?.email && loginFormErrors.email[0]}
-          >
-            email
-          </InputField>
+    <>
+      {!isAuthenticated && (
+        <section className={classes["login-register-section"]}>
+          <div className={classes.container}>
+            {/* Login Form */}
+            <form className="login" onSubmit={loginSubmitHandler}>
+              <h1 className={classes.login__title}>LOGIN</h1>
+              <InputField
+                ref={loginEmailRef}
+                name="email"
+                variant="login"
+                type="text"
+                errorMsg={loginFormErrors?.email && loginFormErrors.email[0]}
+              >
+                email
+              </InputField>
 
-          <InputField
-            ref={loginPasswordRef}
-            name="password"
-            variant="login"
-            type="password"
-            errorMsg={loginFormErrors?.password && loginFormErrors.password[0]}
-          >
-            password
-          </InputField>
-          <Button variant="submit-btn" disabled={isFormLoading}>
-            sign in
-          </Button>
-          <Link className={classes["forgot-password"]} href="#">
-            forgot password
-          </Link>
-        </form>
+              <InputField
+                ref={loginPasswordRef}
+                name="password"
+                variant="login"
+                type="password"
+                errorMsg={
+                  loginFormErrors?.password && loginFormErrors.password[0]
+                }
+              >
+                password
+              </InputField>
+              <Button variant="submit-btn" disabled={isFormLoading}>
+                sign in
+              </Button>
+              <Link className={classes["forgot-password"]} href="#">
+                forgot password
+              </Link>
+            </form>
 
-        {/* Register Form */}
-        <form className="register" onSubmit={registerHandler}>
-          <h1 className={classes.register__title}>Create an account</h1>
-          <p className={classes["security-text"]}>
-            We never save credit card information.
-          </p>
-          <p className={classes["security-text"]}>
-            Registering makes checkout fast and easy and saves your order
-            information in your account.
-          </p>
-          <InputField
-            ref={registerFirstNameRef}
-            name="first-name"
-            variant="register"
-            type="text"
-            errorMsg={
-              registerFormErrors?.fieldErrors?.first_name &&
-              registerFormErrors.fieldErrors.first_name[0]
-            }
-          >
-            first name
-          </InputField>
-          <InputField
-            ref={registerLastNameRef}
-            name="last-name"
-            variant="register"
-            type="text"
-            errorMsg={
-              registerFormErrors?.fieldErrors?.last_name &&
-              registerFormErrors.fieldErrors.last_name[0]
-            }
-          >
-            last name
-          </InputField>
+            {/* Register Form */}
+            <form className="register" onSubmit={registerHandler}>
+              <h1 className={classes.register__title}>Create an account</h1>
+              <p className={classes["security-text"]}>
+                We never save credit card information.
+              </p>
+              <p className={classes["security-text"]}>
+                Registering makes checkout fast and easy and saves your order
+                information in your account.
+              </p>
+              <InputField
+                ref={registerFirstNameRef}
+                name="first-name"
+                variant="register"
+                type="text"
+                errorMsg={
+                  registerFormErrors?.fieldErrors?.first_name &&
+                  registerFormErrors.fieldErrors.first_name[0]
+                }
+              >
+                first name
+              </InputField>
+              <InputField
+                ref={registerLastNameRef}
+                name="last-name"
+                variant="register"
+                type="text"
+                errorMsg={
+                  registerFormErrors?.fieldErrors?.last_name &&
+                  registerFormErrors.fieldErrors.last_name[0]
+                }
+              >
+                last name
+              </InputField>
 
-          <InputField
-            ref={registerEmailRef}
-            name="email"
-            variant="register"
-            type="text"
-            errorMsg={
-              registerFormErrors?.fieldErrors?.email &&
-              registerFormErrors.fieldErrors.email[0]
-            }
-          >
-            email*
-          </InputField>
-          <InputField
-            ref={registerPasswordRef}
-            name="password"
-            variant="register"
-            type="password"
-            errorMsg={
-              registerFormErrors?.fieldErrors?.password &&
-              registerFormErrors.fieldErrors.password[0]
-            }
-          >
-            password*
-          </InputField>
-          <InputField
-            ref={registerConfirmPasswordRef}
-            name="confirm-password"
-            variant="register"
-            type="password"
-            errorMsg={
-              (registerFormErrors?.fieldErrors?.confirm_password &&
-                registerFormErrors.fieldErrors.confirm_password[0]) ||
-              (registerFormErrors?.formErrors &&
-                registerFormErrors.formErrors[0])
-            }
-          >
-            confirm password*
-          </InputField>
+              <InputField
+                ref={registerEmailRef}
+                name="email"
+                variant="register"
+                type="text"
+                errorMsg={
+                  registerFormErrors?.fieldErrors?.email &&
+                  registerFormErrors.fieldErrors.email[0]
+                }
+              >
+                email*
+              </InputField>
+              <InputField
+                ref={registerPasswordRef}
+                name="password"
+                variant="register"
+                type="password"
+                errorMsg={
+                  registerFormErrors?.fieldErrors?.password &&
+                  registerFormErrors.fieldErrors.password[0]
+                }
+              >
+                password*
+              </InputField>
+              <InputField
+                ref={registerConfirmPasswordRef}
+                name="confirm-password"
+                variant="register"
+                type="password"
+                errorMsg={
+                  (registerFormErrors?.fieldErrors?.confirm_password &&
+                    registerFormErrors.fieldErrors.confirm_password[0]) ||
+                  (registerFormErrors?.formErrors &&
+                    registerFormErrors.formErrors[0])
+                }
+              >
+                confirm password*
+              </InputField>
 
-          <Button variant="submit-btn" disabled={isFormLoading}>
-            register
-          </Button>
+              <Button variant="submit-btn" disabled={isFormLoading}>
+                register
+              </Button>
 
-          <p className={classes["register__terms-policy"]}>
-            By creating an account, you agree to our{" "}
-            <Link href="#">Terms of Use</Link> and{" "}
-            <Link href="#">Privacy Policy</Link>.
-          </p>
-          <p className={classes.register__required}>* REQUIRED FIELDS</p>
-        </form>
-      </div>
-    </section>
+              <p className={classes["register__terms-policy"]}>
+                By creating an account, you agree to our{" "}
+                <Link href="#">Terms of Use</Link> and{" "}
+                <Link href="#">Privacy Policy</Link>.
+              </p>
+              <p className={classes.register__required}>* REQUIRED FIELDS</p>
+            </form>
+          </div>
+        </section>
+      )}
+    </>
   );
 }
