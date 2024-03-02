@@ -1,9 +1,5 @@
 const SaleWomensShoes = () => {
-  return (
-    <main>
-      <h1>this the SaleWomensShoes page</h1>
-    </main>
-  );
+  return <h1>this the SaleWomensShoes page</h1>;
 };
 
 export default SaleWomensShoes;

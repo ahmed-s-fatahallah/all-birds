@@ -50,7 +50,7 @@ export default function RootLayout({
       <body className={geographFont.className}>
         <p className="notice">This project is still in progress</p>
         <Header />
-        {children}
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

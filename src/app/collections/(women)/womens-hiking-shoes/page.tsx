@@ -1,9 +1,5 @@
 const WomensHikingShoes = () => {
-  return (
-    <main>
-      <h1>this the WomensHikingShoes page</h1>
-    </main>
-  );
+  return <h1>this the WomensHikingShoes page</h1>;
 };
 
 export default WomensHikingShoes;

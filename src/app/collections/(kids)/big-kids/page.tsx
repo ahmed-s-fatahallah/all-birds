@@ -1,9 +1,5 @@
 const BigKids = () => {
-  return (
-    <main>
-      <h1>this the BigKids page</h1>
-    </main>
-  );
+  return <h1>this the BigKids page</h1>;
 };
 
 export default BigKids;

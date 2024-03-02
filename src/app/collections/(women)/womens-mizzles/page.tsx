@@ -1,9 +1,5 @@
 const WomensMizzles = () => {
-  return (
-    <main>
-      <h1>this the WomensMizzles page</h1>
-    </main>
-  );
+  return <h1>this the WomensMizzles page</h1>;
 };
 
 export default WomensMizzles;

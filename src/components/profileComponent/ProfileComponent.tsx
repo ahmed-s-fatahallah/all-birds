@@ -26,7 +26,7 @@ export default function ProfileComponent() {
   return (
     <>
       {isAuthenticated && (
-        <main className={classes["container"]}>
+        <div className={classes["container"]}>
           <div className={classes["header-wrapper"]}>
             <h1 className={classes.title}>My Account</h1>
             <Button
@@ -57,11 +57,11 @@ export default function ProfileComponent() {
                 </p>
               </div>
               <Link href="" className={classes["address-link"]}>
-                view Addresses
+                Add an Addresses
               </Link>
             </div>
           </div>
-        </main>
+        </div>
       )}
     </>
   );

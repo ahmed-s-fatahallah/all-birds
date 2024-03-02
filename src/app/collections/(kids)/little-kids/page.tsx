@@ -1,9 +1,5 @@
 const LittleKids = () => {
-  return (
-    <main>
-      <h1>this the LittleKids page</h1>
-    </main>
-  );
+  return <h1>this the LittleKids page</h1>;
 };
 
 export default LittleKids;
