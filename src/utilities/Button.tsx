@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
-import { useFormStatus } from "react-dom";
+
 import classes from "./Button.module.css";
 
 interface ButtonProps
@@ -17,7 +17,7 @@ export default function Button({
   ...rest
 }: ButtonProps) {
   return (
-    <button className={classes[variant] || className} {...rest}>
+    <button className={`${classes[variant]} ${className}`} {...rest}>
       {children}
     </button>
   );

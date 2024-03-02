@@ -3,13 +3,14 @@ import Link from "next/link";
 import Button from "@/utilities/Button";
 import { auth } from "@/utilities/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import classes from "./ProfileComponent.module.css";
 import { useLayoutEffect, useState } from "react";
 
 export default function ProfileComponent() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useLayoutEffect(() => {
@@ -56,7 +57,10 @@ export default function ProfileComponent() {
                   YOU HAVEN&apos;T ADDED AN ADDRESS YET.
                 </p>
               </div>
-              <Link href="" className={classes["address-link"]}>
+              <Link
+                href={`${pathname}/addresses`}
+                className={classes["address-link"]}
+              >
                 Add an Addresses
               </Link>
             </div>

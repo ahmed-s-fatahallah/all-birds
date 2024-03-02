@@ -151,7 +151,7 @@ ul {
   list-style: none;
 }
 
-input,
+input:not([type="checkbox"]),
 select {
   width: 100%;
   appearance: none;
