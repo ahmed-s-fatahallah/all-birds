@@ -41,7 +41,7 @@
   text-align: left;
 }
 
-:is(.country-wrapper, .state-wrapper) label {
+:is(.country-wrapper, .state-wrapper, .city-wrapper) label {
   display: block;
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-sm);
@@ -50,7 +50,7 @@
   margin-bottom: 0.8rem;
 }
 
-:is(.country-wrapper, .state-wrapper) select {
+:is(.country-wrapper, .state-wrapper, .city-wrapper) select {
   margin-bottom: 1.9rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: var(--border-radius-sm);

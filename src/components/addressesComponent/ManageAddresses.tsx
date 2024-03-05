@@ -10,51 +10,37 @@ import {
   useRef,
   useState,
 } from "react";
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set } from "firebase/database";
 
 import classes from "./ManageAddresses.module.css";
 import { app, auth } from "@/utilities/firebaseConfig";
 import { User, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
-
-const MOCKCOUNTRIESCITIESDATA: { [key: string]: string[] } = {
-  "United States": ["New York", "Los Angeles", "Chicago"],
-  Canada: ["Toronto", "Vancouver", "Montreal"],
-  Mexico: ["Mexico City", "Guadalajara", "Monterrey"],
-  Brazil: ["São Paulo", "Rio de Janeiro", "Salvador"],
-  Argentina: ["Buenos Aires", "Córdoba", "Rosario"],
-  "United Kingdom": ["London", "Birmingham", "Manchester"],
-  France: ["Paris", "Marseille", "Lyon"],
-  Germany: ["Berlin", "Hamburg", "Munich"],
-  Italy: ["Rome", "Milan", "Naples"],
-  Spain: ["Madrid", "Barcelona", "Valencia"],
-  Russia: ["Moscow", "Saint Petersburg", "Novosibirsk"],
-  China: ["Shanghai", "Beijing", "Tianjin"],
-  Japan: ["Tokyo", "Yokohama", "Osaka"],
-  "South Korea": ["Seoul", "Busan", "Incheon"],
-  India: ["Mumbai", "Delhi", "Bangalore"],
-  Australia: ["Sydney", "Melbourne", "Brisbane"],
-  "South Africa": ["Johannesburg", "Cape Town", "Durban"],
-  Egypt: ["Cairo", "Alexandria", "Giza", "Sharkia"],
-  Nigeria: ["Lagos", "Kano", "Ibadan"],
-  Kenya: ["Nairobi", "Mombasa", "Nakuru"],
-};
+import { getCities, getStates } from "./getStatesCitiesActions";
+import { CountryStateCity } from "@/definitions";
 
 type FormData = {
   [k: string]: string | boolean;
 } & { isDefault: boolean };
 
-export default function ManageAddresses() {
-  const [cities, setCities] = useState<string[]>(
-    MOCKCOUNTRIESCITIESDATA["United States"]
-  );
-  const [country, setCountry] = useState<string>("United States");
+export default function ManageAddresses({
+  countries,
+}: {
+  countries: CountryStateCity[];
+}) {
+  // TODO:Refactor this useState hook
+  const [countryName, setCountryName] = useState<string>(countries[0].name);
+
+  const [states, setStates] = useState<CountryStateCity[] | null>(null);
+  const [stateName, setStateName] = useState<string>(states?.[0].name || "");
+  const [cities, setCities] = useState<CountryStateCity[] | null>(null);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formElRef = useRef<HTMLFormElement>(null);
+  const chosenCountyRef = useRef<CountryStateCity | undefined>();
 
   const router = useRouter();
 
@@ -68,6 +54,21 @@ export default function ManageAddresses() {
         setUser(null);
       }
     });
+
+    const getInitialCities = async () => {
+      setIsLoading(true);
+      const initialStates = await getStates(countries[0].iso2);
+      setStates(initialStates);
+      if (initialStates) {
+        const initialCities = await getCities(
+          countries[0].iso2,
+          initialStates[0].iso2
+        );
+        setCities(initialCities);
+      }
+      setIsLoading(false);
+    };
+    getInitialCities();
   }, []);
 
   const addAddressClickHandler = () => {
@@ -80,13 +81,55 @@ export default function ManageAddresses() {
       formElRef.current.style.display = "none";
     }
   };
+  ///////////////////////////////////////////////////////////////////////////////////
+  // I don't support children killers and genocide
+  const renderCorrectCountries = () => {
+    const correctCountriesNames: string[] = [];
+    countries.forEach((country) => {
+      if (country.name.toLowerCase() === "israel") {
+        correctCountriesNames.push("Palestine");
+        return;
+      }
+      correctCountriesNames.push(country.name);
+    });
 
-  const countyChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCountry(e.currentTarget.value);
-    setCities(MOCKCOUNTRIESCITIESDATA[e.currentTarget.value]);
+    return correctCountriesNames
+      .sort()
+      .map((name) => <option key={crypto.randomUUID()}>{name}</option>);
+  };
+  ////////////////////////////////////////////////////////////////////////////////////
+  const countyChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
+    setCountryName(e.currentTarget.value);
+    chosenCountyRef.current = countries.find((country) => {
+      if (e.currentTarget.value.toLowerCase() === "palestine") {
+        return country.name.toLowerCase() === "israel";
+      }
+      return country.name === e.currentTarget.value;
+    });
+    setIsLoading(true);
+    const states = await getStates(chosenCountyRef.current?.iso2 || "");
+    setStates(states);
+    setIsLoading(false);
+  };
+  const stateChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
+    setStateName(e.currentTarget.value);
+    setIsLoading(true);
+    const chosenState = states?.find(
+      (state) => state.name === e.currentTarget.value
+    );
+    if (chosenCountyRef.current && chosenState) {
+      const fetchedCities = await getCities(
+        chosenCountyRef.current.iso2,
+        chosenState.iso2
+      );
+
+      setCities(fetchedCities);
+    }
+    setIsLoading(false);
   };
 
-  const addressFormSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const addressFormSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
     const formEl = e.target as HTMLFormElement;
 
@@ -95,8 +138,6 @@ export default function ManageAddresses() {
         formEl.querySelector<HTMLInputElement>(`input[type='checkbox']`)
           ?.checked || false,
     };
-
-    const database = getDatabase(app);
 
     const formInputEls = Array.from(
       formEl.querySelectorAll<HTMLInputElement>(`input:not([type="checkbox"])`)
@@ -111,19 +152,42 @@ export default function ManageAddresses() {
     });
 
     if (user) {
-      updateProfile(user, {
-        displayName: `${firstName} ${lastName}`,
-      });
+      try {
+        const database = getDatabase(app);
+        const databaseRef = ref(database);
+        const addressesPath = `users/${user.uid}/addresses`;
 
-      const oldAddresses = ref(database, "addresses/" + user.uid);
-      onValue(oldAddresses, (snapshot) => {
-        const data = snapshot.val();
-        console.log(data);
-      });
-      // set(ref(database, "addresses/" + user.uid), [...oldAddresses, formData]);
+        const snapshot = await get(child(databaseRef, addressesPath));
+
+        updateProfile(user, {
+          displayName: `${firstName} ${lastName}`,
+        });
+
+        if (snapshot.exists() && formData.isDefault) {
+          const modifiedData = snapshot
+            .val()
+            .map((item: FormData) => ({ ...item, isDefault: false }));
+
+          set(ref(database, addressesPath), [...modifiedData, formData]);
+        } else if (snapshot.exists() && !formData.isDefault) {
+          set(ref(database, addressesPath), [...snapshot.val(), formData]);
+        } else {
+          set(ref(database, addressesPath), [formData]);
+        }
+
+        if (formElRef.current) {
+          formElRef.current.reset();
+          formElRef.current.style.display = "none";
+        }
+        setIsLoading(false);
+      } catch (error) {
+        if (error instanceof Error) throw Error(error.message);
+        setIsLoading(false);
+      }
     } else {
       router.replace("/login");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -171,28 +235,42 @@ export default function ManageAddresses() {
               <InputField type="text" name="address2">
                 Address2
               </InputField>
-              <InputField type="text" name="city" required>
-                City
-              </InputField>
+
               <div className={classes["country-wrapper"]}>
                 <label htmlFor="country">Country</label>
                 <select
                   name="country"
                   id="country"
                   onChange={countyChangeHandler}
-                  value={country}
+                  // TODO:Refactor this useState hook
+                  value={countryName}
+                  disabled={isLoading}
                 >
-                  {Object.keys(MOCKCOUNTRIESCITIESDATA).map((country) => (
-                    <option key={crypto.randomUUID()}>{country}</option>
-                  ))}
+                  {renderCorrectCountries()}
                 </select>
               </div>
               <div className={classes["state-wrapper"]}>
-                <label htmlFor="state">state</label>
-                <select name="state" id="state">
-                  {cities.map((city) => (
-                    <option key={crypto.randomUUID()} value={city}>
-                      {city}
+                <label htmlFor="state">State</label>
+                <select
+                  name="state"
+                  id="state"
+                  onChange={stateChangeHandler}
+                  value={stateName}
+                  disabled={isLoading}
+                >
+                  {states?.map((city) => (
+                    <option key={crypto.randomUUID()} value={city.name}>
+                      {city.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className={classes["city-wrapper"]}>
+                <label htmlFor="city">City</label>
+                <select name="city" id="city" disabled={isLoading}>
+                  {cities?.map((city) => (
+                    <option key={crypto.randomUUID()} value={city.name}>
+                      {city.name}
                     </option>
                   ))}
                 </select>

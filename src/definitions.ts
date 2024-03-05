@@ -36,3 +36,5 @@ export interface ColorSliderProps {
   colors: Color[];
   setCurrentProductColor: Dispatch<SetStateAction<Color | undefined>>;
 }
+
+export type CountryStateCity = { id: number; name: string; iso2: string };
