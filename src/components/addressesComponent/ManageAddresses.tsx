@@ -28,19 +28,15 @@ export default function ManageAddresses({
 }: {
   countries: CountryStateCity[];
 }) {
-  // TODO:Refactor this useState hook
-  const [countryName, setCountryName] = useState<string>(countries[0].name);
-
-  const [states, setStates] = useState<CountryStateCity[] | null>(null);
-  const [stateName, setStateName] = useState<string>(states?.[0].name || "");
-  const [cities, setCities] = useState<CountryStateCity[] | null>(null);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [states, setStates] = useState<CountryStateCity[] | null>(null);
+  const [cities, setCities] = useState<CountryStateCity[] | null>(null);
 
   const formElRef = useRef<HTMLFormElement>(null);
-  const chosenCountyRef = useRef<CountryStateCity | undefined>();
+  const chosenCountyRef = useRef<CountryStateCity>(countries[0]);
 
   const router = useRouter();
 
@@ -55,7 +51,7 @@ export default function ManageAddresses({
       }
     });
 
-    const getInitialCities = async () => {
+    const getInitialStatesCities = async () => {
       setIsLoading(true);
       const initialStates = await getStates(countries[0].iso2);
       setStates(initialStates);
@@ -68,7 +64,7 @@ export default function ManageAddresses({
       }
       setIsLoading(false);
     };
-    getInitialCities();
+    getInitialStatesCities();
   }, []);
 
   const addAddressClickHandler = () => {
@@ -84,39 +80,45 @@ export default function ManageAddresses({
   ///////////////////////////////////////////////////////////////////////////////////
   // I don't support children killers and genocide
   const renderCorrectCountries = () => {
-    const correctCountriesNames: string[] = [];
-    countries.forEach((country) => {
+    const correctCountriesNames = countries.map((country) => {
       if (country.name.toLowerCase() === "israel") {
-        correctCountriesNames.push("Palestine");
+        return "Palestine";
         return;
       }
-      correctCountriesNames.push(country.name);
+      return country.name;
     });
 
     return correctCountriesNames
       .sort()
-      .map((name) => <option key={crypto.randomUUID()}>{name}</option>);
+      .map((name) => <option key={name}>{name}</option>);
   };
   ////////////////////////////////////////////////////////////////////////////////////
   const countyChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
-    setCountryName(e.currentTarget.value);
-    chosenCountyRef.current = countries.find((country) => {
-      if (e.currentTarget.value.toLowerCase() === "palestine") {
-        return country.name.toLowerCase() === "israel";
-      }
-      return country.name === e.currentTarget.value;
-    });
+    chosenCountyRef.current =
+      countries.find((country) => {
+        if (e.currentTarget.value.toLowerCase() === "palestine") {
+          return country.name.toLowerCase() === "israel";
+        }
+        return country.name === e.currentTarget.value;
+      }) || countries[0];
+
     setIsLoading(true);
-    const states = await getStates(chosenCountyRef.current?.iso2 || "");
-    setStates(states);
+    const fetchedStates = await getStates(chosenCountyRef.current?.iso2 || "");
+    const fetchedCities = await getCities(
+      chosenCountyRef.current?.iso2 || "",
+      fetchedStates?.[0].iso2 || ""
+    );
+    setStates(fetchedStates);
+    setCities(fetchedCities);
     setIsLoading(false);
   };
+
   const stateChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
-    setStateName(e.currentTarget.value);
     setIsLoading(true);
     const chosenState = states?.find(
       (state) => state.name === e.currentTarget.value
     );
+
     if (chosenCountyRef.current && chosenState) {
       const fetchedCities = await getCities(
         chosenCountyRef.current.iso2,
@@ -242,8 +244,6 @@ export default function ManageAddresses({
                   name="country"
                   id="country"
                   onChange={countyChangeHandler}
-                  // TODO:Refactor this useState hook
-                  value={countryName}
                   disabled={isLoading}
                 >
                   {renderCorrectCountries()}
@@ -255,12 +255,11 @@ export default function ManageAddresses({
                   name="state"
                   id="state"
                   onChange={stateChangeHandler}
-                  value={stateName}
                   disabled={isLoading}
                 >
-                  {states?.map((city) => (
-                    <option key={crypto.randomUUID()} value={city.name}>
-                      {city.name}
+                  {states?.map((state) => (
+                    <option key={state.name} value={state.name}>
+                      {state.name}
                     </option>
                   ))}
                 </select>
@@ -269,7 +268,7 @@ export default function ManageAddresses({
                 <label htmlFor="city">City</label>
                 <select name="city" id="city" disabled={isLoading}>
                   {cities?.map((city) => (
-                    <option key={crypto.randomUUID()} value={city.name}>
+                    <option key={city.name} value={city.name}>
                       {city.name}
                     </option>
                   ))}
@@ -281,7 +280,6 @@ export default function ManageAddresses({
               <InputField type="tel" name="phone" required>
                 Phone
               </InputField>
-
               <div className={classes["default-wrapper"]}>
                 <input type="checkbox" id="default" name="default" />
                 <label htmlFor="default">SET AS DEFAULT ADDRESS</label>
@@ -297,7 +295,9 @@ export default function ManageAddresses({
                 Cancel
               </button>
             </form>
-            <div className={classes["addresses-wrapper"]}></div>
+            <div className={classes["addresses-wrapper"]}>
+              {/*TODO: Render list of addresses dynamically*/}
+            </div>
             <Link href="/account" className={classes["back-btn"]}>
               Back to account
             </Link>
