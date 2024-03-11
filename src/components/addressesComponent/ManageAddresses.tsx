@@ -1,8 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import Button from "@/utilities/Button";
-import InputField from "@/components/inputField/InputField";
 import {
   ChangeEvent,
   FormEvent,
@@ -10,16 +7,20 @@ import {
   useRef,
   useState,
 } from "react";
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import Link from "next/link";
+import Button from "@/utilities/Button";
+import InputField from "@/components/inputField/InputField";
+import { child, get, ref, set } from "firebase/database";
 
-import classes from "./ManageAddresses.module.css";
-import { app, auth } from "@/utilities/firebaseConfig";
+import RenderAddresses from "./renderAddressesComponent/RenderAddresses";
+import { auth, database, databaseRef } from "@/utilities/firebaseConfig";
 import { User, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getCities, getStates } from "./getStatesCitiesActions";
 import { CountryStateCity } from "@/definitions";
+import classes from "./ManageAddresses.module.css";
 
-type FormData = {
+type AddressFormData = {
   [k: string]: string | boolean;
 } & { isDefault: boolean };
 
@@ -48,6 +49,7 @@ export default function ManageAddresses({
         setLastName(user.displayName?.split(" ")[1] || "");
       } else {
         setUser(null);
+        router.replace("/login");
       }
     });
 
@@ -77,30 +79,11 @@ export default function ManageAddresses({
       formElRef.current.style.display = "none";
     }
   };
-  ///////////////////////////////////////////////////////////////////////////////////
-  // I don't support children killers and genocide
-  const renderCorrectCountries = () => {
-    const correctCountriesNames = countries.map((country) => {
-      if (country.name.toLowerCase() === "israel") {
-        return "Palestine";
-        return;
-      }
-      return country.name;
-    });
 
-    return correctCountriesNames
-      .sort()
-      .map((name) => <option key={name}>{name}</option>);
-  };
-  ////////////////////////////////////////////////////////////////////////////////////
   const countyChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
     chosenCountyRef.current =
-      countries.find((country) => {
-        if (e.currentTarget.value.toLowerCase() === "palestine") {
-          return country.name.toLowerCase() === "israel";
-        }
-        return country.name === e.currentTarget.value;
-      }) || countries[0];
+      countries.find((country) => country.name === e.currentTarget.value) ||
+      countries[0];
 
     setIsLoading(true);
     const fetchedStates = await getStates(chosenCountyRef.current?.iso2 || "");
@@ -135,10 +118,12 @@ export default function ManageAddresses({
     e.preventDefault();
     const formEl = e.target as HTMLFormElement;
 
-    const formData: FormData = {
+    const formData: AddressFormData = {
       isDefault:
         formEl.querySelector<HTMLInputElement>(`input[type='checkbox']`)
           ?.checked || false,
+      "state-iso":
+        states?.find((state) => state.name === formEl.state.value)?.iso2 || "",
     };
 
     const formInputEls = Array.from(
@@ -155,8 +140,6 @@ export default function ManageAddresses({
 
     if (user) {
       try {
-        const database = getDatabase(app);
-        const databaseRef = ref(database);
         const addressesPath = `users/${user.uid}/addresses`;
 
         const snapshot = await get(child(databaseRef, addressesPath));
@@ -168,7 +151,7 @@ export default function ManageAddresses({
         if (snapshot.exists() && formData.isDefault) {
           const modifiedData = snapshot
             .val()
-            .map((item: FormData) => ({ ...item, isDefault: false }));
+            .map((item: AddressFormData) => ({ ...item, isDefault: false }));
 
           set(ref(database, addressesPath), [...modifiedData, formData]);
         } else if (snapshot.exists() && !formData.isDefault) {
@@ -246,7 +229,11 @@ export default function ManageAddresses({
                   onChange={countyChangeHandler}
                   disabled={isLoading}
                 >
-                  {renderCorrectCountries()}
+                  {countries?.map((country) => (
+                    <option key={country.name} value={country.name}>
+                      {country.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className={classes["state-wrapper"]}>
@@ -257,21 +244,29 @@ export default function ManageAddresses({
                   onChange={stateChangeHandler}
                   disabled={isLoading}
                 >
-                  {states?.map((state) => (
-                    <option key={state.name} value={state.name}>
-                      {state.name}
-                    </option>
-                  ))}
+                  {states && states.length > 0 ? (
+                    states?.map((state) => (
+                      <option key={state.name} value={state.name}>
+                        {state.name}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">N/A</option>
+                  )}
                 </select>
               </div>
               <div className={classes["city-wrapper"]}>
                 <label htmlFor="city">City</label>
                 <select name="city" id="city" disabled={isLoading}>
-                  {cities?.map((city) => (
-                    <option key={city.name} value={city.name}>
-                      {city.name}
-                    </option>
-                  ))}
+                  {cities && cities?.length > 0 ? (
+                    cities?.map((city) => (
+                      <option key={city.name} value={city.name}>
+                        {city.name}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">N/A</option>
+                  )}
                 </select>
               </div>
               <InputField type="text" name="postal" required>
@@ -297,6 +292,7 @@ export default function ManageAddresses({
             </form>
             <div className={classes["addresses-wrapper"]}>
               {/*TODO: Render list of addresses dynamically*/}
+              <RenderAddresses />
             </div>
             <Link href="/account" className={classes["back-btn"]}>
               Back to account

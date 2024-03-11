@@ -1,0 +1,27 @@
+.address-card {
+  max-width: 46rem;
+  margin-inline: auto;
+  margin-bottom: 2rem;
+  background-color: var(--color-white-100);
+  padding: 6rem;
+  text-transform: uppercase;
+  font-size: var(--font-size-md);
+  letter-spacing: var(--letter-spacing-widest);
+  line-height: var(--line-height-4);
+  text-align: left;
+}
+
+.address-card h3 {
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-md);
+}
+
+.address-card button {
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-xs);
+  color: var(--color-black);
+  letter-spacing: var(--letter-spacing-widest);
+  line-height: var(--line-height-4);
+}

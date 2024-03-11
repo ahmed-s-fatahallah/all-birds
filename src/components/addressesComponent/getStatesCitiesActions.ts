@@ -17,6 +17,7 @@ export const getStates = async (
             "dGZKTmUzTW9yNzlnOGJQZmI4UE8yaXVrb2t2dHpORXFSSjJOVnZCMw==",
         },
         redirect: "follow",
+        cache: "force-cache",
       }
     );
     return states;
@@ -27,6 +28,7 @@ export const getStates = async (
   }
   return null;
 };
+
 export const getCities = async (
   countyISO: string,
   stateISO: string
@@ -42,6 +44,7 @@ export const getCities = async (
             "dGZKTmUzTW9yNzlnOGJQZmI4UE8yaXVrb2t2dHpORXFSSjJOVnZCMw==",
         },
         redirect: "follow",
+        cache: "force-cache",
       }
     );
     return cities;

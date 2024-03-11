@@ -18,10 +18,16 @@ const getCountries = async (): Promise<CountryStateCity[]> => {
 export default async function Addresses() {
   try {
     const countries = await getCountries();
+    ///////////////////////////////////////////////////////////////////////////////////
+    // I don't support children killers and genocide
+    const correctCountries = countries.filter((country) => {
+      return country.name.toLowerCase() !== "israel";
+    });
+    ////////////////////////////////////////////////////////////////////////////////////
 
     return (
       <>
-        <ManageAddresses countries={countries} />
+        <ManageAddresses countries={correctCountries} />
         <ProductApproach />
       </>
     );
