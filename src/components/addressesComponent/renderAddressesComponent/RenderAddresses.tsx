@@ -1,11 +1,14 @@
 "use client";
 
 import { auth, database } from "@/utilities/firebaseConfig";
-import { User } from "firebase/auth";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { Unsubscribe, User } from "firebase/auth";
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onValue, ref, set } from "firebase/database";
+import AddressesForm from "../addressesForm/AddressesForm";
+import { CountryStateCity } from "@/definitions";
 
+import formStyles from "../addressesForm/AddressesForm.module.css";
 import classes from "./RenderAddresses.module.css";
 
 type AddressFormData = {
@@ -23,9 +26,15 @@ type AddressFormData = {
   state: string;
 };
 
-export default function RenderAddresses() {
+export default function RenderAddresses({
+  countries,
+}: {
+  countries: CountryStateCity[];
+}) {
   const [user, setUser] = useState<User | null>(null);
   const [addresses, setAddresses] = useState<AddressFormData[] | null>(null);
+  const addressCardWrapperElRef = useRef<HTMLDivElement>(null);
+
   const router = useRouter();
 
   useLayoutEffect(() => {
@@ -44,11 +53,12 @@ export default function RenderAddresses() {
   }, []);
 
   useEffect(() => {
+    let unsubscribe: Unsubscribe;
     const getAddresses = async () => {
       if (user) {
         try {
           const addressesPath = `users/${user.uid}/addresses`;
-          onValue(ref(database, addressesPath), (snapshot) => {
+          unsubscribe = onValue(ref(database, addressesPath), (snapshot) => {
             setAddresses(snapshot.val());
           });
         } catch (error) {
@@ -59,46 +69,89 @@ export default function RenderAddresses() {
       }
     };
     getAddresses();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [user]);
 
   const deleteAddressClickHandler = (index: number) => {
     if (!user) return;
     const addressesPath = `users/${user.uid}/addresses`;
-    addresses?.splice(index, 1);
+    const deletedAddress = addresses?.splice(index, 1);
+    if (
+      deletedAddress &&
+      deletedAddress[0].isDefault &&
+      addresses &&
+      addresses.length > 0
+    ) {
+      addresses[index - 1].isDefault = true;
+    }
     set(ref(database, addressesPath), addresses || null);
+  };
+  const editAddressClickHandler = (index: number) => {
+    if (!addressCardWrapperElRef.current) return;
+    const formEls = addressCardWrapperElRef.current.querySelectorAll(
+      `.${formStyles["address-form"]}`
+    );
+
+    formEls[index].classList.toggle(formStyles["show-form"]);
   };
 
   return (
-    <>
+    <div ref={addressCardWrapperElRef}>
       {addresses?.map((address, i) => {
         return (
-          <div className={classes["address-card"]} key={address.address1}>
-            <h3>{`${address["first-name"]} ${address["last-name"]} ${
-              address.isDefault ? "(default)" : ""
-            }`}</h3>
+          <Fragment key={`${address.address1}${i}`}>
+            <div className={classes["address-card"]}>
+              <h3>{`${address["first-name"]} ${address["last-name"]} ${
+                address.isDefault ? "(default)" : ""
+              }`}</h3>
 
-            <div>
-              <div>{address.company}</div>
-              <div>{`${address.address1}, ${address.address2}`}</div>
-              <div>{`${!address.city ? "" : address.city + ","} ${
-                !address["state-iso"] ? "" : address["state-iso"] + ","
-              } ${address.postal}`}</div>
-              <div>{`${address.country}`}</div>
-              <div>{`${address.phone}`}</div>
-            </div>
+              <div>
+                <div>{address.company}</div>
+                <div>{`${address.address1}, ${address.address2}`}</div>
+                <div>{`${!address.city ? "" : address.city + ","} ${
+                  !address["state-iso"] ? "" : address["state-iso"] + ","
+                } ${address.postal}`}</div>
+                <div>{`${address.country}`}</div>
+                <div>{`${address.phone}`}</div>
+              </div>
 
-            <div>
-              <button type="button">edit</button> |{" "}
-              <button
-                type="button"
-                onClick={deleteAddressClickHandler.bind(null, i)}
-              >
-                delete
-              </button>
+              <div>
+                <button
+                  type="button"
+                  onClick={editAddressClickHandler.bind(null, i)}
+                >
+                  edit
+                </button>{" "}
+                |{" "}
+                <button
+                  type="button"
+                  onClick={deleteAddressClickHandler.bind(null, i)}
+                >
+                  delete
+                </button>
+              </div>
             </div>
-          </div>
+            <AddressesForm
+              countries={countries}
+              currentFirstName={address["first-name"]}
+              currentLastName={address["last-name"]}
+              currentCompany={address.company}
+              currentAddress1={address.address1}
+              currentAddress2={address.address2}
+              currentCity={address.city}
+              currentState={address.state}
+              currentPostal={address.postal}
+              currentCountry={address.country}
+              currentPhone={address.phone}
+              currentIsDefault={address.isDefault}
+            />
+          </Fragment>
         );
       })}
-    </>
+    </div>
   );
 }
