@@ -244,7 +244,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
         <InputField
           type="text"
           name="first-name"
-          value={currentFirstName || firstName}
+          defaultValue={currentFirstName || firstName}
           onChange={(e) => setFirstName(e.currentTarget.value.trim())}
           required
         >
@@ -253,24 +253,32 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
         <InputField
           type="text"
           name="last-name"
-          value={currentLastName || lastName}
+          defaultValue={currentLastName || lastName}
           onChange={(e) => setLastName(e.currentTarget.value.trim())}
           required
         >
           Last name
         </InputField>
-        <InputField type="text" name="company" value={currentCompany || ""}>
+        <InputField
+          type="text"
+          name="company"
+          defaultValue={currentCompany || ""}
+        >
           Company
         </InputField>
         <InputField
           type="text"
           name="address1"
           required
-          value={currentAddress1 || ""}
+          defaultValue={currentAddress1 || ""}
         >
           Address1
         </InputField>
-        <InputField type="text" name="address2" value={currentAddress2 || ""}>
+        <InputField
+          type="text"
+          name="address2"
+          defaultValue={currentAddress2 || ""}
+        >
           Address2
         </InputField>
 
@@ -281,7 +289,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             id="country"
             onChange={countyChangeHandler}
             disabled={isLoading}
-            value={currentCountry || countries[0].name}
+            defaultValue={currentCountry || countries[0].name}
           >
             {countries?.map((country) => (
               <option key={country.name} value={country.name}>
@@ -297,7 +305,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             id="state"
             onChange={stateChangeHandler}
             disabled={isLoading}
-            value={currentState || (states && states[0].name) || "N/A"}
+            defaultValue={currentState || (states && states[0].name) || "N/A"}
           >
             {states && states.length > 0 ? (
               states?.map((state) => (
@@ -316,7 +324,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             name="city"
             id="city"
             disabled={isLoading}
-            value={currentCity || (cities && cities[0].name) || "N/A"}
+            defaultValue={currentCity || (cities && cities[0].name) || "N/A"}
           >
             {cities && cities?.length > 0 ? (
               cities?.map((city) => (
@@ -333,11 +341,16 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
           type="text"
           name="postal"
           required
-          value={currentPostal || ""}
+          defaultValue={currentPostal || ""}
         >
           Postal/Zip code
         </InputField>
-        <InputField type="tel" name="phone" required value={currentPhone || ""}>
+        <InputField
+          type="tel"
+          name="phone"
+          required
+          defaultValue={currentPhone || ""}
+        >
           Phone
         </InputField>
         <div className={classes["default-wrapper"]}>
@@ -345,7 +358,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             type="checkbox"
             id="default"
             name="default"
-            checked={currentIsDefault || false}
+            defaultChecked={currentIsDefault || false}
           />
           <label htmlFor="default">SET AS DEFAULT ADDRESS</label>
         </div>
