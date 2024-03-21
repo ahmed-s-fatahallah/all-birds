@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 import classes from "./ManageAddresses.module.css";
 import formStyles from "./addressesForm/AddressesForm.module.css";
+import { getCities, getStates } from "./getStatesCitiesActions";
 
 export default function ManageAddresses({
   countries,
@@ -19,6 +20,9 @@ export default function ManageAddresses({
 }) {
   const formElRef = useRef<HTMLFormElement>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [states, setStates] = useState<CountryStateCity[]>();
+  const [cities, setCities] = useState<CountryStateCity[]>();
 
   const router = useRouter();
 
@@ -33,10 +37,28 @@ export default function ManageAddresses({
     });
   }, []);
 
-  const addAddressClickHandler = () => {
+  const addAddressClickHandler = async () => {
     if (!formElRef.current) return;
 
     formElRef.current.classList.toggle(formStyles["show-form"]);
+
+    if (
+      !formElRef.current.classList.contains(formStyles["show-form"]) ||
+      (states && cities)
+    )
+      return;
+
+    setIsLoading(true);
+    const initialStates = await getStates(countries[0].iso2);
+    if (initialStates) {
+      setStates(initialStates);
+      const initialCities = await getCities(
+        countries[0].iso2,
+        initialStates[0].iso2
+      );
+      if (initialCities) setCities(initialCities);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -52,7 +74,13 @@ export default function ManageAddresses({
             >
               Add a new Address
             </button>
-            <AddressesForm countries={countries} ref={formElRef} />
+            <AddressesForm
+              countries={countries}
+              ref={formElRef}
+              initialStates={states}
+              initialCities={cities}
+              loading={isLoading}
+            />
             <div>
               <RenderAddresses countries={countries} />
             </div>

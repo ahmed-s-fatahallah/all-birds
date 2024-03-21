@@ -27,6 +27,9 @@ type AddressFormData = {
 } & { isDefault: boolean };
 
 type AddressFormProps = {
+  initialStates?: CountryStateCity[];
+  initialCities?: CountryStateCity[];
+  loading?: boolean;
   currentFirstName?: string;
   currentLastName?: string;
   currentCompany?: string;
@@ -44,6 +47,9 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
   function AddressesForm(
     {
       countries,
+      initialStates,
+      initialCities,
+      loading,
       currentFirstName,
       currentLastName,
       currentCompany,
@@ -81,21 +87,40 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
         }
       });
 
-      const getInitialStatesCities = async () => {
-        setIsLoading(true);
-        const initialStates = await getStates(countries[0].iso2);
-        setStates(initialStates);
-        if (initialStates) {
-          const initialCities = await getCities(
-            countries[0].iso2,
-            initialStates[0].iso2
-          );
-          setCities(initialCities);
-        }
-        setIsLoading(false);
-      };
-      getInitialStatesCities();
+      // const getSelectedStatesCities = async () => {
+      //   setIsLoading(true);
+      //   const selectedCountry = countries.find(
+      //     (country) => country.name === currentCountry
+      //   );
+      //   const selectedStates = await getStates(
+      //     selectedCountry?.iso2 || countries[0].iso2
+      //   );
+      //   console.log(selectedStates);
+      //   if (selectedStates) {
+      //     setStates(selectedStates);
+      //     const selectedState = selectedStates.find(
+      //       (state) => state.name === currentState
+      //     );
+
+      //     const SelectedCities = await getCities(
+      //       selectedCountry?.iso2 || countries[0].iso2,
+      //       selectedState?.iso2 || selectedStates[0].iso2
+      //     );
+      //     setCities(SelectedCities);
+      //   }
+      //   setIsLoading(false);
+      // };
+
+      // if (currentCountry) {
+      //   getSelectedStatesCities();
+      // }
     }, []);
+
+    useEffect(() => {
+      setStates(initialStates || null);
+      setCities(initialCities || null);
+      setIsLoading(loading || false);
+    }, [initialCities, initialStates, loading]);
 
     const cancelAddAddressClickHandler = () => {
       if (formRef && "current" in formRef && formRef.current) {
@@ -116,6 +141,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
         chosenCountyRef.current?.iso2 || "",
         fetchedStates?.[0].iso2 || ""
       );
+      if (!fetchedStates || !fetchedCities) return;
       setStates(fetchedStates);
       setCities(fetchedCities);
       setIsLoading(false);
@@ -132,7 +158,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
           chosenCountyRef.current.iso2,
           chosenState.iso2
         );
-
+        if (!fetchedCities) return;
         setCities(fetchedCities);
       }
       setIsLoading(false);
@@ -305,7 +331,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             id="state"
             onChange={stateChangeHandler}
             disabled={isLoading}
-            defaultValue={currentState || (states && states[0].name) || "N/A"}
+            defaultValue={currentState || (states && states[0]?.name) || "N/A"}
           >
             {states && states.length > 0 ? (
               states?.map((state) => (
@@ -324,7 +350,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             name="city"
             id="city"
             disabled={isLoading}
-            defaultValue={currentCity || (cities && cities[0].name) || "N/A"}
+            defaultValue={currentCity || (cities && cities[0]?.name) || "N/A"}
           >
             {cities && cities?.length > 0 ? (
               cities?.map((city) => (
