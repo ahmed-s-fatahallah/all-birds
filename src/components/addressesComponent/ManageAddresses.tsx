@@ -47,18 +47,22 @@ export default function ManageAddresses({
       (states && cities)
     )
       return;
-
-    setIsLoading(true);
-    const initialStates = await getStates(countries[0].iso2);
-    if (initialStates) {
-      setStates(initialStates);
-      const initialCities = await getCities(
-        countries[0].iso2,
-        initialStates[0].iso2
-      );
-      if (initialCities) setCities(initialCities);
+    try {
+      setIsLoading(true);
+      const initialStates = await getStates(countries[0].iso2);
+      if (initialStates) {
+        setStates(initialStates);
+        const initialCities = await getCities(
+          countries[0].iso2,
+          initialStates[0].iso2
+        );
+        if (initialCities) setCities(initialCities);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
