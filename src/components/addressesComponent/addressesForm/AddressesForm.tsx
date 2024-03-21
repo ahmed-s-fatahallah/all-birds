@@ -99,7 +99,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
 
     const cancelAddAddressClickHandler = () => {
       if (formRef && "current" in formRef && formRef.current) {
-        formRef.current.classList.add(classes["show-form"]);
+        formRef.current.classList.remove(classes["show-form"]);
       }
     };
 
@@ -222,7 +222,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
 
           if (formRef && "current" in formRef && formRef.current) {
             formRef.current.reset();
-            formRef.current.classList.add(classes["show-form"]);
+            formRef.current.classList.remove(classes["show-form"]);
           }
           setIsLoading(false);
         } catch (error) {

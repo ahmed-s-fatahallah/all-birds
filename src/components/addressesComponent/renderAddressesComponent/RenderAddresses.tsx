@@ -34,7 +34,7 @@ export default function RenderAddresses({
   const [user, setUser] = useState<User | null>(null);
   const [addresses, setAddresses] = useState<AddressFormData[] | null>(null);
   const addressCardWrapperElRef = useRef<HTMLDivElement>(null);
-
+  const formRef = useRef<HTMLFormElement | null>(null);
   const router = useRouter();
 
   useLayoutEffect(() => {
@@ -92,10 +92,11 @@ export default function RenderAddresses({
   };
   const editAddressClickHandler = (index: number) => {
     if (!addressCardWrapperElRef.current) return;
-    const formEls = addressCardWrapperElRef.current.querySelectorAll(
-      `.${formStyles["address-form"]}`
-    );
-
+    const formEls =
+      addressCardWrapperElRef.current.querySelectorAll<HTMLFormElement>(
+        `.${formStyles["address-form"]}`
+      );
+    formRef.current = formEls[index];
     formEls[index].classList.toggle(formStyles["show-form"]);
   };
 
@@ -148,6 +149,7 @@ export default function RenderAddresses({
               currentCountry={address.country}
               currentPhone={address.phone}
               currentIsDefault={address.isDefault}
+              ref={formRef}
             />
           </Fragment>
         );
