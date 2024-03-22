@@ -9,7 +9,8 @@ import AddressesForm from "../addressesForm/AddressesForm";
 import { CountryStateCity } from "@/definitions";
 
 import formStyles from "../addressesForm/AddressesForm.module.css";
-import classes from "./RenderAddresses.module.css";
+import classes from "./RenderAddressesList.module.css";
+import { getCities, getStates } from "../getStatesCitiesActions";
 
 type AddressFormData = {
   "first-name": string;
@@ -26,15 +27,21 @@ type AddressFormData = {
   state: string;
 };
 
-export default function RenderAddresses({
+export default function RenderAddressesList({
   countries,
 }: {
   countries: CountryStateCity[];
 }) {
   const [user, setUser] = useState<User | null>(null);
   const [addresses, setAddresses] = useState<AddressFormData[] | null>(null);
+  const [currentStatesList, setCurrentStatesList] =
+    useState<CountryStateCity[]>();
+  const [currentCitiesList, setCurrentCitiesList] =
+    useState<CountryStateCity[]>();
+  const [isLoading, setIsLoading] = useState(false);
+
   const addressCardWrapperElRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
+
   const router = useRouter();
 
   useLayoutEffect(() => {
@@ -90,13 +97,11 @@ export default function RenderAddresses({
     }
     set(ref(database, addressesPath), addresses || null);
   };
-  const editAddressClickHandler = (index: number) => {
     if (!addressCardWrapperElRef.current) return;
     const formEls =
       addressCardWrapperElRef.current.querySelectorAll<HTMLFormElement>(
         `.${formStyles["address-form"]}`
       );
-    formRef.current = formEls[index];
     formEls[index].classList.toggle(formStyles["show-form"]);
   };
 
@@ -138,6 +143,8 @@ export default function RenderAddresses({
             </div>
             <AddressesForm
               countries={countries}
+              statesList={currentStatesList}
+              citiesList={currentCitiesList}
               currentFirstName={address["first-name"]}
               currentLastName={address["last-name"]}
               currentCompany={address.company}
@@ -149,7 +156,7 @@ export default function RenderAddresses({
               currentCountry={address.country}
               currentPhone={address.phone}
               currentIsDefault={address.isDefault}
-              ref={formRef}
+              loading={isLoading}
             />
           </Fragment>
         );

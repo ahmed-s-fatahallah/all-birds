@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
-import RenderAddresses from "./renderAddressesComponent/RenderAddresses";
+import RenderAddressesList from "./renderAddressesComponent/RenderAddressesList";
 import { CountryStateCity } from "@/definitions";
 import AddressesForm from "./addressesForm/AddressesForm";
 import { User, onAuthStateChanged } from "firebase/auth";
@@ -81,12 +81,12 @@ export default function ManageAddresses({
             <AddressesForm
               countries={countries}
               ref={formElRef}
-              initialStates={states}
-              initialCities={cities}
+              statesList={states}
+              citiesList={cities}
               loading={isLoading}
             />
             <div>
-              <RenderAddresses countries={countries} />
+              <RenderAddressesList countries={countries} />
             </div>
             <Link href="/account" className={classes["back-btn"]}>
               Back to account

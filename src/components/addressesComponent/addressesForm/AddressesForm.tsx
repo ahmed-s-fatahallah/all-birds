@@ -27,8 +27,8 @@ type AddressFormData = {
 } & { isDefault: boolean };
 
 type AddressFormProps = {
-  initialStates?: CountryStateCity[];
-  initialCities?: CountryStateCity[];
+  statesList?: CountryStateCity[];
+  citiesList?: CountryStateCity[];
   loading?: boolean;
   currentFirstName?: string;
   currentLastName?: string;
@@ -47,8 +47,8 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
   function AddressesForm(
     {
       countries,
-      initialStates,
-      initialCities,
+      statesList,
+      citiesList,
       loading,
       currentFirstName,
       currentLastName,
