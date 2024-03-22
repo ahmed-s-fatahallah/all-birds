@@ -5,6 +5,7 @@ import {
   FormEvent,
   forwardRef,
   useEffect,
+  useImperativeHandle,
   useLayoutEffect,
   useRef,
   useState,
@@ -43,7 +44,7 @@ type AddressFormProps = {
   currentIsDefault?: boolean;
 } & { countries: CountryStateCity[] };
 
-export default forwardRef<HTMLFormElement, AddressFormProps>(
+export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
   function AddressesForm(
     {
       countries,
@@ -72,6 +73,15 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
     const [cities, setCities] = useState<CountryStateCity[] | null>(null);
 
     const chosenCountyRef = useRef<CountryStateCity>(countries[0]);
+    const formElRef = useRef<HTMLFormElement>(null);
+
+    useImperativeHandle(
+      formRef,
+      () => {
+        if (formElRef.current) return formElRef.current;
+      },
+      []
+    );
 
     const router = useRouter();
 
@@ -86,46 +96,17 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
           router.replace("/login");
         }
       });
-
-      // const getSelectedStatesCities = async () => {
-      //   setIsLoading(true);
-      //   const selectedCountry = countries.find(
-      //     (country) => country.name === currentCountry
-      //   );
-      //   const selectedStates = await getStates(
-      //     selectedCountry?.iso2 || countries[0].iso2
-      //   );
-      //   console.log(selectedStates);
-      //   if (selectedStates) {
-      //     setStates(selectedStates);
-      //     const selectedState = selectedStates.find(
-      //       (state) => state.name === currentState
-      //     );
-
-      //     const SelectedCities = await getCities(
-      //       selectedCountry?.iso2 || countries[0].iso2,
-      //       selectedState?.iso2 || selectedStates[0].iso2
-      //     );
-      //     setCities(SelectedCities);
-      //   }
-      //   setIsLoading(false);
-      // };
-
-      // if (currentCountry) {
-      //   getSelectedStatesCities();
-      // }
     }, []);
 
     useEffect(() => {
-      setStates(initialStates || null);
-      setCities(initialCities || null);
+      setStates(statesList || null);
+      setCities(citiesList || null);
       setIsLoading(loading || false);
-    }, [initialCities, initialStates, loading]);
+    }, [citiesList, statesList, loading]);
 
     const cancelAddAddressClickHandler = () => {
-      if (formRef && "current" in formRef && formRef.current) {
-        formRef.current.classList.remove(classes["show-form"]);
-      }
+      if (!formElRef.current) return;
+      formElRef.current.classList.remove(classes["show-form"]);
     };
 
     const countyChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
@@ -171,13 +152,12 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
           try {
             const addressesPath = `users/${user.uid}/addresses`;
             unsubscribe = onValue(ref(database, addressesPath), (snapshot) => {
-              if (formRef && "current" in formRef && formRef.current) {
-                if (!snapshot.exists() || snapshot.val().length === 0) {
-                  formRef.current.default.disabled = true;
-                  formRef.current.default.checked = true;
-                } else {
-                  formRef.current.default.disabled = false;
-                }
+              if (!formElRef.current) return;
+              if (!snapshot.exists() || snapshot.val().length === 0) {
+                formElRef.current.default.disabled = true;
+                formElRef.current.default.checked = true;
+              } else {
+                formElRef.current.default.disabled = false;
               }
             });
           } catch (error) {
@@ -245,11 +225,10 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             formData.isDefault = true;
             set(ref(database, addressesPath), [formData]);
           }
+          if (!formElRef.current) return;
+          formElRef.current.reset();
+          formElRef.current.classList.remove(classes["show-form"]);
 
-          if (formRef && "current" in formRef && formRef.current) {
-            formRef.current.reset();
-            formRef.current.classList.remove(classes["show-form"]);
-          }
           setIsLoading(false);
         } catch (error) {
           if (error instanceof Error) throw Error(error.message);
@@ -264,7 +243,7 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
     return (
       <form
         className={classes["address-form"]}
-        ref={formRef}
+        ref={formElRef}
         onSubmit={addressFormSubmitHandler}
       >
         <InputField
@@ -331,7 +310,8 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             id="state"
             onChange={stateChangeHandler}
             disabled={isLoading}
-            defaultValue={currentState || (states && states[0]?.name) || "N/A"}
+            defaultValue={currentState}
+            style={{ color: isLoading ? "transparent" : "inherit" }}
           >
             {states && states.length > 0 ? (
               states?.map((state) => (
@@ -350,7 +330,8 @@ export default forwardRef<HTMLFormElement, AddressFormProps>(
             name="city"
             id="city"
             disabled={isLoading}
-            defaultValue={currentCity || (cities && cities[0]?.name) || "N/A"}
+            defaultValue={currentCity}
+            style={{ color: isLoading ? "transparent" : "inherit" }}
           >
             {cities && cities?.length > 0 ? (
               cities?.map((city) => (

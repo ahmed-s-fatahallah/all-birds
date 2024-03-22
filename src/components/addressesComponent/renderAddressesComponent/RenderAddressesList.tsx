@@ -97,12 +97,44 @@ export default function RenderAddressesList({
     }
     set(ref(database, addressesPath), addresses || null);
   };
+
+  const editAddressClickHandler = async (index: number) => {
     if (!addressCardWrapperElRef.current) return;
     const formEls =
       addressCardWrapperElRef.current.querySelectorAll<HTMLFormElement>(
         `.${formStyles["address-form"]}`
       );
+
     formEls[index].classList.toggle(formStyles["show-form"]);
+
+    if (!formEls[index].classList.contains(formStyles["show-form"])) return;
+
+    try {
+      setIsLoading(true);
+      const selectedCountry = countries.find(
+        (country) => country.name === addresses?.[index].country
+      );
+
+      const selectedStates = await getStates(
+        selectedCountry?.iso2 || countries[0].iso2
+      );
+
+      if (selectedStates) {
+        setCurrentStatesList(selectedStates);
+
+        const SelectedCities = await getCities(
+          selectedCountry?.iso2 || countries[0].iso2,
+          addresses?.[index]["state-iso"] || selectedStates[0].iso2
+        );
+        if (SelectedCities) setCurrentCitiesList(SelectedCities);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
