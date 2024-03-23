@@ -157,7 +157,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
       }
       setIsLoading(false);
     };
-
+    // TODO: make checkbox disabled when there is only one address after deleting one
     useEffect(() => {
       let unsubscribe: Unsubscribe;
       const makeFirstAddressDefault = async () => {
@@ -169,7 +169,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
               if (
                 !snapshot.exists() ||
                 snapshot.val().length === 0 ||
-                (index === 0 && snapshot.val().length === 1)
+                (index != null && snapshot.val().length === 1)
               ) {
                 formElRef.current[checkBoxId].disabled = true;
                 formElRef.current[checkBoxId].checked = true;
@@ -190,7 +190,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           unsubscribe();
         }
       };
-    }, [user]);
+    }, [user, index, checkBoxId]);
 
     const addressFormSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
       setIsLoading(true);
@@ -234,12 +234,17 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
             const currentAddresses = snapshot.val();
             if (!currentAddresses || !formElRef.current) return;
 
-            if (
-              currentAddresses[index].isDefault &&
-              !formData.isDefault &&
-              index > 0
-            ) {
-              currentAddresses[index - 1].isDefault = true;
+            if (currentAddresses[index].isDefault && !formData.isDefault) {
+              if (index > 0) {
+                currentAddresses[index - 1].isDefault = true;
+              } else {
+                currentAddresses[currentAddresses.length - 1].isDefault = true;
+              }
+            } else {
+              currentAddresses.forEach((address: AddressFormData) => {
+                address.isDefault = false;
+              });
+              currentAddresses[index].isDefault = formData.isDefault;
             }
             currentAddresses[index] = formData;
             set(ref(database, addressesPath), currentAddresses);
