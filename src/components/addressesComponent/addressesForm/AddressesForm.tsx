@@ -5,6 +5,7 @@ import {
   FormEvent,
   forwardRef,
   useEffect,
+  useId,
   useImperativeHandle,
   useLayoutEffect,
   useRef,
@@ -77,6 +78,8 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
     const chosenCountyRef = useRef<CountryStateCity>(countries[0]);
     const formElRef = useRef<HTMLFormElement>(null);
 
+    const checkBoxId = useId();
+
     useImperativeHandle(
       formRef,
       () => {
@@ -101,10 +104,14 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
     }, []);
 
     useEffect(() => {
+      chosenCountyRef.current =
+        countries.find((country) => country.name === currentCountry) ||
+        countries[0];
+
       setStates(statesList || null);
       setCities(citiesList || null);
       setIsLoading(loading || false);
-    }, [citiesList, statesList, loading]);
+    }, [citiesList, statesList, loading, countries, currentCountry]);
 
     const cancelAddAddressClickHandler = () => {
       if (!formElRef.current) return;
@@ -218,7 +225,8 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
 
           if (index != null) {
             const currentAddresses = snapshot.val();
-            if (!currentAddresses) return;
+            if (!currentAddresses || !formElRef.current) return;
+
             if (
               currentAddresses[index].isDefault &&
               !formData.isDefault &&
@@ -229,6 +237,8 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
             currentAddresses[index] = formData;
             set(ref(database, addressesPath), currentAddresses);
             setIsLoading(false);
+
+            formElRef.current.classList.remove(classes["show-form"]);
             return;
           }
 
@@ -325,6 +335,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
         <div className={classes["state-wrapper"]}>
           <label htmlFor="state">State</label>
           <select
+            key={states?.length}
             name="state"
             id="state"
             onChange={stateChangeHandler}
@@ -346,6 +357,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
         <div className={classes["city-wrapper"]}>
           <label htmlFor="city">City</label>
           <select
+            key={cities?.length}
             name="city"
             id="city"
             disabled={isLoading}
@@ -379,14 +391,17 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
         >
           Phone
         </InputField>
-        <div className={classes["default-wrapper"]}>
+        <div
+          className={classes["default-wrapper"]}
+          key={currentIsDefault?.toString()}
+        >
           <input
             type="checkbox"
-            id="default"
+            id={checkBoxId}
             name="default"
             defaultChecked={currentIsDefault || false}
           />
-          <label htmlFor="default">SET AS DEFAULT ADDRESS</label>
+          <label htmlFor={checkBoxId}>SET AS DEFAULT ADDRESS</label>
         </div>
         <Button
           variant={"submit-btn"}
