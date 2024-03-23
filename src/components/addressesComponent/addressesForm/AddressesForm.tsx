@@ -42,6 +42,7 @@ type AddressFormProps = {
   currentPostal?: string;
   currentPhone?: string;
   currentIsDefault?: boolean;
+  index?: number;
 } & { countries: CountryStateCity[] };
 
 export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
@@ -62,6 +63,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
       currentPhone,
       currentPostal,
       currentIsDefault,
+      index,
     },
     formRef
   ) {
@@ -139,6 +141,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           chosenCountyRef.current.iso2,
           chosenState.iso2
         );
+
         if (!fetchedCities) return;
         setCities(fetchedCities);
       }
@@ -212,6 +215,22 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           updateProfile(user, {
             displayName: `${firstName} ${lastName}`,
           });
+
+          if (index != null) {
+            const currentAddresses = snapshot.val();
+            if (!currentAddresses) return;
+            if (
+              currentAddresses[index].isDefault &&
+              !formData.isDefault &&
+              index > 0
+            ) {
+              currentAddresses[index - 1].isDefault = true;
+            }
+            currentAddresses[index] = formData;
+            set(ref(database, addressesPath), currentAddresses);
+            setIsLoading(false);
+            return;
+          }
 
           if (snapshot.exists() && formData.isDefault) {
             const modifiedData = snapshot
@@ -369,8 +388,12 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           />
           <label htmlFor="default">SET AS DEFAULT ADDRESS</label>
         </div>
-        <Button variant={"submit-btn"} className={classes["address-btn"]}>
-          Add address
+        <Button
+          variant={"submit-btn"}
+          className={classes["address-btn"]}
+          disabled={isLoading}
+        >
+          {index == null ? "Add address" : "Update address"}
         </Button>
         <button
           className={classes["cancel-btn"]}

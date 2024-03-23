@@ -189,6 +189,7 @@ export default function RenderAddressesList({
               currentPhone={address.phone}
               currentIsDefault={address.isDefault}
               loading={isLoading}
+              index={i}
             />
           </Fragment>
         );
