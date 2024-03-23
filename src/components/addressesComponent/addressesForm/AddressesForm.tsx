@@ -116,6 +116,9 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
     const cancelAddAddressClickHandler = () => {
       if (!formElRef.current) return;
       formElRef.current.classList.remove(classes["show-form"]);
+      if (!index) {
+        formElRef.current.reset();
+      }
     };
 
     const countyChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
@@ -163,11 +166,15 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
             const addressesPath = `users/${user.uid}/addresses`;
             unsubscribe = onValue(ref(database, addressesPath), (snapshot) => {
               if (!formElRef.current) return;
-              if (!snapshot.exists() || snapshot.val().length === 0) {
-                formElRef.current.default.disabled = true;
-                formElRef.current.default.checked = true;
+              if (
+                !snapshot.exists() ||
+                snapshot.val().length === 0 ||
+                (index === 0 && snapshot.val().length === 1)
+              ) {
+                formElRef.current[checkBoxId].disabled = true;
+                formElRef.current[checkBoxId].checked = true;
               } else {
-                formElRef.current.default.disabled = false;
+                formElRef.current[checkBoxId].disabled = false;
               }
             });
           } catch (error) {
@@ -392,8 +399,8 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           Phone
         </InputField>
         <div
-          className={classes["default-wrapper"]}
           key={currentIsDefault?.toString()}
+          className={classes["default-wrapper"]}
         >
           <input
             type="checkbox"
