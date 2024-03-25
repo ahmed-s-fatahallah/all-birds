@@ -212,15 +212,17 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           updateProfile(user, {
             displayName: `${firstName} ${lastName}`,
           });
-
+          // Check if there is an addresses array and the user want to set the new address as default
           if (snapshot.exists() && formData.isDefault) {
             const modifiedData = snapshot
               .val()
               .map((item: AddressFormData) => ({ ...item, isDefault: false }));
 
             set(ref(database, addressesPath), [...modifiedData, formData]);
+            // Check if there is an addresses array and the user DOESN'T want to set the new address as default
           } else if (snapshot.exists() && !formData.isDefault) {
             set(ref(database, addressesPath), [...snapshot.val(), formData]);
+            // If there is no addresses array or it's the first address to add
           } else {
             formData.isDefault = true;
             set(ref(database, addressesPath), [formData]);
@@ -369,7 +371,11 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           />
           <label htmlFor="default">SET AS DEFAULT ADDRESS</label>
         </div>
-        <Button variant={"submit-btn"} className={classes["address-btn"]}>
+        <Button
+          type="submit"
+          variant={"submit-btn"}
+          className={classes["address-btn"]}
+        >
           Add address
         </Button>
         <button
