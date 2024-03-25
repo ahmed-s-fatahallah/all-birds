@@ -81,6 +81,9 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
     const formElRef = useRef<HTMLFormElement>(null);
 
     const checkBoxId = useId();
+    const countryId = useId();
+    const stateId = useId();
+    const cityId = useId();
 
     useImperativeHandle(
       formRef,
@@ -333,10 +336,10 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
         </InputField>
 
         <div className={classes["country-wrapper"]}>
-          <label htmlFor="country">Country</label>
+          <label htmlFor={countryId}>Country</label>
           <select
             name="country"
-            id="country"
+            id={countryId}
             onChange={countyChangeHandler}
             disabled={isLoading}
             defaultValue={currentCountry || countries[0].name}
@@ -349,11 +352,11 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           </select>
         </div>
         <div className={classes["state-wrapper"]}>
-          <label htmlFor="state">State</label>
+          <label htmlFor={stateId}>State</label>
           <select
             key={states?.length}
             name="state"
-            id="state"
+            id={stateId}
             onChange={stateChangeHandler}
             disabled={isLoading}
             defaultValue={currentState}
@@ -371,11 +374,11 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           </select>
         </div>
         <div className={classes["city-wrapper"]}>
-          <label htmlFor="city">City</label>
+          <label htmlFor={cityId}>City</label>
           <select
             key={cities?.length}
             name="city"
-            id="city"
+            id={cityId}
             disabled={isLoading}
             defaultValue={currentCity}
             style={{ color: isLoading ? "transparent" : "inherit" }}
@@ -416,7 +419,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
             id={checkBoxId}
             name="default"
             defaultChecked={currentIsDefault || false}
-            disabled={length === 1 && index === 0}
+            disabled={length === 1}
           />
           <label htmlFor={checkBoxId}>SET AS DEFAULT ADDRESS</label>
         </div>

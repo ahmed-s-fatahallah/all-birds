@@ -34,7 +34,7 @@
   cursor: pointer;
 }
 
-:is(.country-wrapper, .state-wrapper) select:focus-visible {
+:is(.country-wrapper, .state-wrapper, .city-wrapper) select:focus-visible {
   outline: auto;
 }
 
