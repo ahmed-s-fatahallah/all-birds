@@ -42,11 +42,7 @@ export default function ManageAddresses({
 
     formElRef.current.classList.toggle(formStyles["show-form"]);
 
-    if (
-      !formElRef.current.classList.contains(formStyles["show-form"]) ||
-      (states && cities)
-    )
-      return;
+    if (!formElRef.current.classList.contains(formStyles["show-form"])) return;
     try {
       setIsLoading(true);
       const initialStates = await getStates(countries[0].iso2);

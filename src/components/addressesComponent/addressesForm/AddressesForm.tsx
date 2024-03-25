@@ -5,6 +5,7 @@ import {
   FormEvent,
   forwardRef,
   useEffect,
+  useId,
   useImperativeHandle,
   useLayoutEffect,
   useRef,
@@ -42,6 +43,8 @@ type AddressFormProps = {
   currentPostal?: string;
   currentPhone?: string;
   currentIsDefault?: boolean;
+  index?: number;
+  length?: number;
 } & { countries: CountryStateCity[] };
 
 export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
@@ -62,6 +65,8 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
       currentPhone,
       currentPostal,
       currentIsDefault,
+      index,
+      length,
     },
     formRef
   ) {
@@ -74,6 +79,8 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
 
     const chosenCountyRef = useRef<CountryStateCity>(countries[0]);
     const formElRef = useRef<HTMLFormElement>(null);
+
+    const checkBoxId = useId();
 
     useImperativeHandle(
       formRef,
@@ -99,14 +106,21 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
     }, []);
 
     useEffect(() => {
+      chosenCountyRef.current =
+        countries.find((country) => country.name === currentCountry) ||
+        countries[0];
+
       setStates(statesList || null);
       setCities(citiesList || null);
       setIsLoading(loading || false);
-    }, [citiesList, statesList, loading]);
+    }, [citiesList, statesList, loading, countries, currentCountry]);
 
     const cancelAddAddressClickHandler = () => {
       if (!formElRef.current) return;
       formElRef.current.classList.remove(classes["show-form"]);
+      if (!index) {
+        formElRef.current.reset();
+      }
     };
 
     const countyChangeHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
@@ -139,12 +153,13 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           chosenCountyRef.current.iso2,
           chosenState.iso2
         );
+
         if (!fetchedCities) return;
         setCities(fetchedCities);
       }
       setIsLoading(false);
     };
-
+    // TODO: make checkbox disabled when there is only one address after deleting one
     useEffect(() => {
       let unsubscribe: Unsubscribe;
       const makeFirstAddressDefault = async () => {
@@ -153,11 +168,15 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
             const addressesPath = `users/${user.uid}/addresses`;
             unsubscribe = onValue(ref(database, addressesPath), (snapshot) => {
               if (!formElRef.current) return;
-              if (!snapshot.exists() || snapshot.val().length === 0) {
-                formElRef.current.default.disabled = true;
-                formElRef.current.default.checked = true;
+              if (
+                !snapshot.exists() ||
+                snapshot.val().length === 0 ||
+                (index != null && snapshot.val().length === 1)
+              ) {
+                formElRef.current[checkBoxId].disabled = true;
+                formElRef.current[checkBoxId].checked = true;
               } else {
-                formElRef.current.default.disabled = false;
+                formElRef.current[checkBoxId].disabled = false;
               }
             });
           } catch (error) {
@@ -173,7 +192,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           unsubscribe();
         }
       };
-    }, [user]);
+    }, [user, index, checkBoxId]);
 
     const addressFormSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
       setIsLoading(true);
@@ -212,6 +231,30 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
           updateProfile(user, {
             displayName: `${firstName} ${lastName}`,
           });
+
+          if (index != null) {
+            const currentAddresses = snapshot.val();
+            if (!currentAddresses || !formElRef.current) return;
+
+            if (currentAddresses[index].isDefault && !formData.isDefault) {
+              if (index > 0) {
+                currentAddresses[index - 1].isDefault = true;
+              } else {
+                currentAddresses[currentAddresses.length - 1].isDefault = true;
+              }
+            } else {
+              currentAddresses.forEach((address: AddressFormData) => {
+                address.isDefault = false;
+              });
+              currentAddresses[index].isDefault = formData.isDefault;
+            }
+            currentAddresses[index] = formData;
+            set(ref(database, addressesPath), currentAddresses);
+            setIsLoading(false);
+
+            formElRef.current.classList.remove(classes["show-form"]);
+            return;
+          }
           // Check if there is an addresses array and the user want to set the new address as default
           if (snapshot.exists() && formData.isDefault) {
             const modifiedData = snapshot
@@ -308,6 +351,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
         <div className={classes["state-wrapper"]}>
           <label htmlFor="state">State</label>
           <select
+            key={states?.length}
             name="state"
             id="state"
             onChange={stateChangeHandler}
@@ -329,6 +373,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
         <div className={classes["city-wrapper"]}>
           <label htmlFor="city">City</label>
           <select
+            key={cities?.length}
             name="city"
             id="city"
             disabled={isLoading}
@@ -362,21 +407,26 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
         >
           Phone
         </InputField>
-        <div className={classes["default-wrapper"]}>
+        <div
+          key={currentIsDefault?.toString()}
+          className={classes["default-wrapper"]}
+        >
           <input
             type="checkbox"
-            id="default"
+            id={checkBoxId}
             name="default"
             defaultChecked={currentIsDefault || false}
+            disabled={length === 1 && index === 0}
           />
-          <label htmlFor="default">SET AS DEFAULT ADDRESS</label>
+          <label htmlFor={checkBoxId}>SET AS DEFAULT ADDRESS</label>
         </div>
         <Button
           type="submit"
           variant={"submit-btn"}
           className={classes["address-btn"]}
+          disabled={isLoading}
         >
-          Add address
+          {index == null ? "Add address" : "Update address"}
         </Button>
         <button
           className={classes["cancel-btn"]}
