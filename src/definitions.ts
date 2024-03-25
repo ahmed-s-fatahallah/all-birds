@@ -38,3 +38,7 @@ export interface ColorSliderProps {
 }
 
 export type CountryStateCity = { id: number; name: string; iso2: string };
+
+export type AddressFormData = {
+  [k: string]: string | boolean;
+} & { isDefault: boolean };

@@ -147,14 +147,15 @@ export default function RenderAddressesList({
                 address.isDefault ? "(default)" : ""
               }`}</h3>
 
-              <div>
-                <div>{address.company}</div>
-                <div>{`${address.address1}, ${address.address2}`}</div>
-                <div>{`${!address.city ? "" : address.city + ","} ${
+              <div className={classes["address-wrapper"]}>
+                <p>{address.company}</p>
+                <p>{address.address1}</p>
+                <p>{address.address2}</p>
+                <p>{`${!address.city ? "" : address.city + ","} ${
                   !address["state-iso"] ? "" : address["state-iso"] + ","
-                } ${address.postal}`}</div>
-                <div>{`${address.country}`}</div>
-                <div>{`${address.phone}`}</div>
+                } ${address.postal}`}</p>
+                <p>{`${address.country}`}</p>
+                <p>{`${address.phone}`}</p>
               </div>
 
               <div>

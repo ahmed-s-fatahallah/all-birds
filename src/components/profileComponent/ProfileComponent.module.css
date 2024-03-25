@@ -54,7 +54,7 @@
 .details__address-info {
   margin-bottom: 5.5rem;
 }
-.info {
+.details__address-info p {
   font-size: var(--font-size-md);
 }
 .address-link {

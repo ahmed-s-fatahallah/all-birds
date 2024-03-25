@@ -18,15 +18,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth, database, databaseRef } from "@/utilities/firebaseConfig";
-import { CountryStateCity } from "@/definitions";
+import { AddressFormData, CountryStateCity } from "@/definitions";
 import { getCities, getStates } from "../getStatesCitiesActions";
 import { child, get, onValue, ref, set } from "firebase/database";
 import { useRouter } from "next/navigation";
 import classes from "./AddressesForm.module.css";
-
-type AddressFormData = {
-  [k: string]: string | boolean;
-} & { isDefault: boolean };
 
 type AddressFormProps = {
   statesList?: CountryStateCity[];
@@ -162,7 +158,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
       }
       setIsLoading(false);
     };
-    // TODO: make checkbox disabled when there is only one address after deleting one
+
     useEffect(() => {
       let unsubscribe: Unsubscribe;
       const makeFirstAddressDefault = async () => {
