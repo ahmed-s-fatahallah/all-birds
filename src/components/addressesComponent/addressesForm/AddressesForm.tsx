@@ -44,6 +44,7 @@ type AddressFormProps = {
   currentPhone?: string;
   currentIsDefault?: boolean;
   index?: number;
+  length?: number;
 } & { countries: CountryStateCity[] };
 
 export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
@@ -65,6 +66,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
       currentPostal,
       currentIsDefault,
       index,
+      length,
     },
     formRef
   ) {
@@ -412,6 +414,7 @@ export default forwardRef<HTMLFormElement | undefined, AddressFormProps>(
             id={checkBoxId}
             name="default"
             defaultChecked={currentIsDefault || false}
+            disabled={length === 1 && index === 0}
           />
           <label htmlFor={checkBoxId}>SET AS DEFAULT ADDRESS</label>
         </div>

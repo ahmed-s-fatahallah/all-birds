@@ -190,6 +190,7 @@ export default function RenderAddressesList({
               currentIsDefault={address.isDefault}
               loading={isLoading}
               index={i}
+              length={addresses.length}
             />
           </Fragment>
         );
